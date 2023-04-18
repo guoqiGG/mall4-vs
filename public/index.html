@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    <script>
+      console.log('mall4j.v230327')
+      var webConfigData = JSON.parse(localStorage.getItem('bbcWebConfigData'))
+      if (webConfigData) {
+        document.title = webConfigData.bsTitleContent || ''
+
+        let facicon = document.querySelector('link[rel="icon"]')
+        if (facicon !== null) {
+          facicon.href = webConfigData.bsTitleImg
+        } else {
+          facicon = document.createElement('link')
+          facicon.rel = 'icon'
+          facicon.href = webConfigData.bsTitleImg
+          document.head.appendChild(facicon)
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= webpackConfig.name %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
