@@ -549,7 +549,9 @@ const zhCn = {
     attributeTips: '规格名称长度不超过10个字',
     attributeValueTips: '规格值不超过20个字',
     availableInventory: '现有库存',
-    attributeNotDel: '仅剩一条规格值不能删除'
+    attributeNotDel: '仅剩一条规格值不能删除',
+    search: '搜索',
+    reset: '重置'
   },
   productComm: {
     content: '评论内容',
@@ -639,6 +641,11 @@ const zhCn = {
     refundMoney: '卖家已退款'
   },
   order: {
+    orderStatus: '订单状态',
+    paymentAmount: '金额/氢春豆(元)',
+    export: '导出',
+    clear: '清空',
+    contactTel: '联系电话',
     weixin: '微信',
     alipay: '支付宝',
     wait: '等待',
@@ -1915,7 +1922,41 @@ const zhCn = {
     fromThePreviousDay: '较前一日 ',
     monthBefore: '较前一月 '
   },
+  sysManagement: {
+    save: '保存'
+  },
   user: {
+    growthSetting: '成长值获取设置',
+    growthSwitch: '成长值开关:',
+    pointSettingsTip: '(氢春豆无法抵扣运费)',
+    usePercentLimit: '使用比例上限(%)',
+    userConsumptionAmount: '用户消费金额的',
+    RedeemableForPoints: '%可以兑换获取氢春豆',
+    CanBeOffsetWithPoints: '%可以用氢春豆抵消掉',
+    pointsEarnOne: '连续签到1天可获取氢春豆:',
+    pointsEarnTwo: '连续签到2天可获取氢春豆:',
+    pointsEarnThree: '连续签到3天可获取氢春豆:',
+    pointsEarnFour: '连续签到4天可获取氢春豆:',
+    pointsEarnFive: '连续签到5天可获取氢春豆:',
+    pointsEarnSix: '连续签到6天可获取氢春豆:',
+    pointsEarnSeven: '连续签到7天可获取氢春豆:',
+    pointsForRegistration: '注册可获取的氢春豆:',
+    pointsSwitch: '购物使用氢春豆开关:',
+    pointsPurchase: '氢春豆购买商品时每',
+    pointsDeducted: '氢春豆可抵扣1元',
+    pointsEarnLimit: '氢春豆获取上限',
+    platformPercent: '全平台比例',
+    categoryPercent: '商品分类比例',
+    pointsUseLimit: '氢春豆使用上限',
+    getPercentLimit: '获取比例上限(%)',
+    displayContent: '展示内容：',
+    memberBenefitsPageDisplaySet: '会员权益页展示设置',
+    pointsQuestionSetting: '氢春豆常见问题设置',
+    expirationSwitch: '氢春豆过期开关：',
+    pointsExpirationSetting: '氢春豆过期设置',
+    otherConfiguration: '其他配置',
+    growthEarnSetting: '成长值获取设置',
+    pointSettings: '氢春豆设置',
     averageDiscount: '平均折扣',
     actuallypaid: '实付金额',
     consumptionAmount: '消费金额',
@@ -3720,7 +3761,20 @@ const zhCn = {
   imMsgBizSkills: {
     keyword: '关键字',
     content: '回复内容'
-  }
+  },
+  date: {
+    start: '开始日期',
+    end: '结束日期',
+    daterange: '日期范围',
+    monthrange: '月份范围',
+    tip: '至',
+    t: '今日',
+    y: '昨日',
+    n: '近7天',
+    a: '全部',
+    m: '近30天'
+  },
+  th: '近30天'
 }
 
 export default zhCn
