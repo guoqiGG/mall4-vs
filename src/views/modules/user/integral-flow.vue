@@ -13,7 +13,7 @@
         <el-input v-model="dataForm.anchorName" placeholder="请输入主播"></el-input>
       </el-form-item>
       <el-form-item>
-        <div class="default-btn primary-btn" @click="search()">{{ $t("searchBar.search") }}</div>
+        <div class="default-btn primary-btn" @click="search()">{{ $t("product.search") }}</div>
         <div class="default-btn" @click="reset()">{{ $t("shop.resetMap") }}</div>
         <div class="default-btn" @click="getSoldExcel()">{{ $t("formData.export") }}</div>
       </el-form-item>
@@ -36,9 +36,9 @@ export default {
     return {
       theData: null, // 保存上次点击查询的请求条件
       dataForm: {
-        parentName: '',
+        parentName: undefined,
         time: [],
-        anchorName: ''
+        anchorName: undefined
       },
       page: {
         total: 0, // 总页数
@@ -82,7 +82,6 @@ export default {
       }).then(({ data }) => {
         this.dataList = data.records
         this.page.total = data.total
-        this.totalScore = data.totalScore
       }).finally(() => {
         this.dataListLoading = false
       })
@@ -91,7 +90,7 @@ export default {
     getDataTotal () {
       this.dataListLoading = true
       this.$http({
-        url: this.$http.adornUrl('/user/integral-flow/scoreflowInfo'),
+        url: this.$http.adornUrl('/user/integral-flow/scoreflowTotal'),
         method: 'post',
         params: this.$http.adornParams(
           Object.assign(
@@ -173,12 +172,17 @@ export default {
       this.getDataTotal()
     },
     reset () {
-      this.$refs.form.resetFields()
+      this.dataForm = {
+        parentName: undefined,
+        time: [],
+        anchorName: undefined
+      }
     },
     formatScore (row, column, cellValue) {
       if (row.ioType === 0) {
         return `-${cellValue}`
       }
+      return cellValue
     }
   }
 }

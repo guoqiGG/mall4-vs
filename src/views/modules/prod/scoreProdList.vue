@@ -203,7 +203,7 @@ export default {
       // if (this.searchForm.type === 0) {
       //   urls = '/score/page'
       // } else {
-      //   urls = '/platform/coupon/scorePage'
+      //   urls = '/admin/coupon/scorePage'
       // }
       // console.log(urls)
       if (newData || !this.theData) {
@@ -220,7 +220,7 @@ export default {
       }
 
       this.$http({
-        url: this.$http.adornUrl('/platform/search/prod/page'),
+        url: this.$http.adornUrl('/admin/search/prod/page'),
         method: 'get',
         params: this.$http.adornParams(
           Object.assign(
@@ -264,7 +264,7 @@ export default {
       })
         .then(() => {
           this.$http({
-            url: this.$http.adornUrl(`/platform/scoreProduct/${id}`),
+            url: this.$http.adornUrl(`/admin/scoreProduct/${id}`),
             method: 'delete',
             data: this.$http.adornData({})
           }).then(({ data }) => {
@@ -288,7 +288,7 @@ export default {
       })
         .then(() => {
           this.$http({
-            url: this.$http.adornUrl(`/platform/scoreProduct/prodStatus`),
+            url: this.$http.adornUrl(`/admin/scoreProduct/prodStatus`),
             method: 'put',
             data: this.$http.adornData({
               status: status,

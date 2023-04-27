@@ -763,7 +763,7 @@ export default {
       // console.log(orderNumber)
       this.logVisible = !this.logVisible
       this.$http({
-        url: this.$http.adornUrl('/platform/orderDelivery/getOrderDeliveries/' + orderNumber),
+        url: this.$http.adornUrl('/admin/orderDelivery/getOrderDeliveries/' + orderNumber),
         method: 'put'
       }).then(({ data }) => {
         this.logisticsInfo = data
@@ -783,7 +783,7 @@ export default {
      */
     getLogisticsList () {
       this.$http({
-        url: this.$http.adornUrl('/platform/delivery/list'),
+        url: this.$http.adornUrl('/admin/delivery/list'),
         method: 'get',
         params: this.$http.adornParams()
       }).then(({ data }) => {
@@ -869,7 +869,7 @@ export default {
       //   deliveryOrders: this.confirmList
       // }
       this.$http({
-        url: this.$http.adornUrl('/platform/orderDelivery/updateOrderDeliveries'),
+        url: this.$http.adornUrl('/admin/orderDelivery/updateOrderDeliveries'),
         method: 'put',
         data: this.$http.adornData({
           deliveryOrders: this.confirmList

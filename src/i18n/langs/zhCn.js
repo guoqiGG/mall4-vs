@@ -29,6 +29,7 @@ const zhCn = {
     selectWeek: '选择周'
   },
   home: {
+    goods: '商品',
     all: '全部',
     yamiB: '亚米后台',
     company: '广州蓝海创新科技有限公司',
@@ -641,7 +642,16 @@ const zhCn = {
     refundMoney: '卖家已退款'
   },
   order: {
+    notYet: '暂无',
+    preferentialAmount: '优惠金额',
+    waitToPay: '等待买家付款',
+    waitDel: '等待商家发货',
     orderStatus: '订单状态',
+    waitingFeGoods: '等待买家收货',
+    waitingtion: '等待买家评价',
+    commoditful: '商品交易成功',
+    commodityFailed: '商品交易失败',
+    commodited: '商品待成团',
     paymentAmount: '金额/氢春豆(元)',
     export: '导出',
     clear: '清空',
@@ -863,12 +873,17 @@ const zhCn = {
     doNotEntPickupCode1: '不输入核销码，默认为无需校验，直接提货',
     doNotEntPickupCode2: '不输入核销码，默认为无需校验，当前订单全部核销',
     pickupCodeError: '提货码错误，请输入正确的提货码',
-
+    submitOrder: '提交订单',
+    paid: '买家已付款',
+    delivered: '卖家已发货',
     modifyOrderAmount: '修改订单金额',
     modificatioAmount: '修改订单金额会减少用户支付的金额，请谨慎更改',
     unitPrice: '单价',
     quantity: '数量',
     price: '价',
+    score: '氢春豆',
+    monetaryUnit: '￥',
+    payWay: '付款方式',
     totalDiscount: '优惠总额',
     userPayunt: '用户支付金额',
     platforlowance: '平台津贴',
@@ -879,13 +894,7 @@ const zhCn = {
     theOraterThan0: '订单金额必须大于0',
     waitingFosPayment: '等待买家付款',
     waitiooShip: '等待商家发货',
-    waitingFeGoods: '等待买家收货',
-    waitingtion: '等待买家评价',
-    commoditful: '商品交易成功',
-    commodityFailed: '商品交易失败',
-    commodited: '商品待成团',
     buyerDidNTime: '买家在规定时间未付款，订单将自动取消。',
-
     buyPleF: '买家已付款，请商家尽快发货。',
     shelF: '商家已发货，等待确认收货。',
     buyA: '买家已自提，等待确认收货。',
@@ -1021,6 +1030,7 @@ const zhCn = {
     length250: '长度在1到255个字符内'
   },
   homes: {
+    goods: '商品',
     home: '首页',
     names: '亚米商城-商家端',
     shortName: '亚米',
@@ -3192,6 +3202,7 @@ const zhCn = {
   },
   purchase: {
     order: {
+      preferentialAmount: '优惠金额',
       purchaseNumber: '采购编号',
       dvyFlowId: '物流单号',
       supplier: '供应商',
@@ -3774,7 +3785,53 @@ const zhCn = {
     a: '全部',
     m: '近30天'
   },
-  th: '近30天'
+  th: '近30天',
+  remindPop: {
+    makeSure: '确定进行',
+    receiveMsg: '收到一条新的用户咨询客服消息，是否接收？',
+    delete: '删除',
+    batchDeletion: '批量删除',
+    operation: '操作',
+    remind: '提示',
+    confirm: '确定',
+    cancel: '取消',
+    cancelMsg: '取消接收消息',
+    succeeded: '操作成功',
+    success: '操作成功',
+    determine: '确定对',
+    prod: '商品',
+    offshelf: '进行下架操作？',
+    reason: '如是，请填写下线理由',
+    emptyReason: '下架原因不能为空'
+  },
+  prodList: {
+    shopName: '店铺名称',
+    inputShopName: '请输入店铺名称',
+    inputMobile: '请输入联系电话',
+    onShelf: '上架',
+    offShelf: '下架',
+    ShopkeeperOffShelf: '商家下架',
+    violation: '违规商品',
+    refusePass: '拒绝通过',
+    other: '其他',
+    lookOver: '查看',
+    lookOverProd: '查看商品',
+    offShelfManage: '下架管理',
+    offShelfProd: '下架',
+    content: '商品下架后，该商品的活动也将结束，可能会造成商家的经济损失，请谨慎操作',
+    detailsTitle: '商品详情',
+    parameters: '商品参数',
+    sellingPoints: '商品卖点',
+    specs: '规格',
+    attribute: '商品属性',
+    noAttribute: '暂无属性',
+    noPictures: '暂无图片',
+    salesPrice: '销售价(元)',
+    marketValue: '市场价(元)',
+    prodWeight: '商品重量(kg)',
+    prodVolume: '商品体积(m³)',
+    goodsPrice: '单价(元)'
+  }
 }
 
 export default zhCn

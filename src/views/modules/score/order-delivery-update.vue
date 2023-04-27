@@ -274,7 +274,7 @@ export default {
     },
     getDeliveryList () {
       this.$http({
-        url: this.$http.adornUrl('/platform/delivery/list'),
+        url: this.$http.adornUrl('/admin/delivery/list'),
         method: 'get',
         params: this.$http.adornParams()
       }).then(({ data }) => {

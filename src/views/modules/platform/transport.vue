@@ -150,7 +150,7 @@ export default {
         this.theData = JSON.parse(JSON.stringify(this.searchForm))
       }
       this.$http({
-        url: this.$http.adornUrl('/platform/transport/page'),
+        url: this.$http.adornUrl('/shop/transport/page'),
         method: 'get',
         params: this.$http.adornParams(
           Object.assign(
@@ -195,7 +195,7 @@ export default {
       )
         .then(() => {
           this.$http({
-            url: this.$http.adornUrl('/platform/transport'),
+            url: this.$http.adornUrl('/shop/transport'),
             method: 'delete',
             data: this.$http.adornData(ids, false)
           }).then(({ data }) => {
