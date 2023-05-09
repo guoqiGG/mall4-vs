@@ -29,6 +29,7 @@ const zhCn = {
     selectWeek: '选择周'
   },
   home: {
+    reasons: '原因',
     goods: '商品',
     all: '全部',
     yamiB: '亚米后台',
@@ -568,10 +569,15 @@ const zhCn = {
     status: '审核',
     noPass: '审核未通过',
     pass: '审核通过',
-    waitPass: '未审核'
+    waitPass: '未审核',
+    audit: '审核'
   },
   users: {
-    name: '用户昵称'
+    name: '用户昵称',
+    phoneNumber: '手机号',
+    parentPhoneNumber: '邀请人手机号',
+    nickName: '昵称',
+    userName: '用户名'
   },
   prodTag: {
     prodManage: '管理分组商品',
@@ -1477,6 +1483,8 @@ const zhCn = {
     discountVoucher: '折扣券'
   },
   distribution: {
+    realName: '真实姓名',
+    idCardNo: '身份证号码',
     commAmount: '佣金数额',
     distributor: '分销员',
     phoneNum: '手机号',
@@ -1485,14 +1493,28 @@ const zhCn = {
     waitSettle: '待结算',
     settled: '已结算',
     invOrder: '订单失效',
-    orderNumber: '订单号'
+    orderNumber: '订单号',
+    bindingTime: '绑定时间',
+    invalidTime: '失效时间'
   },
   distributionProdLog: {
     lapseCase: '失效原因',
     lapse0: '正常',
     lapse1: '分销佣金大于或者等于订单项实付金额',
     lapse2: '订单项售后成功',
-    lapse3: '分销佣金小于0.01'
+    lapse3: '分销佣金小于0.01',
+    waitPay: '待付款',
+    pendingSettlement: '待结算',
+    alreadySettled: '已结算',
+    invalidOrder: '订单失效',
+    commissionAmount: '佣金数额',
+    distributor: '分销员',
+    userMobile: '分销员号码',
+    distributionStatus: '分销状态',
+    offlineManagement: '下线管理',
+    incomeType: '奖励类型',
+    Reward1: '直推奖励',
+    Reward2: '间推奖励'
   },
   shop: {
     polygonPathOverNum: '最多只能选择12个坐标点哦!',
@@ -1936,6 +1958,14 @@ const zhCn = {
     save: '保存'
   },
   user: {
+    distributorManagement: '分销员管理',
+    distributorAudit: '分销员审核',
+    relationshipSearch: '关系查询',
+    blockingRecords: '封禁记录',
+    perPurchase: '购买商品每消费',
+    getOneGrowth: '获取一点成长值',
+    completedOrderGet: '每完成一笔订单获取:',
+    growth: '成长值',
     growthSetting: '成长值获取设置',
     growthSwitch: '成长值开关:',
     pointSettingsTip: '(氢春豆无法抵扣运费)',
@@ -2290,6 +2320,8 @@ const zhCn = {
     maxActivityLevelsTips: '活动层级最多不超过5级'
   },
   seckill: {
+    close: '关闭',
+    view: '查看',
     unlimited: '不限',
     makeSurateTheAct: '确定使活动失效?',
     purcPerPerson: '每人限购',
@@ -3831,6 +3863,87 @@ const zhCn = {
     prodWeight: '商品重量(kg)',
     prodVolume: '商品体积(m³)',
     goodsPrice: '单价(元)'
+  },
+  distribUserWallet: {
+    mobileTelNumber: '分销员手机号',
+    status: '状态',
+    distributorNickname: '分销员昵称',
+    waitTosettled: '待结算金额',
+    withdrawalAmount: '可提现金额',
+    invalidAmount: '已失效金额',
+    lostContact: '失去联系',
+    maliciousSwipe: '恶意刷单',
+    cheat: '开挂',
+    other: '其他',
+    nothing: '无',
+    operator: '操作人',
+    operatorTime: '操作时间',
+    ban: '暂时封禁',
+    perBan: '永久封禁',
+    unban: '解除封禁',
+    liquidation: '清退',
+    banned: '封禁中',
+    cleared: '已清退',
+    confirmSetWithdrawal: '确定进行[设为已提现]操作?',
+    setWithdrawal: '设为已提现',
+    amountTips: '请输入正确的金额，保留两位小数'
+  },
+  distributionMsg: {
+    announcementManagement: '公告管理',
+    whetherTop: '是否置顶',
+    title: '标题',
+    pleaseTitle: '请填写标题',
+    invitees: '邀请人',
+    accumulatedConsumptionAmount: '积累消费金额',
+    accumulatedConsumptionTimes: '积累消费笔数',
+    auditStatus: '审核状态',
+    distributorAudit: '分销员审核',
+    noPass: '不通过',
+    insufficientInfo: '资料不足',
+    illConditioned: '条件不足',
+    noRecruitment: '不招人',
+    msgTip: '消息提示',
+    tip1: '不填写也会发送默认消息给申请人',
+    system: '系统',
+    viewUserAppalyInfo: '申请资料',
+    clickView: '点击查看',
+    tip2: '请选择审核状态',
+    tip3: '请选择不通过原因',
+    titleTip1: '分销员信息',
+    idCardFront: '身份证正面',
+    idCardBack: '身份证背面',
+    holdIdCard: '手持身份证',
+    distriTelPhone: '分销员手机号',
+    serialNumber: '流水号',
+    serviceFee: '手续费',
+    withdrawalTime: '提现时间',
+    withdrawalType: '提现类型',
+    manualWithdrawal: '线下打款',
+    automaticWithdrawal: '线上打款',
+    withdrawalStatus: '提现状态',
+    withdrawalFailed: '提现失败',
+    applying: '提现中',
+    withdrawalSuccessful: '提现成功',
+    withdrawReject: '拒绝提现',
+    inviteesPhoneNumber: '邀请人手机号',
+    joiningTime: '加入时间',
+    cumulativeCustomers: '累计客户',
+    cumulativeInvitation: '累计邀请',
+    cumulativeIncome: '累计收益',
+    updateStatus: '修改状态',
+    statusModification: '状态修改',
+    statusTip1: '请选择状态',
+    frozen: '冻结'
+  },
+  distributionBind: {
+    customer: '客户',
+    userMobile: '客户号码',
+    relationshipEndTime: '关系结束时间',
+    currentRelationship: '当前关系',
+    waitForBind: '待绑定',
+    binding: '绑定中',
+    noticetitle: '通知标题',
+    failureTime: '失效时间'
   }
 }
 
