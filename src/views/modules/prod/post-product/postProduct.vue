@@ -108,12 +108,12 @@ export default {
         prodLangList: [],
         brandName: '',
         deliveryMode: {
-          hasShopDelivery: true,
+          hasShopDelivery: false,
           hasUserPickUp: false,
           hasCityDelivery: false
         },
         // 运费模板id
-        deliveryAmount: 0.01, // 统一运费的金额
+        deliveryAmount: 0.00, // 统一运费的金额
 
         deliveryTemplateId: null,
         // 库存总和

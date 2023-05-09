@@ -291,9 +291,9 @@
             :label-width="this.$i18n.t('language')=='English'?'180px':''"
             :label="this.$i18n.t('product.shippinngs')"
           >
-            <el-radio v-model="dataForm.tableRate" :label="0">{{$t('product.freeShipping')}}</el-radio>
+            <el-radio v-model="dataForm.tableRate" :label="0" disabled>{{$t('product.freeShipping')}}</el-radio>
             <el-radio @change="freight" v-model="dataForm.tableRate" :label="-1">{{$t('product.fixedFreight')}}</el-radio>
-            <el-radio v-model="dataForm.tableRate" :label="1">{{$t('product.freTempl')}}</el-radio>
+            <el-radio v-model="dataForm.tableRate" :label="1" disabled>{{$t('product.freTempl')}}</el-radio>
           </el-form-item>
 
           <!-- 运费模板 -->
@@ -341,7 +341,7 @@
             prop="deliveryAmount"
           >
             <div class="freight">
-                <el-input type="number" :min="0.01" v-model="dataForm.deliveryAmount" @blur="handleInputValue(dataForm.deliveryAmount,'deliveryAmount',0.01,9999)" maxlength="10" :placeholder="this.$i18n.t('product.pleaseEnterTheAmount')"></el-input>
+                <el-input type="number" :min="0.00" v-model="dataForm.deliveryAmount" @blur="handleInputValue(dataForm.deliveryAmount,'deliveryAmount',0.00,9999)" maxlength="10" :placeholder="this.$i18n.t('product.pleaseEnterTheAmount')" disabled ></el-input>
             </div>
           </el-form-item>
         </div>
@@ -499,7 +499,7 @@
             :label="this.$i18n.t('product.userMessage')"
             class="user-message"
           >
-            <div
+            <divt
               v-for="(item, index) in dataForm.virtualRemark"
               class="msg-int-box" :key="index"
             >
@@ -513,7 +513,7 @@
                 <!-- <div class="default-btn text-btn"
                           @click.stop="addUserMessage()">{{$t('admin.add')}}</div> -->
               </div>
-            </div>
+            </divt>
             <div
               v-if="dataForm.virtualRemark.length < 10"
               class="add-field default-btn text-btn"
@@ -635,11 +635,11 @@ export default {
         prodLangList: [],
         brandName: '',
         deliveryMode: {
-          hasShopDelivery: true,
+          hasShopDelivery: false,
           hasUserPickUp: false,
           hasCityDelivery: false
         },
-        deliveryAmount: 0.01, // 统一运费的金额
+        deliveryAmount: 0.00, // 统一运费的金额
 
         // 运费模板id
         deliveryTemplateId: null,
@@ -766,6 +766,7 @@ export default {
     },
     dataForm: {
       handler (nv) {
+        console.log(1111,nv)
         if (nv.writeOffNum) {
           // 核销次数 -1.多次核销 0.无需核销 1.单次核销
           // this.validDays = 2
@@ -777,7 +778,9 @@ export default {
   },
 
   created () {
-    const dataForm = Object.assign(this.dataForm, this.value)
+    console.log(111,this.value)
+    console.log(222,this.dataForm)
+    // const dataForm = Object.assign(this.dataForm, this.value)
     console.log('当前的dataForm', dataForm)
     this.dataForm = dataForm
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
@@ -901,7 +904,7 @@ export default {
     },
 
     freight (index) {
-      this.dataForm.deliveryAmount = this.dataForm.deliveryAmount < 0.01 ? 0.01 : null
+      this.dataForm.deliveryAmount = this.dataForm.deliveryAmount < 0.00 ? 0.00 : null
     },
 
     /**

@@ -63,7 +63,7 @@
           <el-form-item :label="$t('marketing.inviterReward')" prop="awardType">
             <el-radio-group v-model="dataForm.parentAwardSet">
               <el-radio :label="0">{{ $t("station.close") }}</el-radio>
-              <el-radio :label="1">{{ $t("groups.turnOn") }}</el-radio>
+              <el-radio :label="1"  >{{ $t("groups.turnOn") }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label=" $t('marketing.rewardAmount')" prop="awardType">
