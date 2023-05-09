@@ -271,7 +271,7 @@
             class="options-box"
             prop="deliveryMode"
           >
-            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" disabled>{{
+            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" :disable="this.$store.state.user.shopId==1?fasle:true">{{
               $t("product.ExpressDistribution")
             }}</el-checkbox>
             <el-checkbox v-model="dataForm.deliveryMode.hasUserPickUp" class="delType-text">{{
@@ -279,7 +279,7 @@
             }}</el-checkbox>
             <el-checkbox
               v-model="dataForm.deliveryMode.hasCityDelivery"
-              :disabled="sameCityStatus === 0"
+              :disabled="(sameCityStatus === 1&& this.$store.state.user.shopId==1)?false:true"
               class="delType-text"
               >{{ $t("order.sameCityDelivery") }}</el-checkbox
             >
@@ -778,8 +778,6 @@ export default {
   },
 
   created () {
-    console.log(111,this.value)
-    console.log(222,this.dataForm)
     // const dataForm = Object.assign(this.dataForm, this.value)
     console.log('当前的dataForm', dataForm)
     this.dataForm = dataForm
