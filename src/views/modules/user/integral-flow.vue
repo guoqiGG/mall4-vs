@@ -30,7 +30,7 @@
       <el-table-column prop="userMobile" label="用户手机号"></el-table-column>
       <el-table-column prop="score" label="豆数" :formatter="formatScore"></el-table-column>
       <el-table-column prop="createTime" label="时间"></el-table-column>
-      <el-table-column prop="source" label="消息来源"></el-table-column>
+      <el-table-column prop="sourceName" label="消息来源"></el-table-column>
     </el-table>
     <div class="total-row">合计: <span>{{ totalScore }}</span></div>
     <el-pagination v-if="dataList.length" @size-change="sizeChangeHandle" @current-change="currentChangeHandle"
@@ -43,7 +43,7 @@
 import { debounce } from 'lodash'
 
 export default {
-  data() {
+  data () {
     return {
       theData: null, // 保存上次点击查询的请求条件
       dataForm: {
@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    searchParams() {
+    searchParams () {
       return {
         parentId: this.dataForm.parentId,
         startTime: this.dataForm.time[0],
@@ -74,7 +74,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     // 携带参数查询
     this.getDataList(this.page)
     this.getDataTotal(),
@@ -84,7 +84,7 @@ export default {
     /**
      * 获取数据列表
      */
-    getDataList(page) {
+    getDataList (page) {
       page = (page === undefined ? this.page : page)
       this.dataListLoading = true
       this.$http({
@@ -107,7 +107,7 @@ export default {
       })
     },
     // 获取合计
-    getDataTotal() {
+    getDataTotal () {
       this.dataListLoading = true
       this.$http({
         url: this.$http.adornUrl('/user/integral-flow/scoreflowTotal'),
@@ -120,7 +120,7 @@ export default {
       })
     },
     // 导出
-    getSoldExcel() {
+    getSoldExcel () {
       this.$confirm(this.$i18n.t('order.exportReport'), this.$i18n.t('remindPop.remind'), {
         confirmButtonText: this.$i18n.t('remindPop.confirm'),
         cancelButtonText: this.$i18n.t('remindPop.cancel'),
@@ -160,28 +160,28 @@ export default {
       })
     },
     // 每页数
-    sizeChangeHandle(val) {
+    sizeChangeHandle (val) {
       this.page.pageSize = val
       this.page.currentPage = 1
       this.getDataList(this.page)
     },
     // 当前页
-    currentChangeHandle(val) {
+    currentChangeHandle (val) {
       this.page.currentPage = val
       this.getDataList(this.page)
     },
-    search() {
+    search () {
       this.page.currentPage = 1
       this.getDataList(this.page)
       this.getDataTotal()
     },
-    reset() {
+    reset () {
       this.dataForm = {
         parentId: undefined,
-        time: [],
+        time: []
       }
     },
-    formatScore(row, column, cellValue) {
+    formatScore (row, column, cellValue) {
       if (row.ioType === 0) {
         return `-${cellValue}`
       }
@@ -210,7 +210,7 @@ export default {
       })
     }, 300),
     // 获取消息类型列表
-    getAnchorOptions() {
+    getAnchorOptions () {
       this.dataListLoading = true
       this.$http({
         url: this.$http.adornUrl('/user/integral-flow/scoreflowSearchData'),
