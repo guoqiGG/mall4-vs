@@ -271,15 +271,15 @@
             class="options-box"
             prop="deliveryMode"
           >
-            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" :disable="this.$store.state.user.shopId==1?fasle:true">{{
+            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" :disabled="this.$store.state.user.shopId!==1">{{
               $t("product.ExpressDistribution")
             }}</el-checkbox>
-            <el-checkbox v-model="dataForm.deliveryMode.hasUserPickUp" class="delType-text">{{
+            <el-checkbox v-model="dataForm.deliveryMode.hasUserPickUp" class="delType-text" >{{
               $t("product.userMention")
             }}</el-checkbox>
             <el-checkbox
               v-model="dataForm.deliveryMode.hasCityDelivery"
-              :disabled="(sameCityStatus === 1&& this.$store.state.user.shopId==1)?false:true"
+              :disabled="(sameCityStatus === 1&& this.$store.state.user.shopId!==1)?'':'disabled'"
               class="delType-text"
               >{{ $t("order.sameCityDelivery") }}</el-checkbox
             >
@@ -341,7 +341,7 @@
             prop="deliveryAmount"
           >
             <div class="freight">
-                <el-input type="number" :min="0.00" v-model="dataForm.deliveryAmount" @blur="handleInputValue(dataForm.deliveryAmount,'deliveryAmount',0.00,9999)" maxlength="10" :placeholder="this.$i18n.t('product.pleaseEnterTheAmount')" disabled ></el-input>
+                <el-input type="number" :min="0.00" v-model="dataForm.deliveryAmount" @blur="handleInputValue(dataForm.deliveryAmount,'deliveryAmount',0.00,9999)" maxlength="10" :placeholder="this.$i18n.t('product.pleaseEnterTheAmount')" disabled></el-input>
             </div>
           </el-form-item>
         </div>
@@ -778,8 +778,9 @@ export default {
   },
 
   created () {
-    // const dataForm = Object.assign(this.dataForm, this.value)
-    console.log('当前的dataForm', dataForm)
+    
+    const dataForm = Object.assign(this.dataForm, this.value)
+    console.log('当前的dataForm', dataForm,this.$store.state.user.shopId)
     this.dataForm = dataForm
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
     this.writeOffMultipleCount = dataForm.writeOffMultipleCount > -1 ? dataForm.writeOffMultipleCount : ''

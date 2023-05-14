@@ -467,7 +467,7 @@ export default {
         prodLangList: [],
         brandName: '',
         deliveryMode: {
-          hasShopDelivery: true,
+          hasShopDelivery: false,
           hasUserPickUp: false,
           hasCityDelivery: false
         },
@@ -577,7 +577,7 @@ export default {
             }
           })
           this.dataForm.deliveryMode = JSON.parse(data.deliveryMode)
-          this.dataForm.deliveryMode.hasShopDelivery = true
+          // this.dataForm.deliveryMode.hasShopDelivery = true
           this.category.selected = idList(this.category.list, this.dataForm.categoryId, 'categoryId', 'children').reverse()
           this.$refs.skuTag.init(data.skuList)
           this.brandName = ''

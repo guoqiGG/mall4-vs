@@ -153,10 +153,8 @@ export default {
           'captchaVerification': verifyResult.captchaVerification
         })
       }).then(async ({ data }) => {
-        console.log(1111)
         this.isSubmit = false
         this.$cookie.set('bbcAuthorization_vs', data.accessToken)
-        console.log(111,data)
         let user
         try {
           user = await this.$store.dispatch('user/login')

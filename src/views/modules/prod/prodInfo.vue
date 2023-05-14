@@ -421,7 +421,7 @@ export default {
         prodLangList: [],
         brandName: '',
         deliveryMode: {
-          hasShopDelivery: true,
+          hasShopDelivery: false,
           hasUserPickUp: false,
           hasCityDelivery: false
         },

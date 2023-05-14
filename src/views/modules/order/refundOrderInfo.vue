@@ -948,7 +948,7 @@ export default {
         url: this.$http.adornUrl(`/order/refund/refundRequest`),
         method: 'put',
         data: { 'refundSn': refundSn }
-      }).then(({ data }) => {
+      }).then(() => {
         this.$message({
           message: this.$i18n.t('publics.operation'),
           type: 'success',

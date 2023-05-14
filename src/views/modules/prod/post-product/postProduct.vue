@@ -194,7 +194,7 @@ export default {
           //   }
           // })
           this.dataForm.deliveryMode = JSON.parse(data.deliveryMode)
-          this.dataForm.deliveryMode.hasShopDelivery = true
+          // this.dataForm.deliveryMode.hasShopDelivery = true
 
           if (!this.dataForm.prodLangList) {
             this.dataForm.prodLangList = []

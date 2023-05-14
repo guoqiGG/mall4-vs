@@ -368,7 +368,6 @@ export default {
          * 按图片名称搜索图片
          */
     searchImg (newData = false) {
-      console.log('111')
       this.loadListImage(1, newData)
     },
     /**
