@@ -18,7 +18,7 @@
           </el-form-item>
           <el-form-item prop="state" :label="$t('distributionBind.currentRelationship') + ':'">
             <el-select v-model="searchForm.state" :placeholder="$t('distributionBind.currentRelationship')" clearable>
-              <el-option :label="$t('seckill.loseEffectiveness')" :value="-1"></el-option>
+              <el-option :label="$t('distributionBind.waitForBind')" :value="-1"></el-option>
               <el-option :label="$t('distributionBind.binding')" :value="1"></el-option>
             </el-select>
           </el-form-item>
@@ -115,7 +115,7 @@
             width="180"
           >
             <template slot-scope="scope">
-              <div class="tag-text" v-if="scope.row.state === -1">{{ $t("seckill.loseEffectiveness") }}</div>
+              <div class="tag-text" v-if="scope.row.state === -1">{{ $t("distributionBind.waitForBind") }}</div>
               <div class="tag-text" v-if="scope.row.state === 1">{{ $t("distributionBind.binding") }}</div>
             </template>
           </el-table-column>
