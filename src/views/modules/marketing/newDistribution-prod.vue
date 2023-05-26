@@ -67,7 +67,7 @@
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item :label="(dataForm.awardNumberSet === 1 ? $t('marketing.amountSetting') : $t('marketing.rewardAmount'))+ ':'" prop="awardType">
+          <el-form-item :label="(dataForm.awardNumberSet === 1 ? $t('marketing.amountSetting') : '团长奖励')+ ':'" prop="awardNumbers" :rules="[{ validator: validateAwardNumber, trigger: 'change' }]">
             <div v-if="dataForm.awardNumberSet === 0">
               <el-input
                 v-model="dataForm.awardNumbers"
@@ -166,6 +166,16 @@ export default {
     AddOrUpdate,
     ProdPic
   },
+  watch: {
+    'dataForm.awardProportion' () {
+      this.dataForm.awardNumbers = 0
+    },
+    prodData (newQuestion) {
+      if (newQuestion.length) {
+        this.dataForm.awardNumbers = 0
+      }
+    }
+  },
   mounted () {
     const flag = sessionStorage.getItem('bbcDistributionProdData') !== 'undefined'
     const data = flag ? JSON.parse(sessionStorage.getItem('bbcDistributionProdData')) : null
@@ -186,7 +196,7 @@ export default {
         this.dataForm.awardProportion = 0
         this.dataForm.awardNumberSet = 0
         this.dataForm.parentAwardSet = 0
-        this.dataForm.awardNumbers = 1
+        this.dataForm.awardNumbers = 0
         this.dataForm.parentAwardNumbers = 1
         this.dataForm.state = 1
         this.levelData = []
@@ -353,6 +363,21 @@ export default {
       this.$router.push({
         name: 'marketing-distribution-prod'
       })
+    },
+    validateAwardNumber (rule, value, callback) {
+      if (this.dataForm.awardProportion === 1) {
+        if (this.prodData[0].price * 0.5 < value) {
+          callback(new Error('奖励金额不能超过商品价格的一半'))
+        } else {
+          callback()
+        }
+      } else {
+        if (value > 50) {
+          callback(new Error('奖励比例不能大于50%'))
+        } else {
+          callback()
+        }
+      }
     }
   }
 }

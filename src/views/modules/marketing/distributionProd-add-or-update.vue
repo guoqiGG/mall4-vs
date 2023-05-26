@@ -175,7 +175,7 @@ export default {
         })
       }
       this.getDataList()
-      this.getCategoryList()
+      // this.getCategoryList()
     },
     getCategoryList () {
       this.$http({
@@ -205,7 +205,7 @@ export default {
     },
     getDataList () {
       this.$http({
-        url: this.$http.adornUrl('/distribution/distributionProd/canDistributionProdPage'),
+        url: this.$http.adornUrl('/admin/search/prod/page'),
         method: 'get',
         params: this.$http.adornParams({
           current: this.pageIndex,
@@ -286,7 +286,8 @@ export default {
             discountProdId: 0,
             prodId: item.prodId,
             prodName: item.prodName,
-            pic: item.pic
+            pic: item.pic,
+            price: item.price
           })
         }
       })
