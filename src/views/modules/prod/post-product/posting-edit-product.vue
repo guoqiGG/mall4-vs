@@ -90,6 +90,14 @@
               </el-select>
               <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
             </el-form-item>
+            <!-- 选择团长 -->
+            <el-form-item label="团长" prop="distributionUserId" class="select-parent">
+              <el-select v-model="dataForm.distributionUserId" filterable remote reserve-keyword clearable placeholder="请输入团长手机号查询"
+                :remote-method="remoteMethod" :loading="loading">
+                <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <!-- 商品名称 -->
             <div class="prod-name-box">
                   <!-- :label="this.$i18n.t('product.prodName')" -->
@@ -536,7 +544,6 @@
           </el-form-item>
         </div>
       </div>
-
     </el-form>
 
     <!-- 平台分类弹窗 -->
@@ -558,6 +565,7 @@
 </template>
 
 <script>
+import { debounce } from 'lodash'
 import { validNoEmptySpace } from '@/utils/validate'
 import ImgsUpload from '@/components/imgs-upload'
 import VideoUpload from '@/components/video-upload'
@@ -666,8 +674,8 @@ export default {
           //   parameterKeyEn: '',
           //   parameterValueEn: ''
           // }
-        ]
-
+        ],
+        distributionUserId: ''
       },
       dataRule: {
         prodNameCn: [
@@ -753,7 +761,9 @@ export default {
 
       // 语言列表
       langItemList: [],
-      masterLangInfo: {name: '', lang: ''}
+      masterLangInfo: {name: '', lang: ''},
+      parentOptions: [],
+      loading: false
     }
   },
 
@@ -766,7 +776,7 @@ export default {
     },
     dataForm: {
       handler (nv) {
-        console.log(1111,nv)
+        console.log(1111, nv)
         if (nv.writeOffNum) {
           // 核销次数 -1.多次核销 0.无需核销 1.单次核销
           // this.validDays = 2
@@ -778,9 +788,8 @@ export default {
   },
 
   created () {
-    
     const dataForm = Object.assign(this.dataForm, this.value)
-    console.log('当前的dataForm', dataForm,this.$store.state.user.shopId)
+    console.log('当前的dataForm', dataForm, this.$store.state.user.shopId)
     this.dataForm = dataForm
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
     this.writeOffMultipleCount = dataForm.writeOffMultipleCount > -1 ? dataForm.writeOffMultipleCount : ''
@@ -827,6 +836,9 @@ export default {
     this.getTransportList()
     // 获取语言列表
     this.getLangList()
+    if (this.dataForm.distributionUserId || dataForm.distributionUserId) {
+      this.remoteMethod()
+    }
   },
 
   methods: {
@@ -1589,7 +1601,29 @@ export default {
         }
       }
       return true
-    }
+    },
+    remoteMethod: debounce(function (value) {
+      this.loading = true
+
+      this.$http({
+        url: this.$http.adornUrl('/distribution/distributionUser/page/achievement'),
+        method: 'get',
+        params: this.$http.adornParams(Object.assign({
+          size: 50,
+          current: 1,
+          sortParam: 1,
+          sortType: 2,
+          userMobile: value
+        }, this.theParams))
+      }).then(({ data }) => {
+        this.parentOptions = data.records.map(item => ({
+          ...item,
+          label: `${item.nickName}(${item.userMobile})`,
+          value: item.distributionUserId
+        }))
+        this.loading = false
+      })
+    }, 300)
 
   }
 }
@@ -1694,6 +1728,11 @@ export default {
       .select-lang {
         display: block;
         width: 400px;
+      }
+      .select-parent {
+        & >>> .el-select{
+          width: 307px;
+        }
       }
       // 商品名称
       .prod-name-box {
