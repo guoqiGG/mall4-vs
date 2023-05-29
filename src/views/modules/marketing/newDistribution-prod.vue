@@ -159,26 +159,33 @@ export default {
       dataRule: {
 
       },
-      resourcesUrl: process.env.VUE_APP_RESOURCES_URL
+      resourcesUrl: process.env.VUE_APP_RESOURCES_URL,
+      isNeedInitAwardNumber: false
     }
   },
   components: {
     AddOrUpdate,
     ProdPic
   },
-  watch: {
-    'dataForm.awardProportion' () {
-      this.dataForm.awardNumbers = 0
-    },
-    prodData (newQuestion) {
-      if (newQuestion.length) {
-        this.dataForm.awardNumbers = 0
+  computed: {
+    listenChange () {
+      return {
+        isNeedInitAwardNumber: this.isNeedInitAwardNumber,
+        prodData: this.prodData,
+        awardProportion: this.dataForm.awardProportion
       }
+    }
+  },
+  watch: {
+    'listenChange' (newVal, oldVal) {
+      if (newVal.isNeedInitAwardNumber !== oldVal.isNeedInitAwardNumber) return
+      this.dataForm.awardNumbers = 0
     }
   },
   mounted () {
     const flag = sessionStorage.getItem('bbcDistributionProdData') !== 'undefined'
     const data = flag ? JSON.parse(sessionStorage.getItem('bbcDistributionProdData')) : null
+    this.isNeedInitAwardNumber = true
     this.init(data)
     let title = !this.dataForm.distributionProdId ? this.$t('marketing.newDisProducts') : this.$t('marketing.modifyDisnProducts')
     this.$store.commit('common/replaceSelectMenu', title)
@@ -202,8 +209,10 @@ export default {
         this.levelData = []
         this.prodData = []
       }
-      // this.getLevelDataList(data)
-      sessionStorage.setItem('bbcDistributionProdData', undefined)
+      setTimeout(() => {
+        this.isNeedInitAwardNumber = false
+        sessionStorage.setItem('bbcDistributionProdData', 'undefined')
+      }, 0)
     },
     // 获取等级数据列表
     getLevelDataList (isReadLevelData) {
@@ -366,13 +375,13 @@ export default {
     },
     validateAwardNumber (rule, value, callback) {
       if (this.dataForm.awardProportion === 1) {
-        if (this.prodData[0].price * 0.5 < value) {
+        if (this.prodData[0].price * 0.5 < parseFloat(value)) {
           callback(new Error('奖励金额不能超过商品价格的一半'))
         } else {
           callback()
         }
       } else {
-        if (value > 50) {
+        if (parseFloat(value) > 50) {
           callback(new Error('奖励比例不能大于50%'))
         } else {
           callback()
