@@ -1483,6 +1483,7 @@ const zhCn = {
     discountVoucher: '折扣券'
   },
   distribution: {
+    accumulateIncome: '累计收益',
     realName: '真实姓名',
     idCardNo: '身份证号码',
     commAmount: '佣金数额',
@@ -1958,6 +1959,9 @@ const zhCn = {
     save: '保存'
   },
   user: {
+    withdrawalManagement: '提现管理',
+    walletFlow: '钱包流水',
+    walletManagement: '钱包管理',
     distributorManagement: '分销员管理',
     distributorAudit: '分销员审核',
     relationshipSearch: '关系查询',
@@ -2028,8 +2032,27 @@ const zhCn = {
     success: '操作成功',
     clientInformationForm: '客户信息表',
     noData: '暂无数据',
-    confirm: '确定'
-
+    confirm: '确定',
+    performanceStatistics: '业绩统计',
+    promotionalEffect: '推广效果'
+  },
+  distribIncome: {
+    orderNumber: '订单号',
+    commission: '佣金',
+    rewardRype: '奖励类型',
+    levelReward1: '直推奖励',
+    secondaryReward: '间推奖励',
+    invitationReward: '邀请奖励',
+    commissionStatus: '佣金状态',
+    pendinguserPayment: '待用户付款',
+    withdrawable: '可提现',
+    frozen: '冻结',
+    generationCommission: '直推奖励',
+    secondGenerationCommission: '间推奖励',
+    pschange: '待结算金额变更数额',
+    wachange: '可提现金额变更数额',
+    iachange: '失效金额变更数额',
+    aichange: '积累收益变更数额'
   },
   formData: {
     export: '导出',
@@ -3865,6 +3888,12 @@ const zhCn = {
     goodsPrice: '单价(元)'
   },
   distribUserWallet: {
+    creationTime: '创建时间',
+    remark: '备注',
+    wachange: '可提现金额变更数额',
+    iachange: '失效金额变更数额',
+    aichange: '积累收益变更数额',
+    pschange: '待结算金额变更数额',
     mobileTelNumber: '分销员手机号',
     status: '状态',
     distributorNickname: '分销员昵称',
