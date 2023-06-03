@@ -97,6 +97,7 @@
                 <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
+              <div class="el-form-item-tips">仅限此团长客户可见</div>
             </el-form-item>
             <!-- 商品名称 -->
             <div class="prod-name-box">
