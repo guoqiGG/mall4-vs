@@ -4,9 +4,9 @@
         <el-tab-pane :label="$t('user.distributorManagement')">
           <user />
         </el-tab-pane>
-        <el-tab-pane :label="$t('user.distributorAudit')">
+        <!-- <el-tab-pane :label="$t('user.distributorAudit')">
           <auditing />
-        </el-tab-pane>
+        </el-tab-pane> -->
         <el-tab-pane :label="$t('user.relationshipSearch')">
           <bind />
         </el-tab-pane>
