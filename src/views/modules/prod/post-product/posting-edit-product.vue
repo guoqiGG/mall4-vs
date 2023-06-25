@@ -91,9 +91,8 @@
               <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
             </el-form-item>
             <!-- 选择团长 -->
-            <el-form-item label="团长" prop="distributionUserId" class="select-parent">
-              <el-select v-model="dataForm.distributionUserId" filterable remote reserve-keyword clearable placeholder="请输入团长手机号查询"
-                :remote-method="remoteMethod" :loading="loading">
+            <el-form-item label="团长" prop="distributionUserId">
+              <el-select v-model="dataForm.distributionUserId" filterable remote reserve-keyword clearable multiple placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
                 <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
@@ -676,7 +675,7 @@ export default {
           //   parameterValueEn: ''
           // }
         ],
-        distributionUserId: ''
+        distributionUserId: []
       },
       dataRule: {
         prodNameCn: [
@@ -790,7 +789,6 @@ export default {
 
   created () {
     const dataForm = Object.assign(this.dataForm, this.value)
-    console.log('当前的dataForm', dataForm, this.$store.state.user.shopId)
     this.dataForm = dataForm
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
     this.writeOffMultipleCount = dataForm.writeOffMultipleCount > -1 ? dataForm.writeOffMultipleCount : ''
@@ -1731,9 +1729,7 @@ export default {
         width: 400px;
       }
       .select-parent {
-        & >>> .el-select{
-          width: 307px;
-        }
+        width: 400px;
       }
       // 商品名称
       .prod-name-box {
