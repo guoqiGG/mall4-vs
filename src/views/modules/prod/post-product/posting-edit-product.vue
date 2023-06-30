@@ -91,8 +91,8 @@
               <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
             </el-form-item>
             <!-- 选择团长 -->
-            <el-form-item label="团长" prop="distributionUserId">
-              <el-select v-model="dataForm.distributionUserId" filterable remote reserve-keyword clearable multiple placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
+            <el-form-item label="团长" prop="multiDistributionUserIds">
+              <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
                 <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
@@ -675,7 +675,7 @@ export default {
           //   parameterValueEn: ''
           // }
         ],
-        distributionUserId: []
+        multiDistributionUserIds: []
       },
       dataRule: {
         prodNameCn: [
@@ -835,7 +835,7 @@ export default {
     this.getTransportList()
     // 获取语言列表
     this.getLangList()
-    if (this.dataForm.distributionUserId || dataForm.distributionUserId) {
+    if (this.dataForm.multiDistributionUserIds || dataForm.multiDistributionUserIds) {
       this.remoteMethod()
     }
   },
