@@ -191,17 +191,13 @@ export default {
       this.loading = true
 
       this.$http({
-        url: this.$http.adornUrl('/distribution/distributionUser/page/achievement'),
+        url: this.$http.adornUrl('/distribution/distributionUser/disPageLike'),
         method: 'get',
         params: this.$http.adornParams(Object.assign({
-          size: 50,
-          current: 1,
-          sortParam: 1,
-          sortType: 2,
           userMobile: value
         }, this.theParams))
       }).then(({ data }) => {
-        this.parentOptions = data.records.map(item => ({
+        this.parentOptions = data.map(item => ({
           ...item,
           label: `${item.nickName}(${item.userMobile})`,
           value: item.distributionUserId
