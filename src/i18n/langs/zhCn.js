@@ -1483,6 +1483,8 @@ const zhCn = {
     discountVoucher: '折扣券'
   },
   distribution: {
+    banTip1: '将用户永久封禁后，清空一切分销数据，平台不可再次更改状态，用户不可申请成为分销员，确定继续操作？',
+    banTip2: '将用户暂时封禁后，保留分销数据，用户不可申请成为分销员，确定继续操作？',
     accumulateIncome: '累计收益',
     realName: '真实姓名',
     idCardNo: '身份证号码',

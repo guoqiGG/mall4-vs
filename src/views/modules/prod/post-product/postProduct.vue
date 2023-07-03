@@ -306,12 +306,8 @@ export default {
     changeCategory (type) {
       if (type === 1) {
         const platProdCategory = this.$store.state.prod.platProdCategory
-        this.platCategoryName = platProdCategory.firstCat.categoryName +
-          ' > ' +
-          platProdCategory.secondCat.categoryName +
-          ' > ' +
-          platProdCategory.threeCat.categoryName
-        this.dataForm.categoryId = platProdCategory.threeCat.id
+        this.platCategoryName = `${platProdCategory.firstCat.categoryName}${platProdCategory.secondCat?.categoryName ? ` > ${platProdCategory.secondCat.categoryName}` : ''}${platProdCategory.threeCat?.categoryName ? ` > ${platProdCategory.threeCat.categoryName}` : ''}`
+        this.dataForm.categoryId = platProdCategory.threeCat?.id ?? platProdCategory.secondCat?.id ?? platProdCategory.firstCat.id
       } else if (type === 2) {
         const storeProdCategory = this.$store.state.prod.storeProdCategory
         this.storeCategoryName = storeProdCategory.firstCat.categoryName

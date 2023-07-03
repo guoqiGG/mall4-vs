@@ -1064,18 +1064,44 @@ export default {
      * 获取分类选择组件返回数据
      */
     getCategorySelected (selectedCategories) {
+      if (selectedCategories.length === 1) {
+        this.dataForm.categoryId = selectedCategories[0].id
+        this.$store.commit('prod/updatePlatProdCategory',
+          {
+            platProdCategory: {
+              firstCat: selectedCategories[0],
+              secondCat: {},
+              threeCat: {}
+            },
+            selectUpdate: true
+          }
+        )
+      } else if (selectedCategories.length === 2) {
+        this.dataForm.categoryId = selectedCategories[1].id
+        this.$store.commit('prod/updatePlatProdCategory',
+          {
+            platProdCategory: {
+              firstCat: selectedCategories[0],
+              secondCat: selectedCategories[1],
+              threeCat: {}
+            },
+            selectUpdate: true
+          }
+        )
+      } else if (selectedCategories.length === 3) {
+        this.dataForm.categoryId = selectedCategories[2].id
+        this.$store.commit('prod/updatePlatProdCategory',
+          {
+            platProdCategory: {
+              firstCat: selectedCategories[0],
+              secondCat: selectedCategories[1],
+              threeCat: selectedCategories[2]
+            },
+            selectUpdate: true
+          }
+        )
+      }
       this.editPlatformCategoriesSelect = false
-      this.dataForm.categoryId = selectedCategories[2].id
-      this.$store.commit('prod/updatePlatProdCategory',
-        {
-          platProdCategory: {
-            firstCat: selectedCategories[0],
-            secondCat: selectedCategories[1],
-            threeCat: selectedCategories[2]
-          },
-          selectUpdate: true
-        }
-      )
       // 发送平台分类变化事件,通知父组件改变分类id与分类名称
       this.$emit('changeCategory', 1)
     },

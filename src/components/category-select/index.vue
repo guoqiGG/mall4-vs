@@ -59,7 +59,7 @@
         <!-- 确认 -->
         <div class="read-rule">
           <div class="read-rule-txt"
-               :class="(!isCreateCategory && threeCategorys.id !== 0) || (isCreateCategory && firstCategorys.id !== 0)?'todo':''"
+               :class="!isCreateCategory || (isCreateCategory && firstCategorys.id !== 0)?'todo':''"
                @click="optionsConfirm">{{$t("category.haveReadFol")}}
           </div>
         </div>
@@ -193,9 +193,9 @@ export default {
     },
     // 新增 / 修改
     optionsConfirm () {
-      if (!this.isCreateCategory && !this.threeCategorys.id) {
-        return
-      }
+      // if (!this.isCreateCategory && !this.threeCategorys.id) {
+      //   return
+      // }
       if (this.isCreateCategory && !this.firstCategorys.id) {
         return
       }

@@ -253,7 +253,12 @@ export default {
           composeType: this.composeType
         })
       } else {
-        this.$emit('close', this.categoryType)
+        this.$emit('close', this.categoryType, this.firstCat.id, this.composeType, this.firstCat.categoryName)
+        this.$store.commit('prod/addPlatProdCategory', {
+          firstCat: JSON.parse(JSON.stringify(this.firstCat)),
+          // save: true,
+          composeType: this.composeType
+        })
       }
     },
     selectSecondCat (categoryId, index) {
@@ -265,7 +270,14 @@ export default {
       }
       this.threeCat.dataList = this.allDataList.filter(item => item.parentId === categoryId)
       if (this.categoryType === 'platform') {
-        this.$emit('close', this.categoryType)
+        this.$emit('close', this.categoryType, this.secondCat.id, this.composeType, this.firstCat.categoryName,
+          this.secondCat.categoryName)
+        this.$store.commit('prod/addPlatProdCategory', {
+          firstCat: JSON.parse(JSON.stringify(this.firstCat)),
+          secondCat: JSON.parse(JSON.stringify(this.secondCat)),
+          // save: true,
+          composeType: this.composeType
+        })
       }
     },
     selectThreeCat (categoryId, index) {
