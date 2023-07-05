@@ -53,7 +53,7 @@
         </div>
 
         <!-- 基本信息浏览页面 -->
-        <shopInfo-browsing 
+        <shopInfo-browsing
           v-if="isShopInfoBrowsing"
           @closeBrowse = "isShopInfoBrowsing = !isShopInfoBrowsing"
         >
@@ -260,7 +260,7 @@
           </div>
           </div>
         </div>
-        
+
       </div>
       <!-- /基本信息 -->
 
@@ -437,7 +437,7 @@
                   </div>
 
               </div>
-              
+
             </div>
           </el-form>
         </div>

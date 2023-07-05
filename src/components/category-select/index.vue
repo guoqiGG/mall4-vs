@@ -22,7 +22,7 @@
           </div>
           <!-- 分类 -->
           <!--  v-if="secondCategorys.dataList && secondCategorys.dataList.length && firstCategorys.id !== 0" -->
-          <div class="category-box">
+          <!-- <div class="category-box">
             <el-input :placeholder="this.$i18n.t('category.chooseProdCateg')" v-model="secondCategorys.categoryName" :disabled="true"></el-input>
             <ul class="category-list">
               <li
@@ -33,10 +33,10 @@
                 :key="item.categoryId"
               >{{item.categoryName}}</li>
             </ul>
-          </div>
+          </div> -->
           <!-- 分类 -->
           <!--  v-if="threeCategorys.dataList.length > 0 && secondCategorys.id !== 0" -->
-          <div class="category-box">
+          <!-- <div class="category-box">
             <el-input :placeholder="this.$i18n.t('category.chooseProdCateg')" v-model="threeCategorys.categoryName" :disabled="true"></el-input>
             <ul class="category-list">
               <li
@@ -47,7 +47,7 @@
                 :key="item.categoryId"
               >{{item.categoryName}}</li>
             </ul>
-          </div>
+          </div> -->
         </div>
         <!-- 当前选择 -->
         <div class="current-selected">

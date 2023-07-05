@@ -226,11 +226,11 @@ export default {
             this.changeWriteOffTime(data.writeOffTime)
           }
           if (this.dataForm.categoryVO) {
-            this.platCategoryName = this.dataForm.categoryVO.categories[0].categoryName + ' > ' + this.dataForm.categoryVO.categories[1].categoryName + ' > ' + this.dataForm.categoryVO.categoryName
+            this.platCategoryName = this.dataForm.categoryVO.categoryName
           }
           this.postingSteps = 2
           this.$forceUpdate()
-        }).catch(({ e }) => {
+        }).catch((err) => {
           this.postingSteps = 1
           // 出错，返回列表
           setTimeout(() => {

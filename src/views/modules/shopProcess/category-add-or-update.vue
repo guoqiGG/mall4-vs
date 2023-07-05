@@ -354,16 +354,15 @@ export default {
       }).then(({ data }) => {
         this.loading = false
         this.allCategories = data
-        let categorgTreeData = treeDataTranslate(data, 'categoryId', 'parentId')
-        // 过滤没有下级分类的类目
-        categorgTreeData = this.removeNotThirdCategoryItem(categorgTreeData)
-        console.log(categorgTreeData)
+        // let categorgTreeData = treeDataTranslate(data, 'categoryId', 'parentId')
+        // // 过滤没有下级分类的类目
+        // categorgTreeData = this.removeNotThirdCategoryItem(categorgTreeData)
+        // console.log(categorgTreeData)
         // categorgTreeData = this.removeNotThirdCategoryItem(categorgTreeData)
           // this.categorgTreeData = this.disabledParentCategory(categorgTreeData)
-        this.categorgTreeData = categorgTreeData
+        this.categorgTreeData = data
       })
     },
-
     getIds (data, sts) {
       this.signCategoryIds.splice(0, this.signCategoryIds.length)
       this.signCategoryParentIds.splice(0, this.signCategoryParentIds.length)
@@ -423,9 +422,9 @@ export default {
      * @param {Boolean} nodeStatus 节点本身是否被选中、
      */
     handleCheckChange (nodeObj, nodeStatus) {
-      if (nodeObj.grade !== 2) {
-        return
-      }
+      // if (nodeObj.grade !== 2) {
+      //   return
+      // }
       if (nodeStatus) {
         if (this.allSelectedCategories.length + this.signingCount === 200) {
           if (!this.message) {
@@ -563,8 +562,11 @@ export default {
       this.$emit('closePopup', 'category')
     },
     handleNodeClick (nodeObj, nodeStatus) {
-      if (nodeStatus.level !== 3) return
+      console.log('nodeObj----------', nodeObj)
+      console.log('nodeStatus----------', nodeStatus)
+      // if (nodeStatus.level !== 3) return
       let keys = this.allSelectedCategories.map(item => item.categoryId)
+      console.log('keys----------', keys)
       if (nodeStatus.checked) {
         for (let i = 0; i < keys.length; i++) {
           if (keys[i] === nodeObj.categoryId) {

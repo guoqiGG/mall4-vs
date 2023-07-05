@@ -30,7 +30,7 @@
         </ul>
       </div>
       <!-- 第二级 v-if="firstCat.id !== 0 && secondCat.dataList.length" -->
-      <div v-if="categoryType === 'platform' && firstCat.dataList.length" class="category-select-item">
+      <div v-if="categoryType === 'platform' && secondCat.dataList.length" class="category-select-item">
         <div class="int-box">
           <input disabled class="se-int" :placeholder="this.$i18n.t('product.selectSecondLevelCategory')"></input>
         </div>
@@ -50,7 +50,7 @@
         </ul>
       </div>
       <!-- 第三级 v-if="secondCat.id !== 0 && threeCat.dataList.length && categoryType === 'platform'" -->
-      <div v-if="categoryType === 'platform' && firstCat.dataList.length" class="category-select-item">
+      <div v-if="categoryType === 'platform' && threeCat.dataList.length" class="category-select-item">
         <div class="int-box">
           <input disabled class="se-int" :placeholder="this.$i18n.t('product.selectThirdLevelCategory')"></input>
         </div>
@@ -142,17 +142,17 @@ export default {
       return dataList.length
     },
     showFirstCat (categoryId) {
-      if (this.categoryType === 'store') {
-        return true
-      }
-      let flag = 0
-      let dataList = this.allDataList.filter(item => item.parentId === categoryId)
-      dataList.forEach(i => {
-        if (this.allDataList.filter(item => item.parentId === i.categoryId).length) {
-          flag++
-        }
-      })
-      return flag
+      return true
+      // if (this.categoryType === 'store') {
+      // }
+      // let flag = 0
+      // let dataList = this.allDataList.filter(item => item.parentId === categoryId)
+      // dataList.forEach(i => {
+      //   if (this.allDataList.filter(item => item.parentId === i.categoryId).length) {
+      //     flag++
+      //   }
+      // })
+      // return flag
     },
     /**
      * 获取分类数据
