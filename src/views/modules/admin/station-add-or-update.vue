@@ -375,7 +375,13 @@
           this.dataForm = data
           this.status = this.dataForm.status === 1 ? 1 : 0
           // let timeDate = JSON.parse(data.timeDate)
-          this.timeDateModeVO = JSON.parse(data.timeDate)
+          const initTimeDate = JSON.stringify({
+            shopTime: [new Date(2020, 1, 1, 8, 0, 0), new Date(2020, 1, 1, 20, 0, 0)],
+            stationStartTime: 0,
+            stationEndTime: 7,
+            interval: '1'
+          })
+          this.timeDateModeVO = JSON.parse(data.timeDate || initTimeDate)
 
           // for (const proItem of this.addrInfoList) {
           //   if (proItem.areaId === this.dataForm.provinceId) {
