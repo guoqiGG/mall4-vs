@@ -704,8 +704,10 @@ export default {
         ],
         deliveryAmount: [
           { required: true, message: this.$i18n.t('product.pleaseEnterTheAmount'), trigger: 'blur' }
+        ],
+        multiDistributionUserIds: [
+          { required: true, message: '请选择团长', trigger: 'blur' }
         ]
-
       },
       // 控制平台分类选择下拉框
       editPlatformCategoriesSelect: false,
