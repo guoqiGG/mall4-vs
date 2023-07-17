@@ -37,6 +37,7 @@
             :isCompose="isCompose"
             :platCategoryName="platCategoryName"
             :storeCategoryName="storeCategoryName"
+            :categoryName="categoryName"
             @changeCategory="changeCategory"
             @updataProdDataForm="updataProdDataForm"
             @changeWriteOffTime="changeWriteOffTime"
@@ -141,7 +142,9 @@ export default {
       originalProdType: null,
 
       // 规格列表
-      specList: []
+      specList: [],
+      // 自提点名称
+      categoryName:''
     }
   },
 
@@ -166,9 +169,20 @@ export default {
     this.getDataList()
     // 获取规格列表
     this.getSpecList()
+    // 获取设置的自提点区分类名称
+    this.getPickAreaCategoryName()
   },
 
   methods: {
+    // 获取设置的自提点区分类名称
+    getPickAreaCategoryName(){
+      this.$http({
+        url:this.$http.adornUrl('/prod/category/stationName'),
+        method:"get"
+      }).then(({data})=>{
+        this.categoryName=data.categoryName
+      })
+    },
     /**
      * 获取产品详情数据
      */
@@ -392,6 +406,7 @@ export default {
       if (this.postingSteps === 2 && !this.$refs.editProduct.dataFormValidation()) {
         return
       }
+   
       this.dataFormSubmit()
     },
 

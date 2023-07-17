@@ -1,13 +1,8 @@
 <template>
-<!-- 02、编辑商品信息 -->
+  <!-- 02、编辑商品信息 -->
   <div class="posting-edit-product">
-    <el-form @submit.native.prevent
-      :model="dataForm"
-      ref="dataForm"
-      :label-width="lang === 'en'? '150px':'130px'"
-      :rules="dataRule"
-      size="small"
-    >
+    <el-form @submit.native.prevent :model="dataForm" ref="dataForm" :label-width="lang === 'en' ? '150px' : '130px'"
+      :rules="dataRule" size="small">
 
       <!-- 基本信息 -->
       <div class="edit-prod-content prod-basic-info">
@@ -15,121 +10,87 @@
           <span>{{ $t("shopProcess.basicInfo") }}</span>
         </div>
         <div class="basic-info-content prod-con">
-            <!-- 已选分类 -->
-            <el-form-item
-              :label="this.$i18n.t('product.selectedCategories')"
-              class="selected-category"
-            >
-              <div class="category-sel">
-                <div class="category-con">
-                  <div class="cur-sel">
-                    <span class="weak-text">{{ $t("product.platformCategories") }}：</span>
-                    <span :class="dataForm.prodId?'disable':''">{{ platCategoryName }}</span>
-                  </div>
-                  <div :class="['default-btn text-btn', dataForm.prodId ? 'disabled-btn': ''] " @click="changeCategory(1)">{{ $t("resource.update") }}</div>
+          <!-- 已选分类 -->
+          <el-form-item :label="this.$i18n.t('product.selectedCategories')" class="selected-category">
+            <div class="category-sel">
+              <div class="category-con">
+                <div class="cur-sel">
+                  <span class="weak-text">{{ $t("product.platformCategories") }}：</span>
+                  <span :class="dataForm.prodId ? 'disable' : ''">{{ platCategoryName }}</span>
                 </div>
-                <el-alert
-                  :title="dataForm.prodId?this.$i18n.t('product.postProductTips23'):this.$i18n.t('product.postProductTips24')"
-                  type="info"
-                  class="ca-warning"
-                  :closable="false"
-                  show-icon
-                />
-                <div v-show="!editShopCategorySelect" class="category-con">
-                  <div class="cur-sel">
-                    <span class="weak-text">{{ $t("product.shopCategories") }}：</span>
-                    <span>{{ storeCategoryName }}</span>
-                  </div>
-                  <div class="default-btn text-btn update-btn" @click="changeCategory(2)">{{ $t("resource.update") }}</div>
-                </div>
-                <el-select
-                  v-if="editShopCategorySelect&&currentShopCategoryObj"
-                  v-model="currentShopCategoryObj.firstCat.id"
-                  :placeholder="this.$i18n.t('tip.select')"
-                  ref="shopCategorySelect"
-                  class="category-select"
-                  filterable
-                  :automatic-dropdown="true"
-                  @change="selectShopCategory"
-                  @visible-change="categorySelectChange($event, 2)"
-                >
-                  <el-option
-                    v-for="item in currentShopCategoryObj.firstCat.dataList"
-                    :key="item.categoryId"
-                    :label="item.categoryName"
-                    :value="item.categoryId">
-                  </el-option>
-                </el-select>
-                <div class="el-form-item-tips">{{ $t("product.postProductTips1") }}</div>
+                <div :class="['default-btn text-btn', dataForm.prodId ? 'disabled-btn' : '']" @click="changeCategory(1)">
+                  {{ $t("resource.update") }}</div>
               </div>
-            </el-form-item>
-            <!-- 选择语言 -->
-            <el-form-item
-              :label="this.$i18n.t('product.selectLanguage')"
-              v-if="langItemList.length > 1"
-            >
-              <el-select
-                v-model="curLang"
-                multiple
-                :placeholder="this.$i18n.t('tip.select')"
-                class="select-lang"
-                @change="selectLang"
-              >
-                <el-option
-                  v-for="item in langItemList"
-                  :key="item.lang"
-                  :label="item.name"
-                  :value="item.lang">
+              <el-alert
+                :title="dataForm.prodId ? this.$i18n.t('product.postProductTips23') : this.$i18n.t('product.postProductTips24')"
+                type="info" class="ca-warning" :closable="false" show-icon />
+              <div v-show="!editShopCategorySelect" class="category-con">
+                <div class="cur-sel">
+                  <span class="weak-text">{{ $t("product.shopCategories") }}：</span>
+                  <span>{{ storeCategoryName }}</span>
+                </div>
+                <div class="default-btn text-btn update-btn" @click="changeCategory(2)">{{ $t("resource.update") }}</div>
+              </div>
+              <el-select v-if="editShopCategorySelect && currentShopCategoryObj"
+                v-model="currentShopCategoryObj.firstCat.id" :placeholder="this.$i18n.t('tip.select')"
+                ref="shopCategorySelect" class="category-select" filterable :automatic-dropdown="true"
+                @change="selectShopCategory" @visible-change="categorySelectChange($event, 2)">
+                <el-option v-for="item in currentShopCategoryObj.firstCat.dataList" :key="item.categoryId"
+                  :label="item.categoryName" :value="item.categoryId">
                 </el-option>
-                <!-- <el-option
+              </el-select>
+              <div class="el-form-item-tips">{{ $t("product.postProductTips1") }}</div>
+            </div>
+          </el-form-item>
+          <!-- 选择语言 -->
+          <el-form-item :label="this.$i18n.t('product.selectLanguage')" v-if="langItemList.length > 1">
+            <el-select v-model="curLang" multiple :placeholder="this.$i18n.t('tip.select')" class="select-lang"
+              @change="selectLang">
+              <el-option v-for="item in langItemList" :key="item.lang" :label="item.name" :value="item.lang">
+              </el-option>
+              <!-- <el-option
                   v-for="item in langOptions"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option> -->
-              </el-select>
-              <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
-            </el-form-item>
-            <!-- 选择团长 -->
-            <el-form-item label="团长" prop="multiDistributionUserIds">
-              <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
-                <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
-              <div class="el-form-item-tips">仅限此团长客户可见</div>
-            </el-form-item>
-            <!-- 商品名称 -->
-            <div class="prod-name-box">
-                  <!-- :label="this.$i18n.t('product.prodName')" -->
-              <template v-for="(item,index) in dataForm.prodLangList">
-                <el-form-item
-                  :label="$t('product.prodName') + (langItemList.length === 1 ? '' : `(${item.langName})`)"
-                  class="prod-name-con"
-                  :key="index"
-                  v-if="curLang.includes(item.lang)"
-                  :required="true"
-                >
-                  <el-input v-model="item.prodName" maxlength="60" class="shop-input" />
-                  <div class="el-form-item-tips">{{$t('product.postProductTips3')}}</div>
-                </el-form-item>
-              </template>
-            </div>
-            <!-- 商品卖点 -->
-            <div class="prod-name-box">
-                  <!-- :label="this.$i18n.t('product.productSellingPoints')" -->
-              <template v-for="(item,index) in dataForm.prodLangList">
-                <el-form-item
-                  :label="$t('product.productSellingPoints') + (langItemList.length === 1 ? '' : `(${item.langName})`)"
-                  class="prod-name-con"
-                  :key="index"
-                  v-if="curLang.includes(item.lang)"
-                >
-                  <el-input v-model="item.brief" maxlength="100" class="shop-input" />
-                  <div class="el-form-item-tips">{{$t('product.postProductTips4')}}</div>
-                </el-form-item>
-              </template>
+            </el-select>
+            <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
+          </el-form-item>
+          <!-- 选择团长 -->
+          <el-form-item label="团长" prop="multiDistributionUserIds" :required="platCategoryName == categoryName ? true : false"
+            :rules="platCategoryName == categoryName ? { require: true, message: '请选择团长', trigger: 'blur' } : ''">
+            <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple
+              placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
+              <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+            <div class="el-form-item-tips">仅限此团长客户可见</div>
+          </el-form-item>
+          <!-- 商品名称 -->
+          <div class="prod-name-box">
+            <!-- :label="this.$i18n.t('product.prodName')" -->
+            <template v-for="(item, index) in dataForm.prodLangList">
+              <el-form-item :label="$t('product.prodName') + (langItemList.length === 1 ? '' : `(${item.langName})`)"
+                class="prod-name-con" :key="index" v-if="curLang.includes(item.lang)" :required="true">
+                <el-input v-model="item.prodName" maxlength="60" class="shop-input" />
+                <div class="el-form-item-tips">{{ $t('product.postProductTips3') }}</div>
+              </el-form-item>
+            </template>
+          </div>
+          <!-- 商品卖点 -->
+          <div class="prod-name-box">
+            <!-- :label="this.$i18n.t('product.productSellingPoints')" -->
+            <template v-for="(item, index) in dataForm.prodLangList">
+              <el-form-item
+                :label="$t('product.productSellingPoints') + (langItemList.length === 1 ? '' : `(${item.langName})`)"
+                class="prod-name-con" :key="index" v-if="curLang.includes(item.lang)">
+                <el-input v-model="item.brief" maxlength="100" class="shop-input" />
+                <div class="el-form-item-tips">{{ $t('product.postProductTips4') }}</div>
+              </el-form-item>
+            </template>
 
-              <!-- <el-form-item
+            <!-- <el-form-item
                 v-if="curLang.includes(2)"
                 label-width="0"
                 prop="briefEn"
@@ -138,95 +99,74 @@
                 <el-input v-model="dataForm.briefEn" maxlength="100" />
                 <div class="el-form-item-tips">Displayed under the title, the length cannot exceed 100</div>
               </el-form-item> -->
+          </div>
+          <!-- 商品图片 -->
+          <el-form-item :label="this.$i18n.t('product.pic')" prop="imgs" class="prod-img-box">
+            <imgs-upload v-model="dataForm.imgs" :limit="9" :prompt="false" @input="imgsChange" />
+            <div class="el-form-item-tips">{{ $t("product.postProductTips5") }}</div>
+          </el-form-item>
+          <!-- 商品视频 -->
+          <el-form-item :label="this.$i18n.t('product.productVideo')">
+            <div v-if="!dataForm.video" class="prod-video-box">
+              <video-upload v-model="dataForm.video" />
             </div>
-            <!-- 商品图片 -->
-            <el-form-item
-              :label="this.$i18n.t('product.pic')"
-              prop="imgs"
-              class="prod-img-box"
-            >
-              <imgs-upload v-model="dataForm.imgs" :limit="9" :prompt="false" @input="imgsChange" />
-              <div class="el-form-item-tips">{{ $t("product.postProductTips5") }}</div>
-            </el-form-item>
-            <!-- 商品视频 -->
-            <el-form-item
-              :label="this.$i18n.t('product.productVideo')"
-            >
-              <div v-if="!dataForm.video" class="prod-video-box">
-                <video-upload v-model="dataForm.video" />
-              </div>
-              <div v-if="dataForm.video" class="prod-video-box2">
-                <video-upload v-model="dataForm.video" />
-              </div>
-              <div class="el-form-item-tips">{{ $t("product.postProductTips6") }}</div>
-            </el-form-item>
-            <!-- 商品品牌 + 商品排序 -->
-            <div class="prod-brand-sort">
-              <el-form-item
-                :label="this.$i18n.t('product.productBrands')"
-              >
-                <div class="select-prod-brand">
-                  <div class="brand">
-                    <span class="brand-name">{{ dataForm.brandName }}</span>
-                    <span v-if="dataForm.brandName" class="el-icon-close del-brand" @click="deleteSelectedBrand"></span>
-                  </div>
-                  <div class="default-btn text-btn" @click="selectBrand">{{ $t("product.selectText") }}</div>
-                </div>
-              </el-form-item>
-              <el-form-item
-                :label="this.$i18n.t('product.productSort')"
-                :label-width="lang === 'en'? '110px':'70px'"
-              >
-                <div class="select-prod-sort">
-                  <el-input
-                    v-model="dataForm.seq"
-                    type="number"
-                    :max="32767"
-                    :min="0"
-                    :step="1"
-                    @keyup="
-                        dataForm.seq = String(dataForm.seq).match(/[^0-9]/) ? 0 : dataForm.seq
-                      "
-                    @blur="handleSortValue"
-                  />
-                </div>
-              </el-form-item>
+            <div v-if="dataForm.video" class="prod-video-box2">
+              <video-upload v-model="dataForm.video" />
             </div>
-            <!-- 是否活动商品 -->
-            <el-form-item v-if="dataForm.mold!==1" :label="this.$i18n.t('product.activeProd')">
-              <el-tooltip :disabled="!dataForm.prodId || dataForm.prodId === ''" class="item" effect="light" :content="this.$i18n.t('product.postProductTips22')" placement="top">
-                <el-radio-group :disabled="dataForm.prodId && dataForm.prodId !== ''" v-model="dataForm.prodType" @change="handleProdTpyeChange">
-                  <el-radio :label="dataForm.prodType>0&&dataForm.prodType!==5?dataForm.prodType:0">{{ $t("publics.no") }}</el-radio>
-                  <el-radio :label="5">{{ $t("publics.yes") }}</el-radio>
-                </el-radio-group>
-              </el-tooltip>
-              <div class="el-form-item-tips">{{ $t("product.notAvailableSeparatePurchase") }}</div>
+            <div class="el-form-item-tips">{{ $t("product.postProductTips6") }}</div>
+          </el-form-item>
+          <!-- 商品品牌 + 商品排序 -->
+          <div class="prod-brand-sort">
+            <el-form-item :label="this.$i18n.t('product.productBrands')">
+              <div class="select-prod-brand">
+                <div class="brand">
+                  <span class="brand-name">{{ dataForm.brandName }}</span>
+                  <span v-if="dataForm.brandName" class="el-icon-close del-brand" @click="deleteSelectedBrand"></span>
+                </div>
+                <div class="default-btn text-btn" @click="selectBrand">{{ $t("product.selectText") }}</div>
+              </div>
             </el-form-item>
-            <!-- 是否开启预售 -->
-            <el-form-item v-if="dataForm.prodType !== 5 && dataForm.mold !== 1" :label="this.$i18n.t('product.whetPreSale')">
-              <el-radio-group v-model="dataForm.preSellStatus">
-                <el-radio :label="0">{{ $t("station.close") }}</el-radio>
-                <el-radio :label="1">{{ $t("groups.turnOn") }}</el-radio>
+            <el-form-item :label="this.$i18n.t('product.productSort')" :label-width="lang === 'en' ? '110px' : '70px'">
+              <div class="select-prod-sort">
+                <el-input v-model="dataForm.seq" type="number" :max="32767" :min="0" :step="1" @keyup="
+                  dataForm.seq = String(dataForm.seq).match(/[^0-9]/) ? 0 : dataForm.seq
+                  " @blur="handleSortValue" />
+              </div>
+            </el-form-item>
+          </div>
+          <!-- 是否活动商品 -->
+          <el-form-item v-if="dataForm.mold !== 1" :label="this.$i18n.t('product.activeProd')">
+            <el-tooltip :disabled="!dataForm.prodId || dataForm.prodId === ''" class="item" effect="light"
+              :content="this.$i18n.t('product.postProductTips22')" placement="top">
+              <el-radio-group :disabled="dataForm.prodId && dataForm.prodId !== ''" v-model="dataForm.prodType"
+                @change="handleProdTpyeChange">
+                <el-radio :label="dataForm.prodType > 0 && dataForm.prodType !== 5 ? dataForm.prodType : 0">{{ $t("publics.no")
+                }}</el-radio>
+                <el-radio :label="5">{{ $t("publics.yes") }}</el-radio>
               </el-radio-group>
-            </el-form-item>
-            <!-- 预售发货时间 -->
-            <el-form-item
-              v-if="dataForm.preSellStatus === 1 && dataForm.prodType !== 5"
-              :label="this.$i18n.t('product.preSaleTime')"
-              prop="preSellTime"
-            >
-              <el-date-picker
-                v-model="dataForm.preSellTime"
-                type="datetime"
-                :placeholder="this.$i18n.t('product.choosengDate')"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :picker-options="{disabledDate(time){
-                                var date = new Date()
-                                var time1= date.getTime()+(1000*60*60*24*90)
-                                return time.getTime()<new Date(new Date().toLocaleDateString()).getTime() || time.getTime()>time1
-                              },}"
-              ></el-date-picker>
-            </el-form-item>
+            </el-tooltip>
+            <div class="el-form-item-tips">{{ $t("product.notAvailableSeparatePurchase") }}</div>
+          </el-form-item>
+          <!-- 是否开启预售 -->
+          <el-form-item v-if="dataForm.prodType !== 5 && dataForm.mold !== 1"
+            :label="this.$i18n.t('product.whetPreSale')">
+            <el-radio-group v-model="dataForm.preSellStatus">
+              <el-radio :label="0">{{ $t("station.close") }}</el-radio>
+              <el-radio :label="1">{{ $t("groups.turnOn") }}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <!-- 预售发货时间 -->
+          <el-form-item v-if="dataForm.preSellStatus === 1 && dataForm.prodType !== 5"
+            :label="this.$i18n.t('product.preSaleTime')" prop="preSellTime">
+            <el-date-picker v-model="dataForm.preSellTime" type="datetime"
+              :placeholder="this.$i18n.t('product.choosengDate')" value-format="yyyy-MM-dd HH:mm:ss" :picker-options="{
+                disabledDate(time) {
+                  var date = new Date()
+                  var time1 = date.getTime() + (1000 * 60 * 60 * 24 * 90)
+                  return time.getTime() < new Date(new Date().toLocaleDateString()).getTime() || time.getTime() > time1
+                },
+              }"></el-date-picker>
+          </el-form-item>
         </div>
       </div>
 
@@ -236,29 +176,15 @@
           <span>{{ $t("product.specStock") }}</span>
         </div>
         <div class="spec-stock-content prod-con">
-          <sku-tag
-            ref="skuTag"
-            @change="skuTagChangeSkuHandler"
-            @changeSkuImg="changeSkuImgHandler"
-            @clearSkuImg="clearSkuImg"
-            @resetInit="resetInit"
-            :skuList="dataForm.skuList"
-          ></sku-tag>
+          <sku-tag ref="skuTag" @change="skuTagChangeSkuHandler" @changeSkuImg="changeSkuImgHandler"
+            @clearSkuImg="clearSkuImg" @resetInit="resetInit" :skuList="dataForm.skuList"></sku-tag>
 
-          <sku-table
-            ref="skuTable"
-            v-model="dataForm.skuList"
-            :prodNameCn.sync="dataForm.prodNameCn"
-            :prodNameEn.sync="dataForm.prodNameEn"
-            :mold="dataForm.mold"
-            @input="skuListHandler"
-          ></sku-table>
-            <!-- :isCompose="dataForm.isCompose" -->
+          <sku-table ref="skuTable" v-model="dataForm.skuList" :prodNameCn.sync="dataForm.prodNameCn"
+            :prodNameEn.sync="dataForm.prodNameEn" :mold="dataForm.mold" @input="skuListHandler"></sku-table>
+          <!-- :isCompose="dataForm.isCompose" -->
 
           <div class="total-stock">
-            <el-form-item
-              :label="this.$i18n.t('product.totalInventory')"
-            >
+            <el-form-item :label="this.$i18n.t('product.totalInventory')">
               <input v-model="totalStocks" disabled>
               <div class="el-form-item-tips">{{ $t("product.postProductTips7") }}</div>
             </el-form-item>
@@ -273,48 +199,32 @@
         </div>
         <div class="shipping-setup prod-con">
           <!-- 配送方式 -->
-          <el-form-item
-            :label-width="this.$i18n.t('language')=='English'?'180px':''"
-            :label="this.$i18n.t('order.delType')"
-            class="options-box"
-            prop="deliveryMode"
-          >
-            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" :disabled="this.$store.state.user.shopId!==1">{{
+          <el-form-item :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
+            :label="this.$i18n.t('order.delType')" class="options-box" prop="deliveryMode">
+            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" :disabled="this.$store.state.user.shopId !== 1">{{
               $t("product.ExpressDistribution")
             }}</el-checkbox>
-            <el-checkbox v-model="dataForm.deliveryMode.hasUserPickUp" class="delType-text" >{{
+            <el-checkbox v-model="dataForm.deliveryMode.hasUserPickUp" class="delType-text">{{
               $t("product.userMention")
             }}</el-checkbox>
-            <el-checkbox
-              v-model="dataForm.deliveryMode.hasCityDelivery"
-              :disabled="(sameCityStatus === 1&& this.$store.state.user.shopId!==1)?'':'disabled'"
-              class="delType-text"
-              >{{ $t("order.sameCityDelivery") }}</el-checkbox
-            >
+            <el-checkbox v-model="dataForm.deliveryMode.hasCityDelivery"
+              :disabled="(sameCityStatus === 1 && this.$store.state.user.shopId !== 1) ? '' : 'disabled'" class="delType-text">{{
+                $t("order.sameCityDelivery") }}</el-checkbox>
             <!-- <div class="el-form-item-tips">“用户自提”和“同城配送”需在配送管理设置后才能生效</div> -->
             <div class="el-form-item-tips">{{ $t("product.postProductTips8") }}</div>
           </el-form-item>
           <!-- 运费模板 -->
-          <el-form-item
-            :label-width="this.$i18n.t('language')=='English'?'180px':''"
-            :label="this.$i18n.t('product.shippinngs')"
-          >
-            <el-radio v-model="dataForm.tableRate" :label="0" disabled>{{$t('product.freeShipping')}}</el-radio>
-            <el-radio @change="freight" v-model="dataForm.tableRate" :label="-1">{{$t('product.fixedFreight')}}</el-radio>
-            <el-radio v-model="dataForm.tableRate" :label="1" disabled>{{$t('product.freTempl')}}</el-radio>
+          <el-form-item :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
+            :label="this.$i18n.t('product.shippinngs')">
+            <el-radio v-model="dataForm.tableRate" :label="0" disabled>{{ $t('product.freeShipping') }}</el-radio>
+            <el-radio @change="freight" v-model="dataForm.tableRate" :label="-1">{{ $t('product.fixedFreight') }}</el-radio>
+            <el-radio v-model="dataForm.tableRate" :label="1" disabled>{{ $t('product.freTempl') }}</el-radio>
           </el-form-item>
 
           <!-- 运费模板 -->
-          <el-form-item
-            v-if="dataForm.tableRate>0"
-            :label-width="this.$i18n.t('language')=='English'?'180px':''"
-            :label="this.$i18n.t('product.freTempl')"
-            prop="deliveryTemplateId"
-          >
-            <el-select
-              v-model="dataForm.deliveryTemplateId"
-              :placeholder="this.$i18n.t('tip.select')"
-            >
+          <el-form-item v-if="dataForm.tableRate > 0" :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
+            :label="this.$i18n.t('product.freTempl')" prop="deliveryTemplateId">
+            <el-select v-model="dataForm.deliveryTemplateId" :placeholder="this.$i18n.t('tip.select')">
               <!-- <el-option
                 :key="0"
                 :label="this.$i18n.t('product.unifiedPackageMail')"
@@ -325,31 +235,24 @@
                 :label="this.$i18n.t('product.uniformDeliveredPricing')"
                 :value="-1"
               ></el-option> -->
-              <el-option
-                v-for="transport in transportList"
-                :key="transport.transportId"
-                :label="transport.transName"
-                :value="transport.transportId"
-              ></el-option>
+              <el-option v-for="transport in transportList" :key="transport.transportId" :label="transport.transName"
+                :value="transport.transportId"></el-option>
             </el-select>
             <!--新建/刷新-->
             <div class="create-refresh-btn">
-              <div class="default-btn text-btn"
-                        @click="getTransportList">{{$t('admin.refresh')}}</div>
+              <div class="default-btn text-btn" @click="getTransportList">{{ $t('admin.refresh') }}</div>
               <el-divider direction="vertical"></el-divider>
-              <div class="default-btn text-btn"
-                        @click.stop="createTransportTemplate()">{{$t('admin.newConstruction')}}</div>
+              <div class="default-btn text-btn" @click.stop="createTransportTemplate()">{{ $t('admin.newConstruction') }}
+              </div>
             </div>
             <div class="el-form-item-tips">{{ $t("product.postProductTips9") }}</div>
           </el-form-item>
-          <el-form-item
-            v-if="dataForm.tableRate===-1"
-            :label-width="this.$i18n.t('language')=='English'?'180px':''"
-            :label="this.$i18n.t('product.fixedFreight')"
-            prop="deliveryAmount"
-          >
+          <el-form-item v-if="dataForm.tableRate === -1" :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
+            :label="this.$i18n.t('product.fixedFreight')" prop="deliveryAmount">
             <div class="freight">
-                <el-input type="number" :min="0.00" v-model="dataForm.deliveryAmount" @blur="handleInputValue(dataForm.deliveryAmount,'deliveryAmount',0.00,9999)" maxlength="10" :placeholder="this.$i18n.t('product.pleaseEnterTheAmount')" disabled></el-input>
+              <el-input type="number" :min="0.00" v-model="dataForm.deliveryAmount"
+                @blur="handleInputValue(dataForm.deliveryAmount, 'deliveryAmount', 0.00, 9999)" maxlength="10"
+                :placeholder="this.$i18n.t('product.pleaseEnterTheAmount')" disabled></el-input>
             </div>
           </el-form-item>
         </div>
@@ -361,14 +264,17 @@
           <span>{{ $t('product.parameterSetting') }}</span>
         </div>
         <div class="params-box prod-con">
-          <el-form-item :label="$t('product.parameter')+ (index+1)" v-for="(item,index) in dataForm.prodParameterList" :key="index">
+          <el-form-item :label="$t('product.parameter') + (index + 1)" v-for="(item, index) in dataForm.prodParameterList"
+            :key="index">
             <template v-for="(langItem) in item.prodParameterLangList">
               <div class="zh-input">
                 <el-input class="input" maxlength="10" v-model.trim="langItem.parameterKey">
-                  <template slot="prepend">{{ $t('sys.parameteName') + ( langItemList.length === 1 ? '' : `(${langItem.langName})`)  }}</template>
+                  <template slot="prepend">{{ $t('sys.parameteName') + (langItemList.length === 1 ? '' :
+                    `(${langItem.langName})`) }}</template>
                 </el-input>
                 <el-input class="input" maxlength="20" v-model.trim="langItem.parameterValue">
-                  <template slot="prepend">{{ $t('sys.parameterValue') + ( langItemList.length === 1 ? '' : `(${langItem.langName})`)  }}</template>
+                  <template slot="prepend">{{ $t('sys.parameterValue') + (langItemList.length === 1 ? '' :
+                    `(${langItem.langName})`) }}</template>
                 </el-input>
                 <div class="params-tips">参数名和参数值显示在商品详情开头，参数名不超过10字，参数值不超过20字</div>
               </div>
@@ -383,9 +289,10 @@
               <div class="params-tips">The parameter name shall not exceed 10 words and the parameter value shall not exceed 20 words</div>
             </div> -->
             <div class="btn-box">
-              <div class="default-btn text-btn" @click="parameterDeltete(index)" >{{$t('text.delBtn')}}</div>
-              <div class="line" v-if="index === dataForm.prodParameterList.length-1"></div>
-              <div class="default-btn text-btn" v-if="index === dataForm.prodParameterList.length-1" @click="parameterInsert">{{ $t('shopProcess.add') }}</div>
+              <div class="default-btn text-btn" @click="parameterDeltete(index)">{{ $t('text.delBtn') }}</div>
+              <div class="line" v-if="index === dataForm.prodParameterList.length - 1"></div>
+              <div class="default-btn text-btn" v-if="index === dataForm.prodParameterList.length - 1"
+                @click="parameterInsert">{{ $t('shopProcess.add') }}</div>
             </div>
           </el-form-item>
           <el-form-item v-if="!dataForm.prodParameterList.length">
@@ -399,14 +306,11 @@
       <!-- v-if="dataForm.mold === 1" -->
       <div v-if="dataForm.mold === 1" class="edit-prod-content">
         <div class="prod-title-row">
-            <span>{{ $t("product.otherSettings") }}</span>
+          <span>{{ $t("product.otherSettings") }}</span>
         </div>
         <div class="other-settings prod-con">
           <!-- 核销次数 -->
-          <el-form-item
-            :label="this.$i18n.t('product.numberOfWriteOffs')"
-            class="options-box"
-          >
+          <el-form-item :label="this.$i18n.t('product.numberOfWriteOffs')" class="options-box">
             <!-- -1.多次核销 0.无需核销 1.单次核销 -->
             <el-radio-group v-model="dataForm.writeOffNum">
               <el-radio :label="0">{{ $t("product.noWriteOffRequired") }}</el-radio>
@@ -415,87 +319,57 @@
             </el-radio-group>
             <div class="el-form-item-tips">{{ $t("product.postProductTips10") }}</div>
           </el-form-item>
-          <el-form-item
-            v-if="dataForm.writeOffNum === -1"
-            :label="this.$i18n.t('product.expiryNumberOfWriteOffs')"
-            class="options-box expiry-date"
-            prop="writeOffEnd"
-          >
+          <el-form-item v-if="dataForm.writeOffNum === -1" :label="this.$i18n.t('product.expiryNumberOfWriteOffs')"
+            class="options-box expiry-date" prop="writeOffEnd">
             <el-radio-group v-model="writeOffMultipleCountSelect" @change="changeWriteOffMultipleCount">
-                <!-- 长期有效 -->
-                <el-radio :label="-1">{{$t("product.unlimitedTime")}}</el-radio>
-                <!-- N天内有效 -->
-                <el-radio :label="2">
-                  {{$t("product.mostWriteOffs")}}
-                  <input
-                    v-model="writeOffMultipleCount"
-                    type="number"
-                    class="native-input-style"
-                    :disabled="writeOffMultipleCountSelect === -1"
-                    :max="9999"
-                    :min="2"
-                    @change="changeWriteOffMultipleCountIn()"
-                  />
-                  {{$t("live.times")}}
-                </el-radio>
+              <!-- 长期有效 -->
+              <el-radio :label="-1">{{ $t("product.unlimitedTime") }}</el-radio>
+              <!-- N天内有效 -->
+              <el-radio :label="2">
+                {{ $t("product.mostWriteOffs") }}
+                <input v-model="writeOffMultipleCount" type="number" class="native-input-style"
+                  :disabled="writeOffMultipleCountSelect === -1" :max="9999" :min="2"
+                  @change="changeWriteOffMultipleCountIn()" />
+                {{ $t("live.times") }}
+              </el-radio>
             </el-radio-group>
           </el-form-item>
           <!-- writeOffTime核销有效期（选择“无需核销”，不需要选择核销有效期） -1.长期有效 0.自定义 1.当天 x.x天内 -->
-          <el-form-item
-            v-if="dataForm.writeOffNum !== 0"
-            :label="this.$i18n.t('product.expiryDate')"
-            class="options-box expiry-date"
-            prop="writeOffEnd"
-          >
+          <el-form-item v-if="dataForm.writeOffNum !== 0" :label="this.$i18n.t('product.expiryDate')"
+            class="options-box expiry-date" prop="writeOffEnd">
             <el-radio-group v-model="dataForm.writeOffTime" @change="changeWriteOffTime">
               <div class="radio-item">
                 <!-- 长期有效 -->
-                <el-radio :label="-1">{{$t("product.longTermValidity")}}</el-radio>
+                <el-radio :label="-1">{{ $t("product.longTermValidity") }}</el-radio>
               </div>
               <div class="radio-item">
                 <!-- 当天有效 -->
-                <el-radio :label="1">{{$t("product.validOnTheSameDay")}}<span class="weak-text">{{$t("product.beforeTime")}}</span></el-radio>
+                <el-radio :label="1">{{ $t("product.validOnTheSameDay") }}<span
+                    class="weak-text">{{ $t("product.beforeTime") }}</span></el-radio>
               </div>
               <div class="radio-item">
                 <!-- N天内有效 -->
                 <el-radio :label="2">
-                  {{$t("product.afterPurchase")}}
-                  <input
-                    v-model="validDays"
-                    type="number"
-                    class="native-input-style"
-                    :disabled="dataForm.writeOffTime !== 2"
-                    :max="9999"
-                    :min="2"
-                    @blur="getValidDays(validDays)"
-                  />
-                  {{$t("product.validDays")}}
+                  {{ $t("product.afterPurchase") }}
+                  <input v-model="validDays" type="number" class="native-input-style"
+                    :disabled="dataForm.writeOffTime !== 2" :max="9999" :min="2" @blur="getValidDays(validDays)" />
+                  {{ $t("product.validDays") }}
                 </el-radio>
               </div>
               <div class="radio-item date-picker">
                 <!-- 自定义（N 至 M 内有效） -->
                 <el-radio :label="0">
-                  {{$t("product.validFrom")}}
-                  <el-date-picker
-                    v-model="dataForm.writeOffStart"
-                    type="datetime"
-                    :placeholder="this.$i18n.t('product.startDate')"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    :picker-options="PickerOptions"
-                    :disabled="dataForm.writeOffTime !== 0"
-                    @change="changeDate(dataForm.writeOffStart, 0)"
-                  >
+                  {{ $t("product.validFrom") }}
+                  <el-date-picker v-model="dataForm.writeOffStart" type="datetime"
+                    :placeholder="this.$i18n.t('product.startDate')" value-format="yyyy-MM-dd HH:mm:ss"
+                    :picker-options="PickerOptions" :disabled="dataForm.writeOffTime !== 0"
+                    @change="changeDate(dataForm.writeOffStart, 0)">
                   </el-date-picker>
-                  {{$t("product.to")}}
-                  <el-date-picker
-                    v-model="dataForm.writeOffEnd"
-                    type="datetime"
-                    :placeholder="this.$i18n.t('product.endDate')"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    :picker-options="PickerOptions"
-                    :disabled="dataForm.writeOffTime !== 0"
-                    @change="changeDate(dataForm.writeOffStart, 1)"
-                  >
+                  {{ $t("product.to") }}
+                  <el-date-picker v-model="dataForm.writeOffEnd" type="datetime"
+                    :placeholder="this.$i18n.t('product.endDate')" value-format="yyyy-MM-dd HH:mm:ss"
+                    :picker-options="PickerOptions" :disabled="dataForm.writeOffTime !== 0"
+                    @change="changeDate(dataForm.writeOffStart, 1)">
                   </el-date-picker>
                   <span v-if="lang === 'zh_CN'">内有效</span>
                 </el-radio>
@@ -503,64 +377,47 @@
             </el-radio-group>
           </el-form-item>
           <!-- 用户留言 -->
-          <el-form-item
-            :label="this.$i18n.t('product.userMessage')"
-            class="user-message"
-          >
-            <divt
-              v-for="(item, index) in dataForm.virtualRemark"
-              class="msg-int-box" :key="index"
-            >
-              <input class="native-input-style" type="text" v-model="dataForm.virtualRemark[index].name" maxlength="10" @blur="changeMsgInput(item.name, index)" />
-              <el-checkbox v-model="item.isRequired" class="required-checkbox">{{$t("product.requiredField")}}</el-checkbox>
+          <el-form-item :label="this.$i18n.t('product.userMessage')" class="user-message">
+            <divt v-for="(item, index) in dataForm.virtualRemark" class="msg-int-box" :key="index">
+              <input class="native-input-style" type="text" v-model="dataForm.virtualRemark[index].name" maxlength="10"
+                @blur="changeMsgInput(item.name, index)" />
+              <el-checkbox v-model="item.isRequired"
+                class="required-checkbox">{{ $t("product.requiredField") }}</el-checkbox>
               <!--删除/添加-->
               <div class="create-refresh-btn">
-                <div class="default-btn text-btn"
-                          @click="deleteUserMessage(index)">{{$t('resource.Delete')}}</div>
+                <div class="default-btn text-btn" @click="deleteUserMessage(index)">{{ $t('resource.Delete') }}</div>
                 <!-- <el-divider direction="vertical"></el-divider> -->
                 <!-- <div class="default-btn text-btn"
                           @click.stop="addUserMessage()">{{$t('admin.add')}}</div> -->
               </div>
             </divt>
-            <div
-              v-if="dataForm.virtualRemark.length < 10"
-              class="add-field default-btn text-btn"
-              @click="addUserMessage()"
-            >
-              <i class="el-icon-plus"></i>{{$t("product.addField")}}
+            <div v-if="dataForm.virtualRemark.length < 10" class="add-field default-btn text-btn"
+              @click="addUserMessage()">
+              <i class="el-icon-plus"></i>{{ $t("product.addField") }}
             </div>
-            <div class="el-form-item-tips">{{$t('product.msgFieldTips')}}</div>
+            <div class="el-form-item-tips">{{ $t('product.msgFieldTips') }}</div>
           </el-form-item>
           <!-- 售后服务 -->
-          <el-form-item
-            :label="this.$i18n.t('product.afterSalesService')"
-            class="options-box"
-          >
+          <el-form-item :label="this.$i18n.t('product.afterSalesService')" class="options-box">
             <el-radio-group v-model="dataForm.isRefund">
-              <el-radio :label="1">{{$t('product.supportApplyRefund')}}</el-radio>
-              <el-radio :label="0">{{$t('product.doNotSupportApplyRefund')}}</el-radio>
+              <el-radio :label="1">{{ $t('product.supportApplyRefund') }}</el-radio>
+              <el-radio :label="0">{{ $t('product.doNotSupportApplyRefund') }}</el-radio>
             </el-radio-group>
-            <div v-if="dataForm.isRefund === 0" class="el-form-item-tips">{{$t('product.afterSalesServiceTips')}}</div>
+            <div v-if="dataForm.isRefund === 0" class="el-form-item-tips">{{ $t('product.afterSalesServiceTips') }}</div>
           </el-form-item>
         </div>
       </div>
     </el-form>
 
     <!-- 平台分类弹窗 -->
-    <category-select v-show="editPlatformCategoriesSelect" ref="categorySelect" @getCategorySelected="getCategorySelected"></category-select>
+    <category-select v-show="editPlatformCategoriesSelect" ref="categorySelect"
+      @getCategorySelected="getCategorySelected"></category-select>
     <!-- 选择品牌弹窗 -->
-    <BrandSelect
-      v-if="visibleBrandPopUp"
-      ref="selectBrand"
-      :categoryId="$store.state.prod.platProdCategory.firstCat.id"
-      :isSingle="true"
-      @refreshSelectBrand="refreshSelectBrand"
-    />
+    <BrandSelect v-if="visibleBrandPopUp" ref="selectBrand" :categoryId="$store.state.prod.platProdCategory.firstCat.id"
+      :isSingle="true" @refreshSelectBrand="refreshSelectBrand" />
     <!-- 新建运费模板 -->
-    <transportAddOrUpdate v-if="visibleTransportTemplate"
-                   ref="transportAddOrUpdate"
-                   @close="transportAddOrUpdateClose"
-                   @refreshTransportList="getTransportList" />
+    <transportAddOrUpdate v-if="visibleTransportTemplate" ref="transportAddOrUpdate" @close="transportAddOrUpdateClose"
+      @refreshTransportList="getTransportList" />
   </div>
 </template>
 
@@ -597,9 +454,13 @@ export default {
     storeCategoryName: {
       type: String,
       default: ''
+    },
+    categoryName:{
+      type:String,
+      default:''
     }
   },
-  data () {
+  data() {
     const validateTime = (rule, value, callback) => {
       // console.log(1)
       if (rule.field === 'preSellTime' && new Date() > Date.parse(value)) {
@@ -704,8 +565,7 @@ export default {
         ],
         deliveryAmount: [
           { required: true, message: this.$i18n.t('product.pleaseEnterTheAmount'), trigger: 'blur' }
-        ]
-
+        ],
       },
       // 控制平台分类选择下拉框
       editPlatformCategoriesSelect: false,
@@ -751,7 +611,7 @@ export default {
 
       // 限制日期
       PickerOptions: {
-        disabledDate (time) {
+        disabledDate(time) {
           var date = moment().add(-1, 'days').startOf('days')
           return (
             time.getTime() <= date.valueOf()
@@ -761,21 +621,21 @@ export default {
 
       // 语言列表
       langItemList: [],
-      masterLangInfo: {name: '', lang: ''},
+      masterLangInfo: { name: '', lang: '' },
       parentOptions: [],
       loading: false
     }
   },
 
   watch: {
-    curLang (newVal, oldVal) {
+    curLang(newVal, oldVal) {
       // useLang 0中文 1中英文
       const lang = newVal.includes(2) ? 1 : 0
       this.$set(this.dataForm, 'useLang', lang)
       this.$emit('updataProdDataForm', this.dataForm)
     },
     dataForm: {
-      handler (nv) {
+      handler(nv) {
         console.log(1111, nv)
         if (nv.writeOffNum) {
           // 核销次数 -1.多次核销 0.无需核销 1.单次核销
@@ -787,7 +647,7 @@ export default {
     }
   },
 
-  created () {
+  created() {
     const dataForm = Object.assign(this.dataForm, this.value)
     this.dataForm = dataForm
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
@@ -841,7 +701,7 @@ export default {
   },
 
   methods: {
-    getLangList () {
+    getLangList() {
       this.$http({
         url: this.$http.adornUrl('/sys/lang'),
         method: 'get',
@@ -904,16 +764,16 @@ export default {
     },
 
     // 重置sku-table表格
-    resetInit (skuList) {
+    resetInit(skuList) {
       setTimeout(() => {
         this.initSkuTable(skuList)
       }, 10)
     },
-    transportAddOrUpdateClose () {
+    transportAddOrUpdateClose() {
       this.visibleTransportTemplate = false
     },
 
-    freight (index) {
+    freight(index) {
       this.dataForm.deliveryAmount = this.dataForm.deliveryAmount < 0.00 ? 0.00 : null
     },
 
@@ -924,7 +784,7 @@ export default {
      * @param min 最小值
      * @param max 最大值
      */
-    handleInputValue (data, dataFields, min, max) {
+    handleInputValue(data, dataFields, min, max) {
       this.$set(this.dataForm, dataFields, this.checkInput(data))
       if (data || data === 0) {
         // 保留两位小数
@@ -940,7 +800,7 @@ export default {
     /**
      * 只允许输入正数和小数(保留小数点后两位)
      */
-    checkInput (num) {
+    checkInput(num) {
       if (num) {
         var tmpVal = String(num).replace(/[^\d^\\.]/g, '')
         var reg = /^(0|([1-9]\d*))(\.\d{1,2})?$/ // 最多允许后输入两位小数
@@ -960,7 +820,7 @@ export default {
     /**
      * 商品类型切换
      */
-    handleProdTpyeChange (val) {
+    handleProdTpyeChange(val) {
       // 活动商品则支持所有配送类型
       if (val === 5) {
         for (const key in this.dataForm.deliveryMode) {
@@ -974,18 +834,18 @@ export default {
     /**
      * 初始化sku表格
      */
-    initSkuTag (data) {
+    initSkuTag(data) {
       this.$nextTick(() => {
         this.$refs.skuTag.init(data)
       })
     },
-    initSkuTable (data) {
+    initSkuTable(data) {
       this.$nextTick(() => {
         this.$refs.skuTable.init(data)
       })
     },
 
-    selectShopCategory (event) {
+    selectShopCategory(event) {
       const shopCategory = this.shopCategoryList.find(item => item.categoryId === event)
       this.dataForm.shopCategoryId = event
       this.currentShopCategoryObj.firstCat.categoryName = shopCategory.categoryName
@@ -999,11 +859,11 @@ export default {
     /**
      * 获取分类信息
      */
-    getCategoryInfo () {
+    getCategoryInfo() {
       if (!this.dataForm.prodId) {
-              // 店铺分类
+        // 店铺分类
         this.currentShopCategoryObj = JSON.parse(JSON.stringify(this.$store.state.prod.storeProdCategory))
-      // console.log(this.currentShopCategoryObj.firstCat, 'currentShopCategoryObj.firstCat')
+        // console.log(this.currentShopCategoryObj.firstCat, 'currentShopCategoryObj.firstCat')
         this.shopCategoryList = this.$store.state.prod.storeProdCategory.firstCat.dataList
         return
       }
@@ -1024,7 +884,7 @@ export default {
     /**
      * 修改分类信息
      */
-    changeCategory (type) {
+    changeCategory(type) {
       if (type === 1 && this.dataForm.prodId) return
       switch (type) {
         case 1:
@@ -1063,7 +923,7 @@ export default {
     /**
      * 获取分类选择组件返回数据
      */
-    getCategorySelected (selectedCategories) {
+    getCategorySelected(selectedCategories) {
       if (selectedCategories.length === 1) {
         this.dataForm.categoryId = selectedCategories[0].id
         this.$store.commit('prod/updatePlatProdCategory',
@@ -1106,7 +966,7 @@ export default {
       this.$emit('changeCategory', 1)
     },
 
-    categorySelectChange (event, type) {
+    categorySelectChange(event, type) {
       if (!event) {
         switch (type) {
           case 1:
@@ -1124,14 +984,14 @@ export default {
     /**
      * 保存信息
      */
-    upadteProdInfo () {
+    upadteProdInfo() {
       this.$emit('updataProdDataForm', this.dataForm)
     },
 
     /**
      * 选择语言(主语言信息必填)
      */
-    selectLang (value) {
+    selectLang(value) {
       this.curLang = JSON.parse(JSON.stringify(value))
       if (!value.length) {
         this.curLang = [this.masterLangInfo.lang]
@@ -1149,7 +1009,7 @@ export default {
       this.curLang.forEach((item, index) => {
         if (!tempArr.find(f => f.lang == item)) {
           const fd = this.langItemList.find(it => it.lang === item)
-          tempArr.splice(index, 0, {langName: fd.name, brief: '', content: '', lang: item, prodId: this.dataForm.prodId, prodName: ''})
+          tempArr.splice(index, 0, { langName: fd.name, brief: '', content: '', lang: item, prodId: this.dataForm.prodId, prodName: '' })
         }
       })
       this.dataForm.prodLangList = tempArr
@@ -1161,7 +1021,7 @@ export default {
           if (flList && !flList.find(f => f.lang == langItem)) {
             const fd = this.langItemList.find(it => it.lang === langItem)
             if (fd) {
-              flList.splice(index, 0, {langName: fd.name, lang: langItem, parameterKey: '', parameterValue: '', prodParameterId: ''})
+              flList.splice(index, 0, { langName: fd.name, lang: langItem, parameterKey: '', parameterValue: '', prodParameterId: '' })
             }
           }
         })
@@ -1172,7 +1032,7 @@ export default {
     /**
      * 图片的值发生改变，重新校验该表单项
      */
-    imgsChange () {
+    imgsChange() {
       if (this.dataForm.imgs) {
         this.$refs.dataForm.validateField('imgs')
       }
@@ -1181,7 +1041,7 @@ export default {
     /**
      * 选择品牌
      */
-    selectBrand () {
+    selectBrand() {
       this.visibleBrandPopUp = true
       this.$nextTick(() => {
         this.$refs.selectBrand.init(null, this.dataForm.brandId)
@@ -1190,7 +1050,7 @@ export default {
     /**
      * 添加指定品牌
      */
-    refreshSelectBrand (brands) {
+    refreshSelectBrand(brands) {
       if (brands && brands.length) {
         this.$set(this.dataForm, 'brandId', brands[0].brandId)
         this.$set(this.dataForm, 'brandName', brands[0].brandName)
@@ -1199,7 +1059,7 @@ export default {
     /**
      * 删除已添加品牌
      */
-    deleteSelectedBrand () {
+    deleteSelectedBrand() {
       this.$set(this.dataForm, 'brandId', '')
       this.$set(this.dataForm, 'brandName', '')
     },
@@ -1207,7 +1067,7 @@ export default {
     /**
      * 处理商品排序输入框失焦
      */
-    handleSortValue () {
+    handleSortValue() {
       if (this.dataForm.seq > 32767) {
         this.$set(this.dataForm, 'seq', 32767)
         return
@@ -1220,7 +1080,7 @@ export default {
     /**
      * 规格
      */
-    skuTagChangeSkuHandler (skuList, skuTags, type) {
+    skuTagChangeSkuHandler(skuList, skuTags, type) {
       if (type === 5) {
         this.dataForm.skuList = skuList
         this.skuTags = skuTags
@@ -1253,18 +1113,18 @@ export default {
       this.dataForm.skuList = skuList
       this.skuTags = skuTags
     },
-    changeSkuImgHandler (propValue, img) {
+    changeSkuImgHandler(propValue, img) {
       this.$nextTick(() => {
         this.$refs.skuTable.changeSkuImg(propValue, img)
       })
     },
-    clearSkuImg () {
+    clearSkuImg() {
       this.$nextTick(() => {
         this.$refs.skuTable.clearSkuImg()
       })
     },
 
-    skuListHandler (skuList) {
+    skuListHandler(skuList) {
       console.log('skuListHandler---skuList', skuList)
       let temp = 0
       skuList.forEach(el => {
@@ -1278,7 +1138,7 @@ export default {
     /**
      * 获取店铺同城配送的配置
      */
-    getSameCityDetail () {
+    getSameCityDetail() {
       this.$http({
         url: this.$http.adornUrl(`/delivery/sameCity/getSameCityInfo`),
         method: 'get',
@@ -1293,7 +1153,7 @@ export default {
     /**
      * 运费模板
      */
-    getTransportList () {
+    getTransportList() {
       this.$http({
         url: this.$http.adornUrl('/shop/transport/list'),
         method: 'get',
@@ -1305,7 +1165,7 @@ export default {
     /**
      * 新建运费模板
      */
-    createTransportTemplate (id) {
+    createTransportTemplate(id) {
       this.visibleTransportTemplate = true
       this.$nextTick(() => {
         this.$refs.transportAddOrUpdate.init(id)
@@ -1315,7 +1175,7 @@ export default {
     /**
      * 虚拟商品 - 核销有效期
      */
-    changeWriteOffTime (value) {
+    changeWriteOffTime(value) {
       if (value !== 2) { this.validDays = '' }
       if (value !== 0 && this.dataForm.writeOffStart && this.dataForm.writeOffEnd) {
         this.dataForm.writeOffStart = null
@@ -1323,7 +1183,7 @@ export default {
       }
     },
 
-    changeWriteOffMultipleCount (value) {
+    changeWriteOffMultipleCount(value) {
       if (value === -1) {
         this.writeOffMultipleCount = ''
       } else {
@@ -1332,7 +1192,7 @@ export default {
     },
 
     // 自定义核销有效期天数
-    getValidDays (validDays) {
+    getValidDays(validDays) {
       const num = parseInt(validDays)
       this.validDays = num
       if (num > 9999) {
@@ -1344,14 +1204,14 @@ export default {
       this.$emit('changeWriteOffTime', this.validDays)
     },
 
-    changeWriteOffMultipleCountIn () {
+    changeWriteOffMultipleCountIn() {
       if (this.writeOffMultipleCount === '' || this.writeOffMultipleCount < 2) {
         this.writeOffMultipleCount = 2
       }
     },
 
     // 校验自定义核销有效期日期
-    changeDate (value, sts) {
+    changeDate(value, sts) {
       // 校验开始时间
       if (sts === 0) {
         if (Date.parse(this.dataForm.writeOffStart) >= Date.parse(this.dataForm.writeOffEnd)) {
@@ -1389,7 +1249,7 @@ export default {
     /**
      * 用户留言-添加字段
      */
-    addUserMessage () {
+    addUserMessage() {
       if (this.dataForm.virtualRemark.length >= 10) {
         this.$message({
           message: this.$i18n.t('product.msgMaxLength'),
@@ -1408,14 +1268,14 @@ export default {
     /**
      * 用户留言-删除字段
      */
-    deleteUserMessage (index) {
+    deleteUserMessage(index) {
       this.dataForm.virtualRemark.splice(index, 1)
     },
 
     /**
      * 留言输入框失焦校验
      */
-    changeMsgInput (name, index) {
+    changeMsgInput(name, index) {
       // console.log(name)
       this.$set(this.dataForm.virtualRemark[index], 'name', name.trim())
 
@@ -1433,10 +1293,10 @@ export default {
       //   this.$set(this.dataForm.virtualRemark[index], 'name', name.trim())
       // }
     },
-        /**
-     * 错误提示框
-     */
-    errorMsg (message) {
+    /**
+ * 错误提示框
+ */
+    errorMsg(message) {
       this.$message({
         message: message,
         type: 'error',
@@ -1447,7 +1307,7 @@ export default {
     /**
      * 表单验证
      */
-    dataFormValidation () {
+    dataFormValidation() {
       // 获取sku-table的最新数据
       this.dataForm.skuList = this.$refs.skuTable.getDataList()
       // const prodNameCn = this.dataForm.prodNameCn
@@ -1581,7 +1441,7 @@ export default {
     },
 
     /** 添加参数 */
-    parameterInsert () {
+    parameterInsert() {
       const prodParameterLangList = []
       for (const item of this.curLang) {
         const fd = this.langItemList.find(it => it.lang === item)
@@ -1601,10 +1461,10 @@ export default {
         prodParameterLangList
       })
     },
-    parameterDeltete (index) {
+    parameterDeltete(index) {
       this.dataForm.prodParameterList.splice(index, 1)
     },
-    validParameter () {
+    validParameter() {
       const data = this.dataForm.prodParameterList
       for (let i = data.length - 1; i >= 0; i--) {
         let emptyNum = 0
@@ -1653,20 +1513,24 @@ export default {
 <style lang="scss" scoped>
 .posting-edit-product {
   .edit-prod-content {
+
     /***** 公共样式 *****/
-    & >>> .el-input__inner {
+    &>>>.el-input__inner {
       border-radius: 2px;
     }
+
     // .prod-con {
     //   padding: 10px 30px;
     // }
 
-    .ca-warning{
+    .ca-warning {
       height: 2em;
     }
+
     .weak-text {
       color: #999;
     }
+
     .el-form-item-tips {
       font-size: 12px;
       color: #999;
@@ -1674,11 +1538,13 @@ export default {
       padding-top: 8px;
       padding-bottom: 5px;
     }
+
     .options-box {
       .el-form-item-tips {
         line-height: 1.5em;
       }
     }
+
     // 输入框样式
     .native-input-style {
       height: 32px;
@@ -1688,33 +1554,40 @@ export default {
       padding: 0 5px;
       color: #333;
       box-sizing: border-box;
+
       &:focus {
         outline: 0;
         border-radius: 2px;
       }
     }
+
     // 刷新 | 新建
     .create-refresh-btn {
       display: inline-block;
       margin-left: 10px;
-      & >>> .el-divider--vertical {
+
+      &>>>.el-divider--vertical {
         margin: 0 2px;
       }
     }
 
     /***** 基本信息 *****/
     .basic-info-content {
+
       // 表单错误提示
-      & >>> .el-form-item {
+      &>>>.el-form-item {
         margin-bottom: 22px;
       }
+
       // 已选分类
       .selected-category {
-        & >>> .el-form-item__content {
+        &>>>.el-form-item__content {
           line-height: 1em;
         }
+
         .category-sel {
           display: inline-block;
+
           .category-con {
             display: flex;
             align-items: center;
@@ -1725,52 +1598,63 @@ export default {
             padding: 0 10px;
             font-size: 14px;
             border-radius: 2px;
+
             .update-btn {
               margin-left: 10px;
             }
+
             .cur-sel {
               margin-right: 5px;
             }
           }
+
           .category-con:not(:first-child) {
             margin-top: 10px;
           }
+
           .category-select {
             min-width: 400px;
             width: auto;
             margin-top: 10px;
           }
+
           // .el-form-item-tips {
           //   margin-top: 10px;
           // }
         }
       }
+
       // 选择语言
       .select-lang {
         display: block;
         width: 400px;
       }
+
       .select-parent {
         width: 400px;
       }
+
       // 商品名称
       .prod-name-box {
-        & >>> .el-input__inner {
+        &>>>.el-input__inner {
           width: 400px;
-          padding: 0 8px!important;
+          padding: 0 8px !important;
         }
+
         .prod-name-con {
           display: inline-block;
           margin-right: 15px;
         }
       }
+
       // 商品图片
       .prod-img-box {
-        & >>> img {
+        &>>>img {
           vertical-align: top;
         }
-        & >>> .el-upload-list__item,
-        & >>> .el-upload--picture-card {
+
+        &>>>.el-upload-list__item,
+        &>>>.el-upload--picture-card {
           width: 80px;
           height: 80px;
           line-height: 82px;
@@ -1779,19 +1663,22 @@ export default {
           border-color: #DCDCDC;
           box-sizing: border-box;
           background: #fff;
+
           .el-icon-plus::before {
             font-size: 24px;
             color: #999;
           }
         }
+
         .el-form-item-tips {
           line-height: 1em;
           padding-top: 0;
         }
       }
+
       // 商品视频
       .prod-video-box {
-        & >>> .plugin-video {
+        &>>>.plugin-video {
           .el-upload {
             width: 80px;
             min-width: auto;
@@ -1799,22 +1686,26 @@ export default {
             min-height: auto;
             border: 1px solid #DCDCDC;
             border-radius: 2px;
+
             .el-icon-plus::before {
               font-size: 24px;
               color: #999;
             }
+
             .video {
               width: 100%;
             }
           }
         }
+
         // .el-form-item-tips {
         //   line-height: 1em;
         //   margin-bottom: 5px;
         // }
       }
+
       .prod-video-box2 {
-        & >>> .plugin-video {
+        &>>>.plugin-video {
           .el-upload {
             width: auto;
             min-width: 80px;
@@ -1824,21 +1715,25 @@ export default {
             max-height: 250px;
             border: 1px solid #DCDCDC;
             border-radius: 2px;
+
             .el-icon-plus::before {
               font-size: 24px;
               color: #999;
             }
+
             .video {
               width: 100%;
             }
           }
         }
       }
+
       // 商品品牌 + 商品排序
       .prod-brand-sort {
         display: flex;
         align-items: center;
         justify-content: flex-start;
+
         // 品牌
         .select-prod-brand {
           display: flex;
@@ -1850,28 +1745,33 @@ export default {
           border-radius: 2px;
           padding: 0 10px;
           margin-right: 20px;
+
           .brand {
             margin-right: 20px;
+
             .brand-name {
               display: inline-block;
               max-width: 400px;
               overflow: hidden;
-              text-overflow:ellipsis;
+              text-overflow: ellipsis;
               white-space: nowrap;
               vertical-align: middle;
             }
+
             .del-brand {
               color: #155bd4;
               vertical-align: middle;
             }
+
             .del-brand:hover {
               cursor: pointer;
             }
           }
         }
+
         // 排序
         .select-prod-sort {
-          & >>> input {
+          &>>>input {
             width: 100px;
             height: 32px;
             line-height: 32px;
@@ -1881,6 +1781,7 @@ export default {
             padding-right: 0;
             color: #333;
             box-sizing: border-box;
+
             &:focus {
               outline: 0;
               border-radius: 2px;
@@ -1908,16 +1809,18 @@ export default {
 
     /***** 运费设置 *****/
     .shipping-setup {
-      & >>> .el-select {
+      &>>>.el-select {
         width: 280px;
         box-sizing: border-box;
       }
     }
+
     /**参数设置 */
     .params-box {
       .btn-box {
         display: flex;
         align-items: center;
+
         .line {
           display: inline-block;
           width: 1px;
@@ -1926,58 +1829,71 @@ export default {
           margin: 0 5px;
         }
       }
+
       .input {
         width: 270px;
         margin-right: 20px;
-        & >>> .el-input-group__prepend {
+
+        &>>>.el-input-group__prepend {
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
           padding: 0 18px;
         }
       }
+
       .params-tips {
         font-size: 12px;
         color: #999999;
       }
-      .default-btn+.default-btn{
+
+      .default-btn+.default-btn {
         margin-left: 0;
       }
     }
 
     /***** 其他设置 *****/
     .other-settings {
+
       // 有效期
       .expiry-date {
-        & >>> .el-radio__label {
+        &>>>.el-radio__label {
           color: #333;
         }
+
         .radio-item {
           display: block;
           height: 32px;
           line-height: 32px;
+
           .el-radio {
             display: inline-block;
             vertical-align: middle;
           }
         }
+
         .radio-item.date-picker {
           margin-top: 10px;
-          & >>> .el-date-editor.el-input {
+
+          &>>>.el-date-editor.el-input {
             width: 160px;
           }
-          & >>> .el-date-editor .el-input__inner {
+
+          &>>>.el-date-editor .el-input__inner {
             padding-left: 10px !important;
             height: 30px;
             line-height: 30px;
             border-radius: 2px;
           }
-          & >>> .el-input.is-disabled .el-input__inner {
+
+          &>>>.el-input.is-disabled .el-input__inner {
             background: #fafafa;
           }
-          & >>> .el-input__icon {
+
+          &>>>.el-input__icon {
             display: none;
           }
         }
+
         .native-input-style {
           width: 70px;
           height: 28px;
@@ -1986,20 +1902,25 @@ export default {
           padding-right: 0;
         }
       }
+
       // 用户留言
       .user-message {
+
         .msg-int-box:not(:last-child),
         .msg-int-box:not(:first-child) {
           margin-bottom: 10px;
         }
+
         .required-checkbox {
           margin-left: 15px;
           margin-right: 5px;
         }
+
         .native-input-style {
           width: 280px;
           padding: 0 10px;
         }
+
         .el-form-item-tips {
           line-height: 1.5em;
         }
@@ -2007,19 +1928,22 @@ export default {
     }
 
   }
-  .freight{
+
+  .freight {
     width: 175px;
   }
-  .disable{
+
+  .disable {
     color: #999 !important;
   }
 }
- .shop-input {
+
+.shop-input {
   width: 308px;
 }
 </style>
 <style scoped>
-.posting-edit-product /deep/ .el-form-item__label{
+.posting-edit-product /deep/ .el-form-item__label {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   -webkit-text-overflow: ellipsis;
