@@ -59,7 +59,7 @@
           </el-form-item>
           <!-- 选择团长 -->
           <el-form-item label="团长" prop="multiDistributionUserIds" :required="platCategoryName == categoryName ? true : false"
-            :rules="platCategoryName == categoryName ? { require: true, message: '请选择团长', trigger: 'blur' } : ''">
+            :rules="platCategoryName == categoryName ? {type:'array', required: true, message: '请选择团长', trigger: 'change'} : ''">
             <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple
               placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
               <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -565,7 +565,7 @@ export default {
         ],
         deliveryAmount: [
           { required: true, message: this.$i18n.t('product.pleaseEnterTheAmount'), trigger: 'blur' }
-        ],
+        ], 
       },
       // 控制平台分类选择下拉框
       editPlatformCategoriesSelect: false,
@@ -852,8 +852,10 @@ export default {
       this.$store.commit('prod/updateStoreProdCategory',
         { storeProdCategory: JSON.parse(JSON.stringify(this.currentShopCategoryObj)), selectUpdate: true }
       )
+    
       // 发送店铺分类变化事件,通知父组件改变分类id与分类名称
       this.$emit('changeCategory', 2)
+      
     },
 
     /**
@@ -924,6 +926,7 @@ export default {
      * 获取分类选择组件返回数据
      */
     getCategorySelected(selectedCategories) {
+      this.dataForm.multiDistributionUserIds=[]
       if (selectedCategories.length === 1) {
         this.dataForm.categoryId = selectedCategories[0].id
         this.$store.commit('prod/updatePlatProdCategory',
