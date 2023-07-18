@@ -109,8 +109,8 @@ export default {
         prodLangList: [],
         brandName: '',
         deliveryMode: {
-          hasShopDelivery: false,
-          hasUserPickUp: false,
+          hasShopDelivery: true,
+          hasUserPickUp: true,
           hasCityDelivery: false
         },
         // 运费模板id

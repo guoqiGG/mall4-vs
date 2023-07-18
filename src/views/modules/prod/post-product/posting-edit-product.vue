@@ -504,8 +504,8 @@ export default {
         prodLangList: [],
         brandName: '',
         deliveryMode: {
-          hasShopDelivery: false,
-          hasUserPickUp: false,
+          hasShopDelivery: true,
+          hasUserPickUp: true,
           hasCityDelivery: false
         },
         deliveryAmount: 0.00, // 统一运费的金额
