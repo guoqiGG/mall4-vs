@@ -58,9 +58,10 @@
             <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
           </el-form-item>
           <!-- 选择团长 -->
-          <el-form-item label="团长" prop="multiDistributionUserIds" :required="platCategoryName == categoryName ? true : false"
-            :rules="platCategoryName == categoryName ? {type:'array', required: true, message: '请选择团长', trigger: 'change'} : ''">
-            <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple
+          <el-form-item label="团长" prop="multiDistributionUserIds"
+            :required="platCategoryName == categoryName ? true : false"
+            :rules="platCategoryName == categoryName ? { type: 'array', required: true, message: '请选择团长', trigger: 'change' } : ''">
+            <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple :disabled="platCategoryName !== categoryName"
               placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
               <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -140,7 +141,8 @@
               :content="this.$i18n.t('product.postProductTips22')" placement="top">
               <el-radio-group :disabled="dataForm.prodId && dataForm.prodId !== ''" v-model="dataForm.prodType"
                 @change="handleProdTpyeChange">
-                <el-radio :label="dataForm.prodType > 0 && dataForm.prodType !== 5 ? dataForm.prodType : 0">{{ $t("publics.no")
+                <el-radio :label="dataForm.prodType > 0 && dataForm.prodType !== 5 ? dataForm.prodType : 0">{{
+                  $t("publics.no")
                 }}</el-radio>
                 <el-radio :label="5">{{ $t("publics.yes") }}</el-radio>
               </el-radio-group>
@@ -155,6 +157,41 @@
               <el-radio :label="1">{{ $t("groups.turnOn") }}</el-radio>
             </el-radio-group>
           </el-form-item>
+          <!-- 下单送优惠券 -->
+          <div class="prod-brand-sort">
+            <el-form-item label="下单送优惠券">
+              <el-select v-model="dataForm.couponInfos[0].giftId" placeholder="请选择" filterable clearable
+                :disabled="this.$store.state.user.shopId !== 1">
+                <el-option v-for="item in couponsDataList" :key="item.couponId" :label="item.couponName"
+                  :value="item.couponId"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="数量" :label-width="lang === 'en' ? '110px' : '70px'">
+              <div class="select-prod-sort">
+                <el-input v-model="dataForm.couponInfos[0].number" type="number" :max="99999" :min="0" :step="1"
+                  :disabled="this.$store.state.user.shopId !== 1" @keyup=" 
+                    dataForm.seq = String(dataForm.seq).match(/[^0-9]/) ? 0 : dataForm.seq
+                    " @blur="handleSortValue" />
+              </div>
+            </el-form-item>
+          </div>
+          <!-- 下单送优惠券 -->
+          <div class="prod-brand-sort">
+            <el-form-item label="下单送礼品券">
+              <el-select v-model="dataForm.skuGiftInfos[0].giftId" placeholder="请选择" filterable clearable
+                :disabled="this.$store.state.user.shopId !== 1">
+                <el-option v-for="item in giftsDataList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="数量" :label-width="lang === 'en' ? '110px' : '70px'">
+              <div class="select-prod-sort">
+                <el-input v-model="dataForm.skuGiftInfos[0].number" type="number" :max="99999" :min="0" :step="1"
+                  :disabled="this.$store.state.user.shopId !== 1" @keyup="
+                    dataForm.seq = String(dataForm.seq).match(/[^0-9]/) ? 0 : dataForm.seq
+                    " @blur="handleSortValue" />
+              </div>
+            </el-form-item>
+          </div>
           <!-- 预售发货时间 -->
           <el-form-item v-if="dataForm.preSellStatus === 1 && dataForm.prodType !== 5"
             :label="this.$i18n.t('product.preSaleTime')" prop="preSellTime">
@@ -201,14 +238,16 @@
           <!-- 配送方式 -->
           <el-form-item :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
             :label="this.$i18n.t('order.delType')" class="options-box" prop="deliveryMode">
-            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery" :disabled="this.$store.state.user.shopId !== 1">{{
-              $t("product.ExpressDistribution")
-            }}</el-checkbox>
+            <el-checkbox v-model="dataForm.deliveryMode.hasShopDelivery"
+              :disabled="this.$store.state.user.shopId !== 1">{{
+                $t("product.ExpressDistribution")
+              }}</el-checkbox>
             <el-checkbox v-model="dataForm.deliveryMode.hasUserPickUp" class="delType-text">{{
               $t("product.userMention")
             }}</el-checkbox>
             <el-checkbox v-model="dataForm.deliveryMode.hasCityDelivery"
-              :disabled="(sameCityStatus === 1 && this.$store.state.user.shopId !== 1) ? '' : 'disabled'" class="delType-text">{{
+              :disabled="(sameCityStatus === 1 && this.$store.state.user.shopId !== 1) ? '' : 'disabled'"
+              class="delType-text">{{
                 $t("order.sameCityDelivery") }}</el-checkbox>
             <!-- <div class="el-form-item-tips">“用户自提”和“同城配送”需在配送管理设置后才能生效</div> -->
             <div class="el-form-item-tips">{{ $t("product.postProductTips8") }}</div>
@@ -217,7 +256,8 @@
           <el-form-item :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
             :label="this.$i18n.t('product.shippinngs')">
             <el-radio v-model="dataForm.tableRate" :label="0" disabled>{{ $t('product.freeShipping') }}</el-radio>
-            <el-radio @change="freight" v-model="dataForm.tableRate" :label="-1">{{ $t('product.fixedFreight') }}</el-radio>
+            <el-radio @change="freight" v-model="dataForm.tableRate" :label="-1">{{ $t('product.fixedFreight')
+            }}</el-radio>
             <el-radio v-model="dataForm.tableRate" :label="1" disabled>{{ $t('product.freTempl') }}</el-radio>
           </el-form-item>
 
@@ -247,7 +287,8 @@
             </div>
             <div class="el-form-item-tips">{{ $t("product.postProductTips9") }}</div>
           </el-form-item>
-          <el-form-item v-if="dataForm.tableRate === -1" :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
+          <el-form-item v-if="dataForm.tableRate === -1"
+            :label-width="this.$i18n.t('language') == 'English' ? '180px' : ''"
             :label="this.$i18n.t('product.fixedFreight')" prop="deliveryAmount">
             <div class="freight">
               <el-input type="number" :min="0.00" v-model="dataForm.deliveryAmount"
@@ -344,8 +385,8 @@
               </div>
               <div class="radio-item">
                 <!-- 当天有效 -->
-                <el-radio :label="1">{{ $t("product.validOnTheSameDay") }}<span
-                    class="weak-text">{{ $t("product.beforeTime") }}</span></el-radio>
+                <el-radio :label="1">{{ $t("product.validOnTheSameDay") }}<span class="weak-text">{{
+                  $t("product.beforeTime") }}</span></el-radio>
               </div>
               <div class="radio-item">
                 <!-- N天内有效 -->
@@ -381,8 +422,8 @@
             <divt v-for="(item, index) in dataForm.virtualRemark" class="msg-int-box" :key="index">
               <input class="native-input-style" type="text" v-model="dataForm.virtualRemark[index].name" maxlength="10"
                 @blur="changeMsgInput(item.name, index)" />
-              <el-checkbox v-model="item.isRequired"
-                class="required-checkbox">{{ $t("product.requiredField") }}</el-checkbox>
+              <el-checkbox v-model="item.isRequired" class="required-checkbox">{{ $t("product.requiredField")
+              }}</el-checkbox>
               <!--删除/添加-->
               <div class="create-refresh-btn">
                 <div class="default-btn text-btn" @click="deleteUserMessage(index)">{{ $t('resource.Delete') }}</div>
@@ -455,9 +496,9 @@ export default {
       type: String,
       default: ''
     },
-    categoryName:{
-      type:String,
-      default:''
+    categoryName: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -496,6 +537,16 @@ export default {
         // isCompose: 0,
         preSellStatus: 0,
         preSellTime: null,
+        couponInfos: [{
+          giftId: null,
+          number: 0
+        }
+        ],
+        skuGiftInfos: [{
+          giftId: [],
+          number: 0
+        }
+        ],
         prodId: 0,
         brandId: 0,
         skuList: [],
@@ -565,7 +616,7 @@ export default {
         ],
         deliveryAmount: [
           { required: true, message: this.$i18n.t('product.pleaseEnterTheAmount'), trigger: 'blur' }
-        ], 
+        ],
       },
       // 控制平台分类选择下拉框
       editPlatformCategoriesSelect: false,
@@ -623,7 +674,9 @@ export default {
       langItemList: [],
       masterLangInfo: { name: '', lang: '' },
       parentOptions: [],
-      loading: false
+      loading: false,
+      couponsDataList: [], // 优惠券列表
+      giftsDataList: [], // 礼品券列表
     }
   },
 
@@ -636,7 +689,6 @@ export default {
     },
     dataForm: {
       handler(nv) {
-        console.log(1111, nv)
         if (nv.writeOffNum) {
           // 核销次数 -1.多次核销 0.无需核销 1.单次核销
           // this.validDays = 2
@@ -648,6 +700,7 @@ export default {
   },
 
   created() {
+    console.log('店铺ID',this.$store.state.user.shopId);
     const dataForm = Object.assign(this.dataForm, this.value)
     this.dataForm = dataForm
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
@@ -698,6 +751,10 @@ export default {
     if (this.dataForm.multiDistributionUserIds || dataForm.multiDistributionUserIds) {
       this.remoteMethod()
     }
+    // 获取优惠券列表
+    this.getCouponsDataList()
+    // 获取礼品券列表
+    this.getGiftsDataList()
   },
 
   methods: {
@@ -707,7 +764,7 @@ export default {
         method: 'get',
         params: this.$http.adornParams()
       }).then(({ data }) => {
-        console.log('初始化国际化配置', data)
+        // console.log('初始化国际化配置', data)
         if (data) {
           const info = data
           this.masterLangInfo.name = info.name
@@ -852,10 +909,10 @@ export default {
       this.$store.commit('prod/updateStoreProdCategory',
         { storeProdCategory: JSON.parse(JSON.stringify(this.currentShopCategoryObj)), selectUpdate: true }
       )
-    
+
       // 发送店铺分类变化事件,通知父组件改变分类id与分类名称
       this.$emit('changeCategory', 2)
-      
+
     },
 
     /**
@@ -926,7 +983,7 @@ export default {
      * 获取分类选择组件返回数据
      */
     getCategorySelected(selectedCategories) {
-      this.dataForm.multiDistributionUserIds=[]
+      this.dataForm.multiDistributionUserIds = []
       if (selectedCategories.length === 1) {
         this.dataForm.categoryId = selectedCategories[0].id
         this.$store.commit('prod/updatePlatProdCategory',
@@ -1004,7 +1061,7 @@ export default {
       if (!this.curLang.includes(this.masterLangInfo.lang)) {
         this.curLang.unshift(this.masterLangInfo.lang)
       }
-      console.log('当前的curLang', this.curLang)
+      // console.log('当前的curLang', this.curLang)
 
       // 所选语言改变
       const tempArr = this.dataForm.prodLangList.filter(item => this.curLang.includes(item.lang))
@@ -1128,7 +1185,7 @@ export default {
     },
 
     skuListHandler(skuList) {
-      console.log('skuListHandler---skuList', skuList)
+      // console.log('skuListHandler---skuList', skuList)
       let temp = 0
       skuList.forEach(el => {
         let stock = parseInt(el.stocks)
@@ -1507,8 +1564,33 @@ export default {
         }))
         this.loading = false
       })
-    }, 300)
-
+    }, 300),
+    // 优惠券列表
+    getCouponsDataList() {
+      this.$http({
+        url: this.$http.adornUrl('/admin/coupon/page'),
+        method: 'get',
+        params: this.$http.adornParams(
+          { current: 1, size: 10000, shopId: 0, overdueStatus: 1, putonStatus: 1 }
+        )
+      }).then(({ data }) => {
+        // console.log('优惠券列表', data);
+        this.couponsDataList = data.records
+      })
+    },
+    // 礼品券列表
+    getGiftsDataList() {
+      this.$http({
+        url: this.$http.adornUrl2('/platform/search/prod/get/list'),
+        method: 'get',
+        params: this.$http.adornParams(
+          { current: 1, size: 10000 }
+        )
+      }).then(({ data }) => {
+        // console.log('礼品券列表',data)
+        this.giftsDataList = data.records
+      })
+    }
   }
 }
 </script>
@@ -1958,5 +2040,4 @@ export default {
   overflow: hidden;
   line-height: 20px;
   padding-top: 6px;
-}
-</style>
+}</style>

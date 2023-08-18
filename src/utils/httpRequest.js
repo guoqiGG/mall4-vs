@@ -137,11 +137,18 @@ http.interceptors.response.use(
 );
 
 /**
- * 请求地址处理
+ * 请求地址处理 8087
  * @param {*} actionName action方法名称
  */
 http.adornUrl = (actionName) => {
   return process.env.VUE_APP_BASE_API + actionName;
+};
+/**
+ * 请求地址处理  8088
+ * @param {*} actionName action方法名称
+ */
+http.adornUrl2 = (actionName) => {
+  return process.env.VUE_APP_BASE_API2 + actionName;
 };
 
 /**

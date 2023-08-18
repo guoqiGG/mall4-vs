@@ -1,18 +1,18 @@
 <template>
-<!-- 发布商品页面 -->
+  <!-- 发布商品页面 -->
   <div class="post-product-page">
     <div class="prod-main-containers">
       <!-- 步骤 -->
       <div class="post-step">
-        <div class="step-item" :class="{'active': postingSteps === 1 || postingSteps === 2 || postingSteps === 3}">
+        <div class="step-item" :class="{ 'active': postingSteps === 1 || postingSteps === 2 || postingSteps === 3 }">
           <!-- 01、选择商品类目 -->
           <div class="step-txt">01、{{ $t("product.selectProductCategory") }}</div>
         </div>
-        <div class="step-item" :class="{'active': postingSteps === 2 || postingSteps === 3}">
+        <div class="step-item" :class="{ 'active': postingSteps === 2 || postingSteps === 3 }">
           <!-- 02、编辑商品信息 -->
           <div class="step-txt">02、{{ $t("product.editProductInfo") }}</div>
         </div>
-        <div class="step-item" :class="{'active': postingSteps === 3}">
+        <div class="step-item" :class="{ 'active': postingSteps === 3 }">
           <!-- 03、编辑商品详情 -->
           <div class="step-txt">03、{{ $t("product.editProductDetails") }}</div>
         </div>
@@ -22,34 +22,20 @@
       <div class="prod-content">
         <!-- 01、选择商品类目 -->
         <div v-if="postingSteps === 1 || postingSteps === 2" v-show="postingSteps === 1" class="prod-content-item">
-          <selectCategory
-            v-model="dataForm"
-            @selectedCategoryName="selectedCategoryName"
-            @refreshDataForm="getDataList"
-          />
+          <selectCategory v-model="dataForm" @selectedCategoryName="selectedCategoryName"
+            @refreshDataForm="getDataList" />
         </div>
 
         <!-- 02、编辑商品信息 -->
         <div v-if="postingSteps === 2" class="prod-content-item">
-          <editProduct
-            ref="editProduct"
-            v-model="dataForm"
-            :isCompose="isCompose"
-            :platCategoryName="platCategoryName"
-            :storeCategoryName="storeCategoryName"
-            :categoryName="categoryName"
-            @changeCategory="changeCategory"
-            @updataProdDataForm="updataProdDataForm"
-            @changeWriteOffTime="changeWriteOffTime"
-          />
+          <editProduct ref="editProduct" v-model="dataForm" :isCompose="isCompose" :platCategoryName="platCategoryName"
+            :storeCategoryName="storeCategoryName" :categoryName="categoryName" @changeCategory="changeCategory"
+            @updataProdDataForm="updataProdDataForm" @changeWriteOffTime="changeWriteOffTime" />
         </div>
 
         <!-- 03、编辑商品详情 -->
         <div v-if="postingSteps === 3" class="prod-content-item">
-          <productDetails
-            v-model="dataForm"
-            @updateContent="updateContent"
-          />
+          <productDetails v-model="dataForm" @updateContent="updateContent" />
         </div>
       </div>
     </div>
@@ -58,7 +44,8 @@
     <div class="prod-footer">
       <div class="foot">
         <div class="inner">
-          <div v-if="postingSteps === 1" class="default-btn primary-btn" @click="nextStep">{{ $t("product.nextStep1") }}</div>
+          <div v-if="postingSteps === 1" class="default-btn primary-btn" @click="nextStep">{{ $t("product.nextStep1") }}
+          </div>
           <div v-if="postingSteps === 2">
             <div class="default-btn" v-if="!dataForm.prodId" @click="prevStep">{{ $t("product.prevStep") }}</div>
             <div class="default-btn save-btn" @click="saveStep">{{ $t("product.saveBtn1") }}</div>
@@ -86,7 +73,7 @@ export default {
     editProduct,
     productDetails
   },
-  data () {
+  data() {
     return {
       // 发布步骤：1选择商品类目 2编辑商品信息 3编辑商品详情
       postingSteps: null,
@@ -120,7 +107,17 @@ export default {
         // 库存总和
         totalStocks: 0,
 
-        useLang: 0 // 0中文 1中英文
+        useLang: 0, // 0中文 1中英文
+        couponInfos: [{
+          giftId: null,
+          number: 0
+        }
+        ],
+        skuGiftInfos: [{
+          giftId: [],
+          number: 0
+        }
+        ],
       },
 
       // 平台选定分类名称
@@ -144,22 +141,22 @@ export default {
       // 规格列表
       specList: [],
       // 自提点名称
-      categoryName:''
+      categoryName: ''
     }
   },
 
-  provide () {
+  provide() {
     return {
       noshopCategoryId: this.noshopCategoryId
     }
   },
 
   watch: {
-    isCompose (val) {
+    isCompose(val) {
     }
   },
 
-  mounted () {
+  mounted() {
     this.dataForm.prodId = this.$route.query.prodId
     this.page = this.$route.query.page ? JSON.parse(this.$route.query.page) : this.page
     if (!this.dataForm.prodId) {
@@ -175,18 +172,18 @@ export default {
 
   methods: {
     // 获取设置的自提点区分类名称
-    getPickAreaCategoryName(){
+    getPickAreaCategoryName() {
       this.$http({
-        url:this.$http.adornUrl('/prod/category/stationName'),
-        method:"get"
-      }).then(({data})=>{
-        this.categoryName=data.categoryName
+        url: this.$http.adornUrl('/prod/category/stationName'),
+        method: "get"
+      }).then(({ data }) => {
+        this.categoryName = data.categoryName
       })
     },
     /**
      * 获取产品详情数据
      */
-    getDataList () {
+    getDataList() {
       if (this.dataForm.prodId) {
         this.$http({
           url: this.$http.adornUrl(`/prod/prod/info/${this.dataForm.prodId}`),
@@ -194,6 +191,19 @@ export default {
           params: this.$http.adornParams()
         }).then(({ data }) => {
           console.log('商品详情信息', data)
+          let couponInfos = [{
+            id: data.couponInfos[0].id,
+            giftId: data.couponInfos[0].giftId,
+            number: data.couponInfos[0].number,
+          }]
+          let skuGiftInfos = [{
+            id: data.skuGiftInfos[0].id,
+            giftId: data.skuGiftInfos[0].giftId,
+            number: data.skuGiftInfos[0].number,
+          }]
+          data.couponInfos = couponInfos
+          data.skuGiftInfos = skuGiftInfos
+
           this.dataForm = data
           // this.dataForm.prodLangList.forEach(prodLang => {
           //   if (prodLang.lang === 0) {
@@ -262,7 +272,7 @@ export default {
       }
     },
     // 获取规格列表
-    getSpecList () {
+    getSpecList() {
       this.$http({
         url: this.$http.adornUrl('/sys/lang'),
         method: 'get',
@@ -297,7 +307,7 @@ export default {
     /**
      * 子组件更新数据
      */
-    updataProdDataForm (value) {
+    updataProdDataForm(value) {
       const dataForm = Object.assign(this.dataForm, value)
       this.dataForm = dataForm
     },
@@ -305,7 +315,7 @@ export default {
     /**
      * 获取选定的分类名称
      */
-    selectedCategoryName (categoryName, categoryType) {
+    selectedCategoryName(categoryName, categoryType) {
       if (categoryType === 'platform') {
         this.platCategoryName = categoryName
       }
@@ -317,7 +327,7 @@ export default {
     /**
      * 修改分类
      */
-    changeCategory (type) {
+    changeCategory(type) {
       if (type === 1) {
         const platProdCategory = this.$store.state.prod.platProdCategory
         this.platCategoryName = `${platProdCategory.firstCat.categoryName}${platProdCategory.secondCat?.categoryName ? ` > ${platProdCategory.secondCat.categoryName}` : ''}${platProdCategory.threeCat?.categoryName ? ` > ${platProdCategory.threeCat.categoryName}` : ''}`
@@ -329,21 +339,21 @@ export default {
       }
     },
 
-    noshopCategoryId () {
+    noshopCategoryId() {
       this.dataForm.shopCategoryId = ''
     },
 
     /**
      * 虚拟商品-获取自定义核销有效天数
      */
-    changeWriteOffTime (validDays) {
+    changeWriteOffTime(validDays) {
       this.validDays = validDays
     },
 
     /**
      * 获取详情
      */
-    updateContent (list) {
+    updateContent(list) {
       list.forEach((item, index) => {
         this.dataForm.prodLangList[index]['content'] = item.content
       })
@@ -352,7 +362,7 @@ export default {
     /**
      * 下一步
      */
-    nextStep () {
+    nextStep() {
       if (this.postingSteps === 1) {
         if (!this.dataForm.categoryId) {
           // 请选择平台分类
@@ -392,7 +402,7 @@ export default {
     /**
      * 上一步
      */
-    prevStep () {
+    prevStep() {
       if (this.postingSteps === 2) {
         // 返回第一步之前先更新已填写的商品信息
         this.$refs.editProduct.upadteProdInfo()
@@ -402,15 +412,15 @@ export default {
     /**
      * 保存
      */
-    saveStep () {
+    saveStep() {
       if (this.postingSteps === 2 && !this.$refs.editProduct.dataFormValidation()) {
         return
       }
-   
+
       this.dataFormSubmit()
     },
 
-    paramSetPriceAndStocks (param) {
+    paramSetPriceAndStocks(param) {
       // 获取规格属性信息
       // param.skuList = this.$refs.prodSpec.getTableSpecData()
       // 商品库存
@@ -442,7 +452,7 @@ export default {
     },
 
     // 表单提交
-    dataFormSubmit () {
+    dataFormSubmit() {
       if (!this.dataForm.categoryId || !this.dataForm.shopCategoryId) {
         // 请选择商品分类
         this.errorMsg(this.$i18n.t('product.thisProduCategroy'))
@@ -452,6 +462,22 @@ export default {
         // 至少要启用一种商品规格
         this.$message({
           message: this.$i18n.t('product.enableSpec'),
+          type: 'error',
+          duration: 1000
+        })
+        return
+      }
+      if (!this.dataForm.couponInfos[0].giftId && this.dataForm.couponInfos[0].number) {
+        this.$message({
+          message: '未选择优惠券',
+          type: 'error',
+          duration: 1000
+        })
+        return
+      }
+      if (!this.dataForm.skuGiftInfos[0].giftId && this.dataForm.skuGiftInfos[0].number) {
+        this.$message({
+          message: '未选择礼品券',
           type: 'error',
           duration: 1000
         })
@@ -477,7 +503,8 @@ export default {
         this.confirmMethod(param)
       }
     },
-    confirmMethod (param) {
+    confirmMethod(param) {
+
       param.content = null
       // if (this.dataForm.prodLangList.length) {
       //   this.dataForm.prodLangList.forEach(el => {
@@ -521,24 +548,24 @@ export default {
             for (const propItem of properties) {
               let propKey = propItem.substring(0, propItem.indexOf(':'))
               let propVal = propItem.substring(propItem.indexOf(':') + 1)
-              console.log('this.specList', this.specList, 'propKey', propKey)
+              // console.log('this.specList', this.specList, 'propKey', propKey)
               // 找出被选的规格名信息
               const fdDbKey = this.specList.find(it => it.propName === propKey)
-              console.log('fdDbKey===>', fdDbKey)
+              // console.log('fdDbKey===>', fdDbKey)
               // 当前所选的规格名是否存在
               if (fdDbKey) {
                 // 找出相应语言的规格名信息
                 const fdPropKey = fdDbKey.prodPropLangList.find(it => it.lang === langItem)
-                console.log('fdPropKey===>', fdPropKey)
+                // console.log('fdPropKey===>', fdPropKey)
                 langProperties += fdPropKey ? fdPropKey.propName + ':' : propKey + ':'
                 // 找出被选的规格值信息
                 const fdDbVal = fdDbKey.prodPropValues.find(it => it.propValue === propVal)
-                console.log('fdDbVal=========>fdDbVal', fdDbVal)
+                // console.log('fdDbVal=========>fdDbVal', fdDbVal)
                 // 当前所选的规格值是否存在
                 if (fdDbVal) {
                   // 找出相应语言的规格值信息
                   const fdPropVal = fdDbVal.prodPropValueLangList.find(it => it.lang === langItem)
-                  console.log('fdPropVal,.,.,<<>>>>>', fdPropVal)
+                  // console.log('fdPropVal,.,.,<<>>>>>', fdPropVal)
                   langProperties += fdPropVal ? fdPropVal.propValue + ';' : propVal + ';'
                   langSkuName += fdPropVal ? fdPropVal.propValue + ' ' : propVal + ' '
                 } else {
@@ -550,7 +577,7 @@ export default {
                 langSkuName += propVal + ' '
               }
             }
-              // 去除;
+            // 去除;
             langProperties = langProperties.substring(0, langProperties.length - 1)
             skuLangList.push({
               lang: langItem,
@@ -603,7 +630,7 @@ export default {
         }
       }
 
-      console.log('提交的param', param)
+      // console.log('提交的param', param)
       if (this.isSubmit) {
         return
       }
@@ -611,6 +638,7 @@ export default {
       // if (1) {
       //   return
       // }
+
       this.$http({
         url: this.$http.adornUrl(`/prod/prod`),
         method: param.prodId ? 'put' : 'post',
@@ -649,6 +677,7 @@ export default {
 <style lang="scss" scoped>
 .post-product-page {
   color: #333;
+
   .prod-main-containers {
     display: block;
     width: 100%;
@@ -662,9 +691,11 @@ export default {
       display: flex;
       align-content: center;
       justify-content: space-between;
+
       .step-item {
         position: relative;
         flex: 1;
+
         .step-txt {
           display: block;
           font-size: 14px;
@@ -674,17 +705,20 @@ export default {
           padding: 12px 0;
         }
       }
+
       .step-item.active {
         .step-txt {
           color: #fff;
           background: #155bd4;
         }
       }
+
       // 右箭头
       .step-item:not(:last-child) {
         .step-txt {
           margin-right: 10px;
         }
+
         &::after {
           position: absolute;
           top: 0;
@@ -697,11 +731,13 @@ export default {
           border-bottom: 20px solid transparent;
         }
       }
+
       .step-item.active:not(:last-child) {
         &::after {
           border-left: 10px solid #155bd4;
         }
       }
+
       // 左箭头
       .step-item:not(:first-child) {
         &::before {
@@ -723,6 +759,7 @@ export default {
       display: block;
       width: 100%;
       margin-top: 20px;
+
       // 公共
       & ::v-deep .prod-title-row {
         display: block;
@@ -746,6 +783,7 @@ export default {
     z-index: 3;
     margin-top: 20px;
     margin-right: 20px;
+
     .foot {
       display: flex;
       align-items: center;
@@ -753,6 +791,7 @@ export default {
       padding: 10px 0;
       background: #fff;
       box-sizing: border-box;
+
       .inner {
         .default-btn.save-btn {
           border-color: #155bd4;
