@@ -695,7 +695,7 @@ const zhCn = {
     fileUploadFail: '文件上传失败！',
     fileSuccess: '文件导入成功',
     sureToExport: '确定进行导出操作?',
-    BulkShipping: '批量发货',
+    BulkShipping: '快递批量发货',
     confirm: '确定',
     cancel: '取消',
     addressee: '收货人',
