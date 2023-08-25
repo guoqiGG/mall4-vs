@@ -364,15 +364,17 @@
                 <!-- 团长信息 -->
                 <el-col :span="3" style="height: 100%">
                   <div class="item">
-                    <div  v-if="order.distributionUserResult">
-                      <span>{{ order.distributionUserResult.distributionName+'电话：'+ order.distributionUserResult.stationTel}}</span><br />
-                      <span style="margin-top: 10px;">{{'门店：'+ order.distributionUserResult.distributionStationName }}</span><br />
-                      <span style="margin-top: 10;">
+                    <div v-if="order.distributionUserResult">
+                      <span>{{ order.distributionUserResult.distributionName + '电话：' +
+                        order.distributionUserResult.stationTel }}</span><br />
+                      <span style="margin-top: 10px;">{{ '门店：' + order.distributionUserResult.distributionStationName
+                      }}</span><br />
+                      <span style="margin-top: 10px;">
                         地址：{{ order.distributionUserResult.province + order.distributionUserResult.city +
                           order.distributionUserResult.area + order.distributionUserResult.addr }}
                       </span>
                     </div>
-                    <div  v-else>
+                    <div v-else>
                       无
                     </div>
                   </div>
