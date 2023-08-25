@@ -137,10 +137,10 @@
               <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
                 @change="handleCheckAllChange"></el-checkbox>
             </el-col>
-            <el-col :span="6" id="prod-info-title">
+            <el-col :span="5" id="prod-info-title">
               <span class="item product">{{ $t("temp.prodInfo") }}</span>
             </el-col>
-            <el-col :span="3" id="price-title" class="transaction-price">
+            <el-col :span="2" id="price-title" class="transaction-price">
               <span class="item">{{ $t("order.transaQuantity") }}</span>
             </el-col>
             <el-col :span="3" class="column-title">
@@ -150,6 +150,9 @@
               <span class="item">{{ $t("order.paymentMethod") }}</span>
             </el-col>
             <el-col :span="3" class="column-title">
+              <span class="item">团长</span>
+            </el-col>
+            <el-col :span="2" class="column-title">
               <span class="item">{{ $t("order.buyerConsignee") }}</span>
             </el-col>
             <el-col :span="2" class="column-title">
@@ -169,10 +172,10 @@
               <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
                 @change="handleCheckAllChange"></el-checkbox>
             </el-col>
-            <el-col :span="6" id="prod-info-title">
+            <el-col :span="5" id="prod-info-title">
               <span class="item product">{{ $t("temp.prodInfo") }}</span>
             </el-col>
-            <el-col :span="3" id="price-title" class="transaction-price">
+            <el-col :span="2" id="price-title" class="transaction-price">
               <span class="item">{{ $t("order.transaQuantity") }}</span>
             </el-col>
             <el-col :span="3" class="column-title">
@@ -182,6 +185,9 @@
               <span class="item">{{ $t("order.paymentMethod") }}</span>
             </el-col>
             <el-col :span="3" class="column-title">
+              <span class="item">团长</span>
+            </el-col>
+            <el-col :span="2" class="column-title">
               <span class="item">{{ $t("order.buyerConsignee") }}</span>
             </el-col>
             <el-col :span="2" class="column-title">
@@ -208,10 +214,10 @@
               <el-row style="width: 100%">
                 <el-col :span="1" style="height:100%;">
                   <div style="display: flex;align-items:center;justify-content: center;height:100%;">
-                    <el-checkbox :label="order.orderNumber" :key="order.orderNumber"><br></el-checkbox>
+                    <el-checkbox :label="order.orderNumber" :key="order.orderNumber"><br /></el-checkbox>
                   </div>
                 </el-col>
-                <el-col :span="9" style="height: 100%">
+                <el-col :span="7" style="height: 100%">
                   <div class="item prod-item">
                     <div class="items name" v-for="orderItem in order.orderItems" :key="orderItem.orderItemId">
                       <!-- 商品信息 -->
@@ -291,7 +297,8 @@
                         <div v-if="orderItem.giveawayList" class="order-prod-item-give-con">
                           <div class="giveaway-item" v-for="(giveawayItem, giveIndex) in orderItem.giveawayList"
                             :key="giveIndex">
-                            <div class="giveaway-item-name"> 【{{ $i18n.t('order.giveawayPord') }}】 {{ giveawayItem.prodName }}
+                            <div class="giveaway-item-name"> 【{{ $i18n.t('order.giveawayPord') }}】 {{
+                              giveawayItem.prodName }}
                             </div>
                             <div class="giveaway-item-name giveaway-item-sku-count">{{ giveawayItem.skuName || '' }}</div>
                             <div class="giveaway-item-sku-count"> x{{ giveawayItem.prodCount }}</div>
@@ -354,8 +361,24 @@
                     </div>
                   </div>
                 </el-col>
-                <!-- 买家信息 -->
+                <!-- 团长信息 -->
                 <el-col :span="3" style="height: 100%">
+                  <div class="item">
+                    <div  v-if="order.distributionUserResult">
+                      <span>{{ order.distributionUserResult.distributionName+'电话：'+ order.distributionUserResult.stationTel}}</span><br />
+                      <span style="margin-top: 10px;">{{'门店：'+ order.distributionUserResult.distributionStationName }}</span><br />
+                      <span style="margin-top: 10;">
+                        地址：{{ order.distributionUserResult.province + order.distributionUserResult.city +
+                          order.distributionUserResult.area + order.distributionUserResult.addr }}
+                      </span>
+                    </div>
+                    <div  v-else>
+                      无
+                    </div>
+                  </div>
+                </el-col>
+                <!-- 买家信息 -->
+                <el-col :span="2" style="height: 100%">
                   <div class="item">
                     <div class="buyer-info">
                       <div class="buyer-name">{{ order.receiverName }}</div>
@@ -799,7 +822,7 @@ export default {
     },
     // 自提订单批量发货
     oneClickDelivery() {
-      console.log(1111, this.orderNumbers.length,this.orderNumbers)
+      console.log(1111, this.orderNumbers.length, this.orderNumbers)
       if (!this.orderNumbers.length) {
         this.$message.error({
           message: '请选择待发货的自提订单',
@@ -1028,7 +1051,7 @@ export default {
       }).then(({ data }) => {
         this.dataList = data.records
         this.orderIdList = []
-        if (this.status !== 3 || dataForm.dvyType !== 2) {
+        if (this.status !== 3 || this.dataForm.dvyType !== 2) {
           this.checkAll = false
           this.isIndeterminate = false
           this.orderNumbers = []
@@ -1400,6 +1423,7 @@ export default {
     .prod {
       margin-bottom: 15px;
       font-size: 14px;
+
       .prod-tit {
         padding: 10px;
         background: #F7F8FA;
