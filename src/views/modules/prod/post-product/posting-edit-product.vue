@@ -57,12 +57,29 @@
             </el-select>
             <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
           </el-form-item>
+          <el-form-item label="是否开启独立分销">
+            <el-radio-group v-model="dataForm.independentDistribution">
+              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="0">关闭</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="设置独立分销比例" v-if="dataForm.independentDistribution">
+            <el-input-number placeholder="分销比例" v-model="dataForm.prodCommission" :min="0" :max="100"
+              controls-position="right"></el-input-number>
+            <el-tooltip class="item" effect="light" content="百分比,请输入 0-100 的整数,输入 1 即 1%。" placement="right"
+              style="color: #155BD4;">
+              <i class="el-icon-question" />
+            </el-tooltip>
+          </el-form-item>
+
           <!-- 选择团长 -->
           <el-form-item label="团长" prop="multiDistributionUserIds"
             :required="platCategoryName == categoryName ? true : false"
             :rules="platCategoryName == categoryName ? { type: 'array', required: true, message: '请选择团长', trigger: 'change' } : ''">
-            <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple :disabled="platCategoryName !== categoryName"
-              placeholder="请输入团长手机号查询" :remote-method="remoteMethod" :loading="loading" class="select-parent">
+            <el-select v-model="dataForm.multiDistributionUserIds" filterable remote reserve-keyword clearable multiple
+              :disabled="platCategoryName !== categoryName" placeholder="请输入团长手机号查询" :remote-method="remoteMethod"
+              :loading="loading" class="select-parent">
               <el-option v-for="item in parentOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -587,7 +604,10 @@ export default {
           //   parameterValueEn: ''
           // }
         ],
-        multiDistributionUserIds: []
+        multiDistributionUserIds: [],
+        independentDistribution: 0,//是否开启 0 关闭 1 开启
+        prodCommission: null,
+        clearZero: 0, // 初次prodCommission 不清0 0 不清零 1 清零
       },
       dataRule: {
         prodNameCn: [
@@ -696,13 +716,28 @@ export default {
         }
       },
       deep: true
+    },
+    'dataForm.independentDistribution': {
+      handler(newV, oldV) {
+        if (this.clearZero) {
+          console.log(newV, oldV, this.clearZero)
+          this.dataForm.prodCommission = 0
+        }
+      },
+      deep: true
     }
   },
 
   created() {
-    console.log('店铺ID',this.$store.state.user.shopId);
+    console.log(111, this.value)
+    if (this.value.prodCommission) {
+      this.dataForm.independentDistribution = 1
+    }
     const dataForm = Object.assign(this.dataForm, this.value)
     this.dataForm = dataForm
+    setTimeout(() => {
+      this.clearZero = 1
+    }, 1000)
     this.writeOffMultipleCountSelect = dataForm.writeOffMultipleCount === -1 ? -1 : 2
     this.writeOffMultipleCount = dataForm.writeOffMultipleCount > -1 ? dataForm.writeOffMultipleCount : ''
     // if (this.value.useLang === 1) {
@@ -1428,6 +1463,13 @@ export default {
           isValid = false
           return
         }
+        // 独立分销开启 分销比例为空
+        if (this.dataForm.independentDistribution && !this.dataForm.prodCommission) {
+
+          this.errorMsg('独立分销比例不能为空')
+          isValid = false
+          return
+        }
         // 虚拟商品校验
         if (this.dataForm.mold === 1) {
           // 自定义核销有效天数
@@ -2040,4 +2082,5 @@ export default {
   overflow: hidden;
   line-height: 20px;
   padding-top: 6px;
-}</style>
+}
+</style>
