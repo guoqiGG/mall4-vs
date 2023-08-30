@@ -2,10 +2,11 @@
   <div class="mod-prod prod-list-mod">
     <!-- 搜索栏 -->
     <div class="search-bar">
-      <el-form @submit.native.prevent :inline="true" class="search-form" ref="searchForm" :model="searchForm" label-width="auto" size="small">
+      <el-form @submit.native.prevent :inline="true" class="search-form" ref="searchForm" :model="searchForm"
+        label-width="auto" size="small">
         <!-- 表单项 -->
         <div class="input-row">
-          <el-form-item :label="$t('product.prodName')+':'">
+          <el-form-item :label="$t('product.prodName') + ':'">
             <el-input type="text" v-model="prodName" :placeholder="$t('product.prodName')"></el-input>
           </el-form-item>
           <!-- 组合商品 -->
@@ -15,7 +16,7 @@
               <el-option :label="$t('publics.yes')" :value="1"></el-option>
             </el-select>
           </el-form-item> -->
-          <el-form-item prop="isCompose" :label="$t('product.prodType')+':'">
+          <el-form-item prop="isCompose" :label="$t('product.prodType') + ':'">
             <el-select v-model="searchForm.prodType" :placeholder="$t('product.prodType')">
               <el-option :label="$t('product.ordProd')" :value="0"></el-option>
               <el-option :label="$t('product.groupProd')" :value="1"></el-option>
@@ -23,13 +24,13 @@
               <el-option :label="$t('product.activeProd')" :value="5"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="isCompose" :label="$t('product.prodMold')+':'">
+          <el-form-item prop="isCompose" :label="$t('product.prodMold') + ':'">
             <el-select v-model="searchForm.mold" :placeholder="$t('product.prodMold')">
               <el-option :label="$t('product.physicalGoods')" :value="0"></el-option>
               <el-option :label="$t('product.virtualGoods')" :value="1"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="status" :label="$t('product.status')+':'">
+          <el-form-item prop="status" :label="$t('product.status') + ':'">
             <el-select v-model="searchForm.status" :placeholder="$t('product.status')">
               <el-option :label="$t('publics.UpperShelf')" :value="1"></el-option>
               <el-option :label="$t('publics.LowerShelf')" :value="0"></el-option>
@@ -38,7 +39,7 @@
               <el-option :label="$t('publics.pendingReview')" :value="6"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="deliveryMode" :label="$t('product.delType')+':'">
+          <el-form-item prop="deliveryMode" :label="$t('product.delType') + ':'">
             <el-select v-model="searchForm.deliveryMode" :placeholder="$t('product.delType')">
               <el-option :label="$t('product.userPickUp')" :value="2"></el-option>
               <el-option :label="$t('product.ExpressDistribution')" :value="1"></el-option>
@@ -46,32 +47,27 @@
               <el-option :label="$t('order.noNeedRequired')" :value="5"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="isTop" :label="$t('publics.isTop')+':'">
+          <el-form-item prop="isTop" :label="$t('publics.isTop') + ':'">
             <el-select v-model="searchForm.isTop" :placeholder="$t('publics.isTop')">
               <el-option :label="$t('publics.no')" :value="0"></el-option>
               <el-option :label="$t('publics.yes')" :value="1"></el-option>
             </el-select>
           </el-form-item>
           <!-- 商品分类 -->
-          <el-form-item :label="$t('product.shopCategories')+':'">
+          <el-form-item :label="$t('product.shopCategories') + ':'">
             <el-select v-model="searchForm.shopCategoryId" :placeholder="$t('product.shopCategories')">
-              <el-option v-for="(item,i) in categoryList" :label="item.categoryName" :key="i" :value="item.categoryId"></el-option>
+              <el-option v-for="(item, i) in categoryList" :label="item.categoryName" :key="i"
+                :value="item.categoryId"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('product.platforation')+':'">
-            <el-cascader
-              v-model="selectedPlatformCategories"
-              clearable
-              expand-trigger="hover"
-              :options="platformCategories"
-              :props="platformCategoriesTreeProps"
-              change-on-select
-              @change="handlePlatformCategoryChange"
-            />
+          <el-form-item :label="$t('product.platforation') + ':'">
+            <el-cascader v-model="selectedPlatformCategories" clearable expand-trigger="hover"
+              :options="platformCategories" :props="platformCategoriesTreeProps" change-on-select
+              @change="handlePlatformCategoryChange" />
           </el-form-item>
           <el-form-item>
-            <div class="default-btn primary-btn" @click="searchChange(true)">{{$t('crud.searchBtn')}}</div>
-            <div class="default-btn" @click="resetSearchForm('searchForm')">{{$t('shop.resetMap')}}</div>
+            <div class="default-btn primary-btn" @click="searchChange(true)">{{ $t('crud.searchBtn') }}</div>
+            <div class="default-btn" @click="resetSearchForm('searchForm')">{{ $t('shop.resetMap') }}</div>
           </el-form-item>
         </div>
       </el-form>
@@ -81,91 +77,86 @@
     <div class="main-container">
       <!-- 操作按钮 -->
       <div class="operation-bar">
-        <el-checkbox :disabled="dataList.length===0" v-model="selectAll" @change="handleSelectAll" class="all-check-btn">{{$t('publics.selectAll')}}</el-checkbox>
-        <span v-if="dataListSelections.length" class="had-selected">{{$t('publics.selected')}} {{dataListSelections.length}}</span>
-        <div
-          class="default-btn"
-          v-if="isAuth('prod:prod:exportProd')"
-          @click="getExportExcel()">
+        <el-checkbox :disabled="dataList.length === 0" v-model="selectAll" @change="handleSelectAll"
+          class="all-check-btn">{{ $t('publics.selectAll') }}</el-checkbox>
+        <span v-if="dataListSelections.length" class="had-selected">{{ $t('publics.selected') }}
+          {{ dataListSelections.length }}</span>
+        <div class="default-btn" v-if="isAuth('prod:prod:exportProd')" @click="getExportExcel()">
           {{ $t("formData.export") }}
         </div>
-        <div
-          class="default-btn"
-          @click.stop="getUpload()"
-          v-if="isAuth('prod:prod:downloadModel')">
+        <div class="default-btn" @click.stop="getUpload()" v-if="isAuth('prod:prod:downloadModel')">
           {{ $t("product.importGoods") }}
         </div>
-        <div v-if="isAuth('prod:prod:batchStatus') || isAuth('prod:prod:batchDelete')" style="display:inline-block; margin-left: 20px" @click="showBatchSetting=true">
-          <el-dropdown class="batch-setting-dropdown"
-            @command="handleBatchSetting"
-            :hide-on-click="true"
-            trigger="click"
+        <div v-if="isAuth('prod:prod:batchStatus') || isAuth('prod:prod:batchDelete')"
+          style="display:inline-block; margin-left: 20px" @click="showBatchSetting = true">
+          <el-dropdown class="batch-setting-dropdown" @command="handleBatchSetting" :hide-on-click="true" trigger="click"
             @visible-change="handleVisibleChange">
-            <div
-              :class="[showBatchSetting? 'active' : '','default-btn batch-setting-btn']"
-            >{{$t('publics.batchSetting')}}
+            <div :class="[showBatchSetting ? 'active' : '', 'default-btn batch-setting-btn']">{{
+              $t('publics.batchSetting') }}
               <i class="arrow"></i>
             </div>
-              <!-- 批量设置功能列表 -->
+            <!-- 批量设置功能列表 -->
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="isAuth('prod:prod:batchStatus')" command="1">{{$t('product.batchUp')}}</el-dropdown-item>
-              <el-dropdown-item v-if="isAuth('prod:prod:batchStatus')" command="0">{{$t('product.batchDown')}}</el-dropdown-item>
-              <el-dropdown-item v-if="isAuth('prod:prod:batchDelete')" command="-1">{{$t('publics.batchDelete')}}</el-dropdown-item>
+              <el-dropdown-item v-if="isAuth('prod:prod:batchStatus')" command="1">{{ $t('product.batchUp')
+              }}</el-dropdown-item>
+              <el-dropdown-item v-if="isAuth('prod:prod:batchStatus')" command="0">{{ $t('product.batchDown')
+              }}</el-dropdown-item>
+              <el-dropdown-item v-if="isAuth('prod:prod:batchDelete')" command="-1">{{ $t('publics.batchDelete')
+              }}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </div>
       <!-- 表格 -->
       <div class="table-con prod-table">
-        <el-table
-          ref="prodListTable"
-          :data="dataList"
-          header-cell-class-name="table-header"
-          row-class-name="table-row"
-          style="width: 100%"
-          @selection-change="handleSelectionChange">
-          <el-table-column
-            type="selection"
-            width="55">
-          </el-table-column>
-          <el-table-column
-            fixed
-            prop="prodName"
-            :label="$t('product.prodInfo')"
-            width="340">
-            <template slot-scope="scope">
-              <div class="table-cell-con">
-                <div class="table-cell-image">
-                  <img v-if="scope.row.pic" :src="scope.row.pic" :alt="scope.row.prodName" @error="handlePicError">
-                  <img v-else src="~@/assets/img/def.png" :alt="scope.row.prodName">
+        <div ref="closepopover" class="table-con prod-table">
+          <el-table ref="prodListTable" :data="dataList" header-cell-class-name="table-header" row-class-name="table-row"
+            style="width: 100%" @selection-change="handleSelectionChange" @sort-change="changeTableSort"
+            @cell-mouse-enter="enterTableRow" @cell-mouse-leave="leaveTableRow">
+            <el-table-column type="selection" width="55">
+            </el-table-column>
+            <el-table-column fixed prop="prodName" :label="$t('product.prodInfo')" width="340">
+              <template slot-scope="scope">
+                <div class="table-cell-con">
+                  <div class="table-cell-image">
+                    <img v-if="scope.row.pic" :src="scope.row.pic" :alt="scope.row.prodName" @error="handlePicError">
+                    <img v-else src="~@/assets/img/def.png" :alt="scope.row.prodName">
+                  </div>
+                  <span class="table-cell-text">{{ scope.row.prodName }}</span>
                 </div>
-                <span class="table-cell-text">{{ scope.row.prodName }}</span>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="left"
-            prop="oriPrice"
-            :label="$t('product.marketPrice')"
-            width="140"
-            sortable>
-          </el-table-column>
-          <el-table-column
-            align="left"
-            prop="price"
-            :label="$t('product.sellingPrice')"
-            width="140"
-            sortable>
-          </el-table-column>
-          <el-table-column
-            align="left"
-            prop="totalStocks"
-            :label="$t('product.availableInventory')"
-            width="150"
-            sortable>
-          </el-table-column>
-          <!-- 是否为组合商品(0否 1是) -->
-          <!-- <el-table-column
+              </template>
+            </el-table-column>
+            <el-table-column align="left" prop="oriPrice" :label="$t('product.marketPrice')" width="140" sortable>
+            </el-table-column>
+            <el-table-column align="left" prop="price" :label="$t('product.sellingPrice')" width="140" sortable>
+            </el-table-column>
+            <el-table-column align="left" :label="$t('product.availableInventory')" width="auto" sortable>
+              <template slot-scope="scope">
+                <div class="water-sold-con">
+                  <span slot="reference">{{ scope.row.totalStocks }}</span>
+                  <el-popover placement="bottom" trigger="click" style="width: 150px !important;"
+                    @show="showTotalStocks(scope.row.totalStocks)"
+                    @after-enter="getCurrentSpuId(scope.row.prodId, 'totalStocks')" @hide="initProdInf()">
+                    <div class="popover-box">
+                      <div>
+                        <el-input-number :value="totalStocks" type="number" size="small"
+                          onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode)))"
+                          @change="(currentValue, oldValue) => { changeTotalStocks(currentValue, oldValue) }"
+                          class="sales-volume" :min="0" :max="1000000000" />
+                      </div>
+                      <div class="popover-bottom">
+                        <el-button size="mini" @click="closePopover()">取消</el-button>
+                        <el-button size="mini" type="primary" @click="handleChange1(scope.row.prodId)">保存</el-button>
+                      </div>
+                    </div>
+                    <i v-show="scope.row.prodId === currentMoveProdId || (scope.row.prodId === currentClickProdId && currentShowPopover === 'waterSoldNum')"
+                      slot="reference" class="el-icon-edit" />
+                  </el-popover>
+                </div>
+              </template>
+            </el-table-column>
+            <!-- 是否为组合商品(0否 1是) -->
+            <!-- <el-table-column
             align="center"
             prop="prodType"
             :label="$t('product.comProd')"
@@ -175,140 +166,85 @@
               <div class="tag-text">{{[$t('publics.no'),$t('publics.yes')][scope.row.isCompose]}}</div>
             </template>
           </el-table-column> -->
-          <el-table-column
-            align="left"
-            prop="prodType"
-            :label="$t('product.prodType')"
-            width="130">
-            <template slot-scope="scope">
-              <!-- 商品类型(0普通商品 1拼团 2秒杀 3积分 5活动商品) -->
-              <div class="tag-text">{{[$t('product.ordProd'),$t('product.groupProd'),$t('product.limitedTimeProd'),$t('product.pointsProduct'),'', $t('product.activeProd')][scope.row.prodType]}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="prodMold"
-            :label="$t('product.prodMold')"
-          >
-            <template slot-scope="scope">
-              <!-- 虚拟商品(0否 1是) -->
-              <div class="tag-text" v-if="scope.row.mold !== 1">{{$t('product.physicalGoods')}}</div>
-              <div class="tag-text" v-if="scope.row.mold === 1">{{$t('product.virtualGoods')}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="left"
-            prop="status"
-            :label="$t('product.status')"
-            sortable>
-            <template slot-scope="scope">
-              <div class="tag-text" v-if="scope.row.status === 1">{{ $t("publics.UpperShelf") }}</div>
-              <div class="tag-text" v-if="scope.row.status === 0">{{ $t("publics.LowerShelf") }}</div>
-              <div class="tag-text" v-if="scope.row.status === 2">{{ $t("publics.violationShelf") }}</div>
-              <div class="tag-text" v-if="scope.row.status === 3">{{ $t("product.violationPendingReview") }}</div>
-              <div class="tag-text" v-if="scope.row.status === 6">{{ $t("publics.pendingReview") }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="deliveryMode"
-            :label="$t('product.delType')"
-            width="120">
-            <template slot-scope="scope">
-              <div v-if="scope.row.prodType === 5">-</div>
-              <div v-else>{{scope.row.deliveryMode | DeliveryMode(scope.row.mold, scope.row.prodType)}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="isTop"
-            :label="$t('publics.isTop')">
-            <template slot-scope="scope">
-              <div class="tag-text">{{[$t('publics.no'), $t('publics.yes')][scope.row.isTop]}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="left"
-            prop="seq"
-            :label="$t('publics.seq')"
-            sortable>
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            align="center"
-            :label="$t('publics.operating')"
-            width="180"
-            >
-            <template slot-scope="scope">
-              <div class="text-btn-con">
-                <div
-                  v-if="isAuth('prod:prod:update')"
-                  class="default-btn text-btn"
-                  @click="addOrUpdateHandle(scope.row.prodId)"
-                  >{{$t('groups.edit')}}
+            <el-table-column align="left" prop="prodType" :label="$t('product.prodType')" width="130">
+              <template slot-scope="scope">
+                <!-- 商品类型(0普通商品 1拼团 2秒杀 3积分 5活动商品) -->
+                <div class="tag-text">
+                  {{ [$t('product.ordProd'), $t('product.groupProd'), $t('product.limitedTimeProd'),
+                  $t('product.pointsProduct'), '',
+                  $t('product.activeProd')][scope.row.prodType] }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="prodMold" :label="$t('product.prodMold')">
+              <template slot-scope="scope">
+                <!-- 虚拟商品(0否 1是) -->
+                <div class="tag-text" v-if="scope.row.mold !== 1">{{ $t('product.physicalGoods') }}</div>
+                <div class="tag-text" v-if="scope.row.mold === 1">{{ $t('product.virtualGoods') }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column align="left" prop="status" :label="$t('product.status')" sortable>
+              <template slot-scope="scope">
+                <div class="tag-text" v-if="scope.row.status === 1">{{ $t("publics.UpperShelf") }}</div>
+                <div class="tag-text" v-if="scope.row.status === 0">{{ $t("publics.LowerShelf") }}</div>
+                <div class="tag-text" v-if="scope.row.status === 2">{{ $t("publics.violationShelf") }}</div>
+                <div class="tag-text" v-if="scope.row.status === 3">{{ $t("product.violationPendingReview") }}</div>
+                <div class="tag-text" v-if="scope.row.status === 6">{{ $t("publics.pendingReview") }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="deliveryMode" :label="$t('product.delType')" width="120">
+              <template slot-scope="scope">
+                <div v-if="scope.row.prodType === 5">-</div>
+                <div v-else>{{ scope.row.deliveryMode | DeliveryMode(scope.row.mold, scope.row.prodType) }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="isTop" :label="$t('publics.isTop')">
+              <template slot-scope="scope">
+                <div class="tag-text">{{ [$t('publics.no'), $t('publics.yes')][scope.row.isTop] }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column align="left" prop="seq" :label="$t('publics.seq')" sortable>
+            </el-table-column>
+            <el-table-column fixed="right" align="center" :label="$t('publics.operating')" width="300">
+              <template slot-scope="scope">
+                <div class="text-btn-con">
+                  <div class="default-btn text-btn" @click="copyUrl2(scope.row.prodId)">小程序商品链接</div>
+                  <div v-if="isAuth('prod:prod:update')" class="default-btn text-btn"
+                    @click="addOrUpdateHandle(scope.row.prodId)">{{ $t('groups.edit') }}
+                  </div>
+                  <div class="default-btn text-btn" v-if="isAuth('prod:prod:status') && scope.row.status === 0"
+                    @click="changeProdStatus(scope.row.prodId, 1)">{{ $t('publics.UpperShelf') }}
+                  </div>
+                  <div class="default-btn text-btn" v-if="isAuth('prod:prod:status') && scope.row.status === 1"
+                    @click="changeProdStatus(scope.row.prodId, 0)">{{ $t('publics.LowerShelf') }}
+                  </div>
+                  <div class="default-btn text-btn" v-if="isAuth('prod:prod:audit') && scope.row.status === 2"
+                    @click="applyAuditHandle(scope.row.prodId)">{{ $t("groups.applyForListing") }}
+                  </div>
+                  <div class="default-btn text-btn" v-if="isAuth('prod:prod:audit') && scope.row.status === 3"
+                    @click="applyAuditHandle(scope.row.prodId)">{{ $t("product.auditHistory") }}
+                  </div>
+                  <div v-if="isAuth('prod:prod:delete')" class="default-btn text-btn"
+                    @click="deleteHandle(scope.row.prodId)">{{ $t("text.delBtn") }}
+                  </div>
                 </div>
-                <div
-                  class="default-btn text-btn"
-                  v-if="isAuth('prod:prod:status') && scope.row.status === 0"
-                  @click="changeProdStatus(scope.row.prodId, 1)"
-                  >{{$t('publics.UpperShelf')}}
-                </div>
-                <div
-                  class="default-btn text-btn"
-                  v-if="isAuth('prod:prod:status') && scope.row.status === 1"
-                  @click="changeProdStatus(scope.row.prodId, 0)"
-                  >{{$t('publics.LowerShelf')}}
-                </div>
-                <div
-                  class="default-btn text-btn"
-                  v-if="isAuth('prod:prod:audit') && scope.row.status === 2"
-                  @click="applyAuditHandle(scope.row.prodId)"
-                  >{{$t("groups.applyForListing")}}
-                </div>
-                <div
-                  class="default-btn text-btn"
-                  v-if="isAuth('prod:prod:audit') && scope.row.status === 3"
-                  @click="applyAuditHandle(scope.row.prodId)"
-                  >{{$t("product.auditHistory")}}
-                </div>
-                <div
-                  v-if="isAuth('prod:prod:delete')"
-                  class="default-btn text-btn"
-                  @click="deleteHandle(scope.row.prodId)"
-                  >{{$t("text.delBtn")}}
-                </div>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
       <!-- 分页 -->
-      <el-pagination
-        v-if="dataList.length"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page.currentPage"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size="page.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total">
+      <el-pagination v-if="dataList.length" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :current-page="page.currentPage" :page-sizes="[10, 20, 50, 100]" :page-size="page.pageSize"
+        layout="total, sizes, prev, pager, next, jumper" :total="page.total">
       </el-pagination>
     </div>
 
     <!-- 下线管理弹窗-->
-    <ProdOfflineHandleEvent
-      v-if="prodOfflineHandleEventVisible"
-      selectUrl="/prod/prod/getOfflineHandleEventByProdId"
-      applyUrl="/prod/prod/auditApply"
-      ref="prodOfflineHandleEvent"
-      @refreshDataList="refreshChange"
-    ></ProdOfflineHandleEvent>
-    <prod-upload
-      v-if="uploadVisible"
-      ref="prodUpload"
-      :isLoad="true"
-      @refreshDataList="getWaitingConsignmentExcel"
-    ></prod-upload>
+    <ProdOfflineHandleEvent v-if="prodOfflineHandleEventVisible" selectUrl="/prod/prod/getOfflineHandleEventByProdId"
+      applyUrl="/prod/prod/auditApply" ref="prodOfflineHandleEvent" @refreshDataList="refreshChange">
+    </ProdOfflineHandleEvent>
+    <prod-upload v-if="uploadVisible" ref="prodUpload" :isLoad="true"
+      @refreshDataList="getWaitingConsignmentExcel"></prod-upload>
   </div>
 </template>
 
@@ -318,7 +254,7 @@ import ProdUpload from './prod-upload'
 import ProdOfflineHandleEvent from '@/components/offline-event-handle'
 import i18n from '../../../i18n/i18n'
 export default {
-  data () {
+  data() {
     return {
       theData: null, // 保存上次点击查询的请求条件
       theParams: null, // 保存上次点击查询的请求条件
@@ -364,14 +300,18 @@ export default {
       // 是否全选
       selectAll: false,
       // 显示批量操作
-      showBatchSetting: false
+      showBatchSetting: false,
+      totalStocks: '', // 库存
+      currentMoveProdId: '', // 移入项的spuId
+      currentClickProdId: '', // 点击项的spuId
+      currentShowPopover: '', // 当前展示的弹窗
     }
   },
   components: {
     ProdOfflineHandleEvent,
     ProdUpload
   },
-  created () {
+  created() {
     if (this.$route.query.prodName) {
       this.prodNameRouter = this.$route.query.prodName
       this.prodName = this.$route.query.prodName
@@ -382,7 +322,7 @@ export default {
     }
     this.getDataList(this.page)
   },
-  mounted () {
+  mounted() {
     document.addEventListener('click', e => {
       if (!this.$el.contains(e.target)) {
         this.showBatchSetting = false
@@ -394,7 +334,7 @@ export default {
     this.getPlatformCategories()
   },
   watch: {
-    $route () {
+    $route() {
       if (this.$route.path === '/prod-prodList') {
         this.getDataList(this.page)
       }
@@ -427,7 +367,7 @@ export default {
     /**
      * 监听平台分类选择变化
      */
-    handlePlatformCategoryChange (val) {
+    handlePlatformCategoryChange(val) {
       this.searchForm.primaryCategoryId = undefined
       this.searchForm.secondaryCategoryId = undefined
       this.searchForm.categoryId = undefined
@@ -440,7 +380,7 @@ export default {
       }
     },
     // 获取店铺分类
-    getProdCategoryList () {
+    getProdCategoryList() {
       this.$http({
         url: this.$http.adornUrl('/prod/category/listCategory'),
         method: 'get',
@@ -451,7 +391,7 @@ export default {
       })
     },
     // 获取平台分类
-    getPlatformCategories () {
+    getPlatformCategories() {
       this.$http({
         url: this.$http.adornUrl('/prod/category/listAvailableSigningCategory'),
         method: 'get',
@@ -462,11 +402,11 @@ export default {
       })
     },
 
-    handlePicError (e) {
+    handlePicError(e) {
       e.target.src = require('@/assets/img/def.png')
     },
     // 获取数据列表
-    getDataList (page, newData = false) {
+    getDataList(page, newData = false) {
       if (this.page) {
         let size = Math.ceil(this.page.total / this.page.pageSize)
         this.page.currentPage = (this.page.currentPage > size ? size : this.page.currentPage) || 1
@@ -499,7 +439,7 @@ export default {
         }
       }
       if (this.searchForm.deliveryMode && this.searchForm.deliveryMode !== 5) {
-          // 实物快递
+        // 实物快递
         if (this.searchForm.mold === 1) {
           // 虚拟商品
           this.dataList = []
@@ -538,7 +478,7 @@ export default {
       })
     },
     // 新增 / 修改
-    addOrUpdateHandle (id) {
+    addOrUpdateHandle(id) {
       if (!this.isAuth('prod:prod:save')) {
         this.$message.info(this.$i18n.t('homes.noPermissionAccessPage'))
         return
@@ -549,13 +489,13 @@ export default {
       })
     },
     // 刷新数据
-    getWaitingConsignmentExcel () {
+    getWaitingConsignmentExcel() {
       setTimeout(() => {
         this.getDataList(this.page)
       }, 1000)
     },
     // 删除
-    deleteHandle (id) {
+    deleteHandle(id) {
       let ids = id ? [id] : this.dataListSelections.map(item => {
         return item.prodId
       })
@@ -583,7 +523,7 @@ export default {
         .catch(() => { })
     },
     // 多选变化
-    handleSelectionChange (val) {
+    handleSelectionChange(val) {
       this.dataListSelections = val
       this.selectAll = val.length === this.dataList.length
       if (this.dataList.length === 0) {
@@ -591,7 +531,7 @@ export default {
       }
     },
     // 批量改变状态
-    batchChangeProdStatus (status) {
+    batchChangeProdStatus(status) {
       let FailList = []
       var prodList = this.dataListSelections.filter(item => {
         if (item.status !== 0 && item.status !== 1) {
@@ -640,7 +580,7 @@ export default {
       }).catch(() => { })
     },
     // 批量删除
-    batchDeleteHandle () {
+    batchDeleteHandle() {
       var ids = this.dataListSelections.map(item => {
         return item.prodId
       })
@@ -666,7 +606,7 @@ export default {
         })
       }).catch(() => { })
     },
-    changeProdStatus (id, status) {
+    changeProdStatus(id, status) {
       this.$confirm(`${this.$i18n.t('sys.makeSure')}【${status ? this.$i18n.t('publics.UpperShelf') : this.$i18n.t('publics.LowerShelf')}】${this.$i18n.t('text.menu')}?`, this.$i18n.t('text.tips'), {
         confirmButtonText: this.$i18n.t('crud.filter.submitBtn'),
         cancelButtonText: this.$i18n.t('crud.filter.cancelBtn'),
@@ -694,18 +634,18 @@ export default {
         })
     },
     // 条件查询
-    searchChange (newData = false) {
+    searchChange(newData = false) {
       this.page.currentPage = 1
       this.getDataList(this.page, newData)
     },
     // 跳转至导入选择
-    getUpload () {
+    getUpload() {
       this.uploadVisible = true
       this.$nextTick(() => {
         this.$refs.prodUpload.init()
       })
     },
-    getExportExcel () {
+    getExportExcel() {
       this.$confirm(`${this.$i18n.t('product.exportProduct')}`, this.$i18n.t('text.tips'), {
         confirmButtonText: this.$i18n.t('crud.filter.submitBtn'),
         cancelButtonText: this.$i18n.t('crud.filter.cancelBtn'),
@@ -754,13 +694,13 @@ export default {
       })
     },
     // 申请审核
-    applyAuditHandle (id) {
+    applyAuditHandle(id) {
       this.prodOfflineHandleEventVisible = true
       this.$nextTick(() => {
         this.$refs.prodOfflineHandleEvent.init(id)
       })
     },
-    toTopHandle (row) {
+    toTopHandle(row) {
       var str = this.$i18n.t('publics.isTop')
       if (row.roomTop) {
         str = this.$i18n.t('liveRoom.cancelTopping')
@@ -786,7 +726,7 @@ export default {
         })
       }).catch(() => { })
     },
-    sortChange (data) {
+    sortChange(data) {
       // console.log(data)
       // 排序字段 0无 1加入时间 2累计客户 3累计邀请 4累计收益
       switch (data.prop) {
@@ -805,18 +745,18 @@ export default {
       this.getDataList(this.page)
     },
     // 清空自定义数据
-    searchReset () {
+    searchReset() {
       this.prodName = ''
     },
     // 回调刷新
-    refreshChange () {
+    refreshChange() {
       this.getDataList(this.page)
     },
 
     /**
      * 全选按钮
      */
-    handleSelectAll () {
+    handleSelectAll() {
       if (this.$refs.prodListTable.selection.length < this.dataList.length) {
         this.selectAll = true
       } else {
@@ -828,14 +768,14 @@ export default {
     /**
      * 批量设置菜单显隐
      */
-    handleVisibleChange (val) {
+    handleVisibleChange(val) {
       this.showBatchSetting = val
     },
 
     /**
      * 批量设置
      */
-    handleBatchSetting (command) {
+    handleBatchSetting(command) {
       const commands = Number(command)
       if (!this.dataListSelections.length) {
         this.$message.warning(this.$i18n.t('marketing.pleaseSelectAProduct'))
@@ -852,7 +792,7 @@ export default {
      * 重置表单
      * @param {String} formName 表单名称
      */
-    resetSearchForm (formName) {
+    resetSearchForm(formName) {
       this.$refs[formName].resetFields()
       this.prodName = ''
       this.$router.push('/prod-prodList')
@@ -867,13 +807,117 @@ export default {
       this.theParams.mustNotProdTypes = null
     },
 
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.page.pageSize = val
       this.getDataList()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.page.currentPage = val
       this.getDataList()
+    },
+    // 获取弹出弹窗项信息
+    getCurrentSpuId(spuId, currentShowPopover) {
+      this.currentClickProdId = spuId
+      this.currentShowPopover = currentShowPopover
+    },
+    // 清空选中项弹窗信息
+    clearShowPopoverInf() {
+      this.currentClickProdId = ''
+      this.currentShowPopover = ''
+    },
+    // 关闭弹窗后,初始化数据
+    initProdInf() {
+      // row.waterSoldNum = row.waterSoldNum
+      this.clearShowPopoverInf()
+    },
+    // 关闭popover弹窗
+    closePopover() {
+      this.$refs.closepopover.click()
+    },
+    /**
+    * 鼠标移入单元格
+    */
+    cellMouseEnter(row) {
+      this.currentMoveProdId = row.prodId
+    },
+    /**
+     * 鼠标移出单元格
+     */
+    cellMouseLeave() {
+      this.currentMoveProdId = ''
+    },
+    // 移入表格行
+    enterTableRow(row) {
+      this.currentMoveProdId = row.prodId
+    },
+    // 移出表格行
+    leaveTableRow() {
+      this.currentMoveProdId = ''
+    },
+    changeTableSort(column) {
+      this.getDataList(this.page, column.order)
+    },
+    showTotalStocks(val) {
+      this.totalStocks = val
+    },
+    changeTotalStocks(currentValue, oldValue) {
+      this.totalStocks = currentValue
+    },
+    handleChange1(id) {
+      let totalStocks = Math.round(this.totalStocks)
+      if (totalStocks > 1000000000) {
+        totalStocks = 1000000000
+      }
+      if (!totalStocks && totalStocks !== 0) {
+        this.$message({
+          message: this.$i18n.t('tip.input') + '商品库存不能为空',
+          type: 'error',
+          duration: 1500
+        })
+        return
+      }
+      this.$http({
+        url: this.$http.adornUrl('/prod/category/waterSoldNum'),
+        method: 'put',
+        params: {
+          totalStocks: totalStocks,
+          prodId: id
+        }
+      }).then(() => {
+        this.$message({
+          message: this.$i18n.t('remindPop.success'),
+          type: 'success',
+          duration: 1500,
+          onClose: () => {
+            this.getDataList(this.page)
+            this.closePopover()
+          }
+        })
+      })
+    },
+    copyUrl2(id) {
+      console.log(id)
+      const textarea = document.createElement('textarea')
+      textarea.value = 'package-prod/pages/prod/prod?prodId=' + id
+      document.body.appendChild(textarea)
+      textarea.select()
+      textarea.setSelectionRange(0, textarea.value.length)
+      const success = document.execCommand('copy')
+      document.body.removeChild(textarea)
+      if (success) {
+        this.$message({
+          message: '复制成功',
+          type: 'success',
+          duration: 1000
+        })
+      } else {
+        this.$message({
+          message: '复制失败',
+          type: 'error',
+          duration: 1000
+        })
+      }
+      console.log(success)
     }
   }
 }
@@ -882,21 +926,45 @@ export default {
 <style lang="scss" scoped>
 .prod-list-mod {
   .main-container {
-    .table-con .table-cell-con .table-cell-text{
+    .table-con .table-cell-con .table-cell-text {
       word-break: break-all
     }
+
+    .table-con {
+      .water-sold-con {
+        & ::v-deep .el-input--small .el-input__inner {
+          padding: 0;
+          padding-left: 12px;
+          text-align: center;
+          text-overflow: ellipsis;
+          -o-text-overflow: ellipsis;
+          -webkit-text-overflow: ellipsis;
+          -moz-text-overflow: ellipsis;
+          word-break: break-word;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      }
+    }
+
     .operation-bar {
       position: relative;
+
       .all-check-btn {
         margin-right: 10px;
       }
+
       .had-selected {
         font-size: 12px;
         margin-right: 10px;
       }
+
       .tag-text {
         font-size: 12px;
       }
+
       .batch-setting-mask {
         width: 100%;
         height: 100%;
@@ -905,19 +973,23 @@ export default {
         right: 0;
         z-index: 100;
       }
+
       .batch-setting-dropdown {
-         .batch-setting-btn {
-           padding-right: 15px;
-           margin-right: 0;
+        .batch-setting-btn {
+          padding-right: 15px;
+          margin-right: 0;
+
           &:hover {
             .arrow::after {
               border-top: 1px solid #155bd4;
               border-right: 1px solid #155bd4;
             }
           }
+
           &.active {
             color: #155bd4;
             border-color: #155bd4;
+
             .arrow::after {
               border-top: 1px solid #155bd4;
               border-right: 1px solid #155bd4;
@@ -927,10 +999,12 @@ export default {
               transition: all .2s linear;
             }
           }
+
           .arrow {
             position: relative;
             margin-left: 9px;
-            &::after{
+
+            &::after {
               position: relative;
               top: -3px;
               right: 0px;
@@ -949,8 +1023,14 @@ export default {
       }
     }
   }
+
   ::v-deep .export-load {
     top: -50% !important;
   }
+}
+
+.popover-bottom {
+  margin-top: 10px;
+  text-align: right;
 }
 </style>

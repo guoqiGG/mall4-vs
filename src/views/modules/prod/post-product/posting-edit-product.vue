@@ -57,14 +57,14 @@
             </el-select>
             <div class="el-form-item-tips">{{ $t("product.postProductTips2") }}</div>
           </el-form-item>
-          <el-form-item label="是否开启独立分销">
-            <el-radio-group v-model="dataForm.independentDistribution">
+          <el-form-item label="是否独立分销" prop="isOpen">
+            <el-radio-group v-model="dataForm.isOpen">
               <el-radio :label="1">开启</el-radio>
               <el-radio :label="0">关闭</el-radio>
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="设置独立分销比例" v-if="dataForm.independentDistribution">
+          <el-form-item label="设置独立分销比例" v-if="dataForm.isOpen">
             <el-input-number placeholder="分销比例" v-model="dataForm.prodCommission" :min="0" :max="100"
               controls-position="right"></el-input-number>
             <el-tooltip class="item" effect="light" content="百分比,请输入 0-100 的整数,输入 1 即 1%。" placement="right"
@@ -605,8 +605,8 @@ export default {
           // }
         ],
         multiDistributionUserIds: [],
-        independentDistribution: 0,//是否开启 0 关闭 1 开启
-        prodCommission: null,
+        isOpen: 0,//是否开启 0 关闭 1 开启
+        prodCommission: null, // 分销比例
         clearZero: 0, // 初次prodCommission 不清0 0 不清零 1 清零
       },
       dataRule: {
@@ -630,6 +630,9 @@ export default {
         ],
         deliveryMode: [
           { required: true }
+        ],
+        isOpen:[
+          {required:true}
         ],
         deliveryTemplateId: [
           { required: true, message: this.$i18n.t('product.shippingtBeEmpty'), trigger: ['blur', 'change'] }
@@ -717,22 +720,17 @@ export default {
       },
       deep: true
     },
-    'dataForm.independentDistribution': {
+    'dataForm.isOpen': {
       handler(newV, oldV) {
-        if (this.clearZero) {
-          console.log(newV, oldV, this.clearZero)
-          this.dataForm.prodCommission = 0
+          console.log(newV, oldV)
+          if(newV==0){
+            this.dataForm.prodCommission = 0
+          }
         }
-      },
-      deep: true
     }
   },
 
   created() {
-    console.log(111, this.value)
-    if (this.value.prodCommission) {
-      this.dataForm.independentDistribution = 1
-    }
     const dataForm = Object.assign(this.dataForm, this.value)
     this.dataForm = dataForm
     setTimeout(() => {
@@ -1464,8 +1462,7 @@ export default {
           return
         }
         // 独立分销开启 分销比例为空
-        if (this.dataForm.independentDistribution && !this.dataForm.prodCommission) {
-
+        if (this.dataForm.isOpen && !this.dataForm.prodCommission) {
           this.errorMsg('独立分销比例不能为空')
           isValid = false
           return
