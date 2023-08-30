@@ -7,8 +7,8 @@ export default {
     platProdCategory: {},
     storeProdCategory: {},
     defalutSku: {
-      price: 0.01, // 销售价
-      oriPrice: 0.01, // 市场价
+      price: 0, // 销售价
+      oriPrice: 0, // 市场价
       stocks: 0, // 库存
       properties: '', // 销售属性组合字符串
       skuName: '', // sku名称

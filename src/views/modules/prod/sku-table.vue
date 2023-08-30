@@ -73,7 +73,7 @@
                   type="number"
                   :precision="2"
                   :max="100000000"
-                  :min="0.01"
+                  :min="0"
                   :step="0.01"
                   :disabled="!scope.row.status"
                   class="tag-input-width"
@@ -82,7 +82,7 @@
                       scope.row.price,
                       scope.$index,
                       'price',
-                      0.01,
+                      0,
                       100000000
                     )
                   "
@@ -418,7 +418,7 @@
                     v-model.number="dataFrom.price"
                     type="number"
                     :max="100000000"
-                    :min="0.01"
+                    :min="0"
                     :step="0.01"
                     class="tag-input-width"
                     @blur="
@@ -426,7 +426,7 @@
                         dataFrom.price,
                         null,
                         'price',
-                        0.01,
+                        0,
                         100000000
                       )
                     "
@@ -683,9 +683,9 @@ export default {
     })
     if (!this.lists.length) {
       this.lists.push({
-        oriPrice: 0.01,
+        oriPrice: 0,
         partyCode: '',
-        price: 0.01,
+        price: 0,
         prodName: '',
         status: 1,
         stocks: 0,
@@ -727,6 +727,7 @@ export default {
   },
   methods: {
     init (skuList) {
+      console.log(1111,skuList)
       this.initing = true
       this.lists = genFlatten(this.skuTags, skuList, this.defalutSku)
       this.computeRowspan()
@@ -865,7 +866,7 @@ export default {
       let skuSingleProds = JSON.parse(JSON.stringify(data))
       this.lists[index].stocks = this.countSkuStock(skuSingleProds)
       let price = this.countSkuPrice(skuSingleProds)
-      this.lists[index].price = price === 0 ? 0.01 : price
+      this.lists[index].price = price === 0 ? 0 : price
       this.lists[index].oriPrice = price
       this.lists[index].skuSingleProds = skuSingleProds
       this.$emit('input', this.lists)
@@ -908,7 +909,7 @@ export default {
         var y = new Big(price)
         price = parseFloat(y.plus(x))
       })
-      return price === 0 ? 0.01 : price.toFixed(2)
+      return price === 0 ? 0.00 : price.toFixed(2)
     },
     switchSet () {
       this.isEdit = !this.isEdit

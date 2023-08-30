@@ -130,9 +130,9 @@
             </el-table-column>
             <el-table-column align="left" prop="price" :label="$t('product.sellingPrice')" width="140" sortable>
             </el-table-column>
-            <el-table-column align="left" prop="totalStocks"  :label="$t('product.availableInventory')" width="auto" sortable >
+            <el-table-column align="left" prop="totalStocks"   :label="$t('product.availableInventory')" width="auto" sortable >
               <!-- <template slot-scope="scope">
-                <div class="water-sold-con">
+                <div class="water-sold-con" >
                   <span slot="reference">{{ scope.row.totalStocks }}</span>
                   <el-popover placement="bottom" trigger="click" style="width: 150px !important;"
                     @show="showTotalStocks(scope.row.totalStocks)"
