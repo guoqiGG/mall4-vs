@@ -130,8 +130,8 @@
             </el-table-column>
             <el-table-column align="left" prop="price" :label="$t('product.sellingPrice')" width="140" sortable>
             </el-table-column>
-            <el-table-column align="left" :label="$t('product.availableInventory')" width="auto" sortable>
-              <template slot-scope="scope">
+            <el-table-column align="left" prop="totalStocks"  :label="$t('product.availableInventory')" width="auto" sortable >
+              <!-- <template slot-scope="scope">
                 <div class="water-sold-con">
                   <span slot="reference">{{ scope.row.totalStocks }}</span>
                   <el-popover placement="bottom" trigger="click" style="width: 150px !important;"
@@ -153,7 +153,7 @@
                       slot="reference" class="el-icon-edit" />
                   </el-popover>
                 </div>
-              </template>
+              </template> -->
             </el-table-column>
             <!-- 是否为组合商品(0否 1是) -->
             <!-- <el-table-column

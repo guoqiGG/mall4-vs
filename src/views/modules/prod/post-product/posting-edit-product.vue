@@ -732,6 +732,8 @@ export default {
 
   created() {
     const dataForm = Object.assign(this.dataForm, this.value)
+    if(dataForm.isOpen==null ||dataForm.isOpen==''|| !isOpen)
+    dataForm.isOpen=0
     this.dataForm = dataForm
     setTimeout(() => {
       this.clearZero = 1
