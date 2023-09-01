@@ -919,8 +919,8 @@ export default {
         })
       }
       console.log(success)
-    }
-  }
+    },
+  },
 }
 </script>
 
